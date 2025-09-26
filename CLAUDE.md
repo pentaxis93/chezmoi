@@ -78,7 +78,8 @@ When configuring new applications and dotfiles, follow these principles for cons
   - `color-rgb.tmpl` - Convert hex to rgb() format
   - `color-rgba.tmpl` - Convert hex to rgba() with alpha
   - `color-index.tmpl` - Map color names to terminal indices
-  - `newt-colors-kanagawa.tmpl` - NEWT_COLORS for nmtui
+  - `newt-colors-kanagawa.tmpl` - Legacy NEWT_COLORS (deprecated)
+  - `newt-colors-dynamic.tmpl` - Dynamic NEWT_COLORS from colors.yaml
 
 ## Color Template System
 
@@ -105,11 +106,13 @@ color = {{ template "color-quoted.tmpl" $c.red }}   # TOML: "#c4746e"
 - **Waybar** (`style.css.tmpl`) - Full spectrum color usage for module theming
 - **Alacritty** (`alacritty.toml.tmpl`) - Terminal base colors (0-15 + extended)
 - **Niri** (`config.kdl.tmpl`) - Focus ring and selection colors
+- **nmtui** (via `fish/config.fish.tmpl`) - NEWT UI components with semantic mappings
 
 ### NetworkManager TUI (nmtui)
-- **Color Scheme**: Kanagawa theme mapping to terminal's 16-color palette
-- **Template Architecture**: NEWT_COLORS defined in `.chezmoitemplates/newt-colors-kanagawa.tmpl`
-- **Theme Mapping**: Uses color0-color15 indices to match Alacritty's Kanagawa colors
+- **Color Scheme**: Kanagawa theme from centralized palette
+- **Template Architecture**: NEWT_COLORS dynamically generated from `colors.yaml`
+- **Theme Mapping**: Semantic color names mapped to terminal indices (color0-color15)
+- **Integration**: NEWT component mappings defined in `colors.yaml` under `newt:` section
 - **Fish Integration**: Custom wrapper function provides navigation reference
 - **Waybar Integration**: Click wifi widget to launch nmtui in Alacritty
 - **Limitations**: No vim keybinding support; limited to 16 terminal colors (not RGB)
