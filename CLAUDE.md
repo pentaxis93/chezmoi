@@ -40,6 +40,11 @@ chezmoi data               # View template variables
 ## Best Practices
 
 - **Preserve Git History** - Use `git mv` instead of delete/create when refactoring files
+- **Documentation Synchronization** - After any code change, scan and update all relevant project documentation including:
+  - `CLAUDE.md` - Update guidelines when workflows or patterns change
+  - `README.md` - Update main documentation for new features or changes
+  - Subdirectory `README.md` files (e.g., `scripts/README.md`) - Keep local documentation current
+  - **Important**: Documentation updates and code updates are integral parts of the same action - never complete a task without updating affected documentation
 
 ## Critical Files
 
@@ -54,6 +59,7 @@ chezmoi data               # View template variables
 1. `chezmoi edit ~/.config/app`
 2. `chezmoi diff`
 3. `chezmoi apply -v`
+4. Update relevant documentation (CLAUDE.md, README.md, subdirectory READMEs)
 
 ---
 
