@@ -1,0 +1,8 @@
+{{- /* Outputs color as #hex format for CSS/KDL */ -}}
+{{- if . -}}
+{{- if hasPrefix "#" . -}}
+{{- . -}}
+{{- else -}}
+#{{- . -}}
+{{- end -}}
+{{- end -}}

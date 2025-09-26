@@ -1,0 +1,13 @@
+{{- /* Converts hex color to rgba() format with alpha parameter */ -}}
+{{- /* Usage: {{ include "color-rgba.tmpl" (dict "color" .hex "alpha" .alpha) }} */ -}}
+{{- if .color -}}
+{{- $hex := .color -}}
+{{- if hasPrefix "#" $hex -}}
+{{- $hex = substr 1 (len $hex) $hex -}}
+{{- end -}}
+{{- $r := printf "0x%s" (substr 0 2 $hex) | atoi -}}
+{{- $g := printf "0x%s" (substr 2 4 $hex) | atoi -}}
+{{- $b := printf "0x%s" (substr 4 6 $hex) | atoi -}}
+{{- $a := .alpha | default "1.0" -}}
+rgba({{- $r -}}, {{- $g -}}, {{- $b -}}, {{- $a -}})
+{{- end -}}

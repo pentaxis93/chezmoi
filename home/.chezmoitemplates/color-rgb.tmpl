@@ -1,0 +1,11 @@
+{{- /* Converts hex color to rgb() format for CSS */ -}}
+{{- if . -}}
+{{- $hex := . -}}
+{{- if hasPrefix "#" $hex -}}
+{{- $hex = substr 1 (len $hex) $hex -}}
+{{- end -}}
+{{- $r := printf "0x%s" (substr 0 2 $hex) | atoi -}}
+{{- $g := printf "0x%s" (substr 2 4 $hex) | atoi -}}
+{{- $b := printf "0x%s" (substr 4 6 $hex) | atoi -}}
+rgb({{- $r -}}, {{- $g -}}, {{- $b -}})
+{{- end -}}

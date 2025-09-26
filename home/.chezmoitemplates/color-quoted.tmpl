@@ -1,0 +1,6 @@
+{{- /* Outputs color as "#hex" format for TOML */ -}}
+{{- if hasPrefix "#" . -}}
+"{{- . -}}"
+{{- else -}}
+"#{{- . -}}"
+{{- end -}}
