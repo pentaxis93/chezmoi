@@ -1,0 +1,37 @@
+source /usr/share/cachyos-fish-config/cachyos-config.fish
+
+# overwrite greeting
+# potentially disabling fastfetch
+#function fish_greeting
+#    # smth smth
+#end
+
+export PATH="$HOME/.local/bin:$PATH"
+
+# nmtui Configuration - Zen-elegant Kanagawa color theme
+# Following project guidelines: unified color theme matching Alacritty's Kanagawa palette
+# Uses chezmoi template to maintain complex NEWT_COLORS configuration
+export NEWT_COLORS='{{ template "newt-colors-kanagawa.tmpl" . }}'
+
+# nmtui wrapper function - Enhanced NetworkManager TUI with zen aesthetics
+# Provides consistent keybinding reference and usage guidance
+function nmtui
+    # Display quick reference for nmtui navigation (no vim bindings available)
+    echo "╭─────────────────────────────────────────────╮"
+    echo "│ NetworkManager TUI - Zen Configuration     │"
+    echo "├─────────────────────────────────────────────┤"
+    echo "│ Navigation:                                 │"
+    echo "│  ↑↓←→  Navigate           Tab    Next      │"
+    echo "│  Space  Toggle            Enter  Select    │"
+    echo "│  Esc    Back/Cancel                        │"
+    echo "├─────────────────────────────────────────────┤"
+    echo "│ Commands:                                   │"
+    echo "│  nmtui-edit     Connection editor           │"
+    echo "│  nmtui-connect  Activate connections        │"
+    echo "│  nmtui-hostname Set system hostname         │"
+    echo "╰─────────────────────────────────────────────╯"
+    echo ""
+
+    # Launch nmtui with arguments if provided
+    command nmtui $argv
+end

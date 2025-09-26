@@ -70,7 +70,18 @@ When configuring new applications and dotfiles, follow these principles for cons
 - `.chezmoiignore` - prevent unwanted management
 - `home/.chezmoidata/packages.yaml` - declarative package definitions
 - `home/dot_gitconfig.tmpl` - templated Git identity
-- `home/dot_config/fish/` - Fish shell configuration
+- `home/dot_config/fish/config.fish.tmpl` - Templated Fish shell configuration
+- `home/.chezmoitemplates/` - Reusable template fragments
+
+## Application Configurations
+
+### NetworkManager TUI (nmtui)
+- **Color Scheme**: Kanagawa theme mapping to terminal's 16-color palette
+- **Template Architecture**: NEWT_COLORS defined in `.chezmoitemplates/newt-colors-kanagawa.tmpl`
+- **Theme Mapping**: Uses color0-color15 indices to match Alacritty's Kanagawa colors
+- **Fish Integration**: Custom wrapper function provides navigation reference
+- **Waybar Integration**: Click wifi widget to launch nmtui in Alacritty
+- **Limitations**: No vim keybinding support; limited to 16 terminal colors (not RGB)
 
 ## Workflow
 
