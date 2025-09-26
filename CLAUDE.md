@@ -37,6 +37,24 @@ chezmoi data               # View template variables
 2. **Security first** - never commit secrets, use `private_` prefix
 3. **Preview before apply** - `chezmoi diff` then `chezmoi apply -v`
 
+## Configuration Guidelines
+
+When configuring new applications and dotfiles, follow these principles for consistency and elegance:
+
+1. **Unified Color Theme** - Apply consistent color theme across all applications to create visual harmony
+2. **Vim Keybindings** - Configure vim keybindings in every tool that supports them for universal editing muscle memory
+3. **Keybinding Consistency** - Ensure all keybindings align system-wide for consistent muscle memory
+   - If conflicts arise, discuss resolution with human immediately
+   - Prioritize most-used actions for primary keybindings
+4. **Comprehensive Documentation** - Document everything that can and should be documented
+   - In-document comments for complex configs
+   - Inline documentation for non-obvious settings
+   - Always choose the most discoverable documentation method
+5. **Zen Elegance** - Pursue best-in-class functionality while maintaining YAGNI mindfulness
+   - Each configuration option must justify its inclusion
+   - Prefer defaults when they align with our principles
+   - Choose simplicity over complexity when outcomes are equivalent
+
 ## Best Practices
 
 - **Preserve Git History** - Use `git mv` instead of delete/create when refactoring files
