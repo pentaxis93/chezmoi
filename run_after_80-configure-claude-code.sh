@@ -1,19 +1,32 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Configure global Claude Code settings
-# These settings are applied globally via the claude config command
-# Only runs when content changes (onchange_ prefix)
+# Configure Claude Code - installation, settings, and tools
+# Runs after dotfiles are updated
 
-# Disable Claude attribution in git commits
-claude config set -g includeCoAuthoredBy false
+# Ensure Claude Code is installed/updated
+if command -v claude &> /dev/null; then
+    CURRENT_VERSION=$(claude --version | cut -d' ' -f1)
+    echo "Claude Code v$CURRENT_VERSION found"
+    # Auto-update is handled by the autoUpdates setting below
+else
+    echo "Installing Claude Code (native)..."
+    curl -fsSL https://claude.ai/install.sh | bash
+    echo "✓ Claude Code installed"
+fi
 
-# Set verbose output for better visibility
+# Configure global settings
 claude config set -g verbose true
-
-# Keep auto updates enabled
 claude config set -g autoUpdates true
-
-# Ensure dark theme
 claude config set -g theme dark
 
-echo "✓ Claude Code global settings configured"
+echo "✓ Claude Code settings configured"
+
+# Configure context7 MCP server for enhanced capabilities
+# npm/npx installed by run_once_before_20-nodejs.sh
+echo "Configuring context7 MCP server..."
+claude mcp add --scope user context7 -- npx -y @upstash/context7-mcp@latest 2>/dev/null || \
+    echo "  context7 MCP server already configured"
+echo "✓ context7 MCP configured"
+
+echo "✓ Claude Code configuration complete"
