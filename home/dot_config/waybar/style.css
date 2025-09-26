@@ -145,7 +145,8 @@ window#waybar.empty #window {
 /* Consistent hover effects for interactive modules */
 #pulseaudio:hover,
 #backlight:hover,
-#bluetooth:hover {
+#bluetooth:hover,
+#network:hover {
     background-color: #2a2a37;
 }
 
