@@ -9,7 +9,7 @@
 ## Architecture Guidelines
 
 - **CachyOS Support Only** - Package management scripts target CachyOS exclusively
-- **Declarative Packages** - System packages defined in `.chezmoidata/packages.yaml`
+- **Declarative Packages** - System packages defined in `home/.chezmoidata/packages.yaml`
 
 ## Commands
 
@@ -43,9 +43,11 @@ chezmoi data               # View template variables
 
 ## Critical Files
 
+- `.chezmoiroot` - sets `home/` as the source directory root
 - `.chezmoiignore` - prevent unwanted management
-- `dot_gitconfig.tmpl` - templated Git identity
-- `dot_config/fish/` - Fish shell configuration
+- `home/.chezmoidata/packages.yaml` - declarative package definitions
+- `home/dot_gitconfig.tmpl` - templated Git identity
+- `home/dot_config/fish/` - Fish shell configuration
 
 ## Workflow
 
