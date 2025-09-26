@@ -6,6 +6,11 @@
 **Source**: `~/.local/share/chezmoi`
 **Target**: `~` (home directory)
 
+## Architecture Guidelines
+
+- **CachyOS Support Only** - Package management scripts target CachyOS exclusively
+- **Declarative Packages** - System packages defined in `.chezmoidata/packages.yaml`
+
 ## Commands
 
 ```bash
@@ -31,6 +36,10 @@ chezmoi data               # View template variables
 1. **Template only when necessary** - machine-specific or secrets
 2. **Security first** - never commit secrets, use `private_` prefix
 3. **Preview before apply** - `chezmoi diff` then `chezmoi apply -v`
+
+## Best Practices
+
+- **Preserve Git History** - Use `git mv` instead of delete/create when refactoring files
 
 ## Critical Files
 

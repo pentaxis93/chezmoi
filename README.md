@@ -2,6 +2,8 @@
 
 Personal configuration files managed with [chezmoi](https://www.chezmoi.io/).
 
+**OS Support**: CachyOS (Arch-based) only
+
 ## Quick Start
 
 ### Prerequisites
@@ -33,7 +35,7 @@ chezmoi update -v
 - **Fish Shell** — Configuration and aliases
 - **Git** — Global configuration with user templates
 - **Claude Code** — Development environment settings
-- **Node.js** — Ecosystem setup scripts
+- **Package Management** — Declarative system package installation
 
 ## Common Tasks
 
@@ -60,6 +62,20 @@ chezmoi diff
 chezmoi apply -v
 ```
 
+### Manage packages
+
+System packages are declared in `.chezmoidata/packages.yaml`:
+
+```yaml
+packages:
+  cachyos:
+    pacman:
+      - npm
+      - ripgrep  # example: add more packages here
+```
+
+After adding packages, run `chezmoi apply` to install them.
+
 ### Manage secrets
 
 Secrets are handled through templates and stored locally in `~/.config/chezmoi/chezmoi.toml`:
@@ -74,14 +90,16 @@ Secrets are handled through templates and stored locally in `~/.config/chezmoi/c
 
 ```
 ~/.local/share/chezmoi/
-├── README.md                     # This file
-├── CLAUDE.md                     # Development guidelines
-├── dot_config/                   # XDG configs
+├── README.md                          # This file
+├── CLAUDE.md                          # Development guidelines
+├── .chezmoidata/
+│   └── packages.yaml                  # Declarative package list
+├── dot_config/                        # XDG configs
 │   └── fish/
-├── dot_gitconfig.tmpl            # Templated git config
-├── private_dot_gitignore         # Global gitignore (0600)
-├── run_once_before_*.sh          # Setup scripts
-└── run_after_*.sh                # Post-apply hooks
+├── dot_gitconfig.tmpl                 # Templated git config
+├── private_dot_gitignore              # Global gitignore (0600)
+├── run_onchange_install-packages.sh.tmpl  # Package installation
+└── run_after_*.sh                     # Post-apply hooks
 ```
 
 ## File Naming Convention
@@ -91,6 +109,7 @@ Secrets are handled through templates and stored locally in `~/.config/chezmoi/c
 - `private_<name>` → 0600 permissions
 - `executable_<name>` → executable scripts
 - `run_once_` → run once on first apply
+- `run_onchange_` → run when file content changes
 - `run_after_` → run after each apply
 
 ## Troubleshooting
