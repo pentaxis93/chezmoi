@@ -1,0 +1,19 @@
+# Editor/IDE directories
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+
+# Local configs
+*.local.json
+*.local
