@@ -1,0 +1,30 @@
+{{- /* Dynamic NEWT_COLORS Template - Uses centralized color palette */ -}}
+{{- /* Generates NEWT_COLORS string from semantic mappings in colors.yaml */ -}}
+{{- /* Each component uses terminal color indices (color0-color15) */ -}}
+{{- $newt := .kanagawa.dragon.newt -}}
+{{- "" -}}
+{{- /* Build NEWT_COLORS as a single line with spaces between components */ -}}
+{{- "root=" -}}{{- template "color-index.tmpl" $newt.root_fg -}},{{- template "color-index.tmpl" $newt.root_bg -}} {{- " " -}}
+{{- "window=" -}}{{- template "color-index.tmpl" $newt.window_fg -}},{{- template "color-index.tmpl" $newt.window_bg -}} {{- " " -}}
+{{- "border=" -}}{{- template "color-index.tmpl" $newt.border_fg -}},{{- template "color-index.tmpl" $newt.border_bg -}} {{- " " -}}
+{{- "shadow=" -}}{{- template "color-index.tmpl" $newt.shadow_fg -}},{{- template "color-index.tmpl" $newt.shadow_bg -}} {{- " " -}}
+{{- "title=" -}}{{- template "color-index.tmpl" $newt.title_fg -}},{{- template "color-index.tmpl" $newt.title_bg -}} {{- " " -}}
+{{- "button=" -}}{{- template "color-index.tmpl" $newt.button_fg -}},{{- template "color-index.tmpl" $newt.button_bg -}} {{- " " -}}
+{{- "actbutton=" -}}{{- template "color-index.tmpl" $newt.actbutton_fg -}},{{- template "color-index.tmpl" $newt.actbutton_bg -}} {{- " " -}}
+{{- "checkbox=" -}}{{- template "color-index.tmpl" $newt.checkbox_fg -}},{{- template "color-index.tmpl" $newt.checkbox_bg -}} {{- " " -}}
+{{- "actcheckbox=" -}}{{- template "color-index.tmpl" $newt.actcheckbox_fg -}},{{- template "color-index.tmpl" $newt.actcheckbox_bg -}} {{- " " -}}
+{{- "entry=" -}}{{- template "color-index.tmpl" $newt.entry_fg -}},{{- template "color-index.tmpl" $newt.entry_bg -}} {{- " " -}}
+{{- "label=" -}}{{- template "color-index.tmpl" $newt.label_fg -}},{{- template "color-index.tmpl" $newt.label_bg -}} {{- " " -}}
+{{- "listbox=" -}}{{- template "color-index.tmpl" $newt.listbox_fg -}},{{- template "color-index.tmpl" $newt.listbox_bg -}} {{- " " -}}
+{{- "actlistbox=" -}}{{- template "color-index.tmpl" $newt.actlistbox_fg -}},{{- template "color-index.tmpl" $newt.actlistbox_bg -}} {{- " " -}}
+{{- "textbox=" -}}{{- template "color-index.tmpl" $newt.textbox_fg -}},{{- template "color-index.tmpl" $newt.textbox_bg -}} {{- " " -}}
+{{- "acttextbox=" -}}{{- template "color-index.tmpl" $newt.acttextbox_fg -}},{{- template "color-index.tmpl" $newt.acttextbox_bg -}} {{- " " -}}
+{{- "helpline=" -}}{{- template "color-index.tmpl" $newt.helpline_fg -}},{{- template "color-index.tmpl" $newt.helpline_bg -}} {{- " " -}}
+{{- "roottext=" -}}{{- template "color-index.tmpl" $newt.roottext_fg -}},{{- template "color-index.tmpl" $newt.roottext_bg -}} {{- " " -}}
+{{- /* Progress bars - handle empty foreground */ -}}
+{{- "emptyscale=" -}}{{- if $newt.emptyscale_fg -}}{{- template "color-index.tmpl" $newt.emptyscale_fg -}}{{- end -}},{{- template "color-index.tmpl" $newt.emptyscale_bg -}} {{- " " -}}
+{{- "fullscale=" -}}{{- if $newt.fullscale_fg -}}{{- template "color-index.tmpl" $newt.fullscale_fg -}}{{- end -}},{{- template "color-index.tmpl" $newt.fullscale_bg -}} {{- " " -}}
+{{- "disentry=" -}}{{- template "color-index.tmpl" $newt.disentry_fg -}},{{- template "color-index.tmpl" $newt.disentry_bg -}} {{- " " -}}
+{{- "compactbutton=" -}}{{- template "color-index.tmpl" $newt.compactbutton_fg -}},{{- template "color-index.tmpl" $newt.compactbutton_bg -}} {{- " " -}}
+{{- "actsellistbox=" -}}{{- template "color-index.tmpl" $newt.actsellistbox_fg -}},{{- template "color-index.tmpl" $newt.actsellistbox_bg -}} {{- " " -}}
+{{- "sellistbox=" -}}{{- template "color-index.tmpl" $newt.sellistbox_fg -}},{{- template "color-index.tmpl" $newt.sellistbox_bg -}}

@@ -72,3 +72,72 @@ kanagawa:
     ui_hover: "2a2a37"
     ui_active_workspace: "3c4a37"
     ui_hover_active: "4a5a44"
+
+    # NEWT UI Component Mappings (for nmtui)
+    # Maps UI components to terminal color names for index conversion
+    newt:
+      # Main window components
+      root_fg: "white"              # Main window text
+      root_bg: "black"              # Main window background
+      window_fg: "white"            # Dialog window text
+      window_bg: "black"            # Dialog window background
+
+      # Borders and shadows
+      border_fg: "bright_black"     # Border foreground
+      border_bg: "black"            # Border background
+      shadow_fg: "black"            # Shadow foreground
+      shadow_bg: "bright_black"     # Shadow background
+
+      # Titles and labels
+      title_fg: "bright_cyan"       # Window titles
+      title_bg: "black"             # Title background
+      label_fg: "white"             # Form labels
+      label_bg: "black"             # Label background
+      roottext_fg: "white"          # Root window text
+      roottext_bg: "black"          # Root text background
+
+      # Buttons
+      button_fg: "black"            # Normal button text
+      button_bg: "cyan"             # Normal button background
+      actbutton_fg: "bright_white"  # Active button text
+      actbutton_bg: "blue"          # Active button background
+      compactbutton_fg: "white"     # Compact button text
+      compactbutton_bg: "black"     # Compact button background
+
+      # Checkboxes
+      checkbox_fg: "white"          # Checkbox text
+      checkbox_bg: "black"          # Checkbox background
+      actcheckbox_fg: "bright_cyan" # Active checkbox text
+      actcheckbox_bg: "black"       # Active checkbox background
+
+      # Text entry fields
+      entry_fg: "bright_white"      # Input field text
+      entry_bg: "bright_black"      # Input field background
+      disentry_fg: "bright_black"   # Disabled entry text
+      disentry_bg: "black"          # Disabled entry background
+
+      # List boxes
+      listbox_fg: "white"           # List item text
+      listbox_bg: "black"           # List item background
+      actlistbox_fg: "black"        # Active list item text
+      actlistbox_bg: "bright_cyan"  # Active list item background
+      sellistbox_fg: "bright_white" # Selected list item text
+      sellistbox_bg: "blue"         # Selected list item background
+      actsellistbox_fg: "black"     # Active+selected item text
+      actsellistbox_bg: "bright_blue" # Active+selected background
+
+      # Text boxes
+      textbox_fg: "white"           # Text area content
+      textbox_bg: "black"           # Text area background
+      acttextbox_fg: "black"        # Active text area content
+      acttextbox_bg: "bright_cyan"  # Active text area background
+
+      # Help and status
+      helpline_fg: "cyan"           # Help text
+      helpline_bg: "black"          # Help background
+
+      # Progress bars
+      emptyscale_fg: ""             # Empty progress (no fg)
+      emptyscale_bg: "bright_black" # Empty progress bar
+      fullscale_fg: ""              # Full progress (no fg)
+      fullscale_bg: "bright_cyan"   # Filled progress bar
