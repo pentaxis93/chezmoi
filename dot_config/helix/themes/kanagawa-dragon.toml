@@ -1,0 +1,176 @@
+# Kanagawa Dragon theme for Helix
+# Matching Alacritty Kanagawa Dragon colors
+
+# UI elements
+"ui.background" = { bg = "dragonBlack3" }
+"ui.background.separator" = { fg = "dragonBlack6" }
+"ui.cursor" = { fg = "dragonBlack3", bg = "oldWhite" }
+"ui.cursor.primary" = { fg = "dragonBlack3", bg = "dragonWhite" }
+"ui.cursor.match" = { bg = "dragonBlack5", modifiers = ["bold"] }
+"ui.cursor.primary.select" = { fg = "dragonBlack3", bg = "dragonBlue" }
+"ui.cursor.primary.insert" = { fg = "dragonBlack3", bg = "dragonGreen" }
+"ui.gutter" = { fg = "dragonBlack6" }
+"ui.gutter.selected" = { fg = "oldWhite" }
+"ui.linenr" = { fg = "dragonBlack6" }
+"ui.linenr.selected" = { fg = "roninYellow" }
+"ui.statusline" = { fg = "oldWhite", bg = "dragonBlack0" }
+"ui.statusline.inactive" = { fg = "dragonBlack6", bg = "dragonBlack0" }
+"ui.statusline.normal" = { fg = "dragonBlack0", bg = "dragonBlue", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "dragonBlack0", bg = "dragonGreen", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "dragonBlack0", bg = "dragonViolet", modifiers = ["bold"] }
+"ui.statusline.separator" = { fg = "dragonBlack6" }
+"ui.bufferline" = { fg = "dragonBlack6", bg = "dragonBlack0" }
+"ui.bufferline.active" = { fg = "oldWhite", bg = "dragonBlack3", underline = { color = "dragonBlue", style = "line" } }
+"ui.bufferline.background" = { bg = "dragonBlack0" }
+"ui.popup" = { fg = "dragonWhite", bg = "dragonBlack0" }
+"ui.popup.info" = { fg = "dragonWhite", bg = "dragonBlack0" }
+"ui.window" = { fg = "dragonBlack6" }
+"ui.help" = { fg = "dragonWhite", bg = "dragonBlack0" }
+"ui.text" = { fg = "dragonWhite" }
+"ui.text.focus" = { fg = "dragonWhite", bg = "waveBlue1", modifiers = ["bold"] }
+"ui.text.inactive" = { fg = "dragonBlack6" }
+"ui.virtual" = { fg = "dragonBlack6" }
+"ui.virtual.indent-guide" = { fg = "dragonBlack5" }
+"ui.virtual.inlay-hint" = { fg = "dragonBlack6" }
+"ui.virtual.inlay-hint.parameter" = { fg = "dragonBlack6" }
+"ui.virtual.inlay-hint.type" = { fg = "dragonBlack6" }
+"ui.virtual.jump-label" = { fg = "dragonRed", modifiers = ["bold"] }
+"ui.virtual.ruler" = { bg = "dragonBlack5" }
+"ui.virtual.whitespace" = { fg = "dragonBlack5" }
+"ui.virtual.wrap" = { fg = "dragonBlack6" }
+"ui.menu" = { fg = "dragonWhite", bg = "dragonBlack0" }
+"ui.menu.selected" = { fg = "dragonWhite", bg = "waveBlue1" }
+"ui.menu.scroll" = { fg = "dragonBlack6", bg = "dragonBlack0" }
+"ui.selection" = { bg = "waveBlue2" }
+"ui.selection.primary" = { bg = "waveBlue1" }
+"ui.highlight" = { bg = "waveBlue2" }
+"ui.highlight.frameline" = { bg = "dragonBlack5" }
+"ui.debug" = { fg = "dragonOrange" }
+"ui.debug.breakpoint" = { fg = "dragonRed" }
+"ui.debug.active" = { fg = "dragonGreen" }
+
+# Diagnostics
+"error" = { fg = "dragonRed" }
+"warning" = { fg = "roninYellow" }
+"info" = { fg = "dragonBlue" }
+"hint" = { fg = "waveAqua1" }
+"diagnostic" = { underline = { color = "dragonRed", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "waveAqua1", style = "curl" } }
+"diagnostic.info" = { underline = { color = "dragonBlue", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "roninYellow", style = "curl" } }
+"diagnostic.error" = { underline = { color = "dragonRed", style = "curl" } }
+"diagnostic.unnecessary" = { modifiers = ["dim"] }
+"diagnostic.deprecated" = { modifiers = ["crossed_out"] }
+
+# Diff
+"diff.plus" = { fg = "dragonGreen" }
+"diff.plus.gutter" = { fg = "dragonGreen" }
+"diff.minus" = { fg = "dragonRed" }
+"diff.minus.gutter" = { fg = "dragonRed" }
+"diff.delta" = { fg = "dragonOrange" }
+"diff.delta.gutter" = { fg = "dragonOrange" }
+
+# Syntax Highlighting
+"attribute" = { fg = "dragonBlue" }
+"type" = { fg = "dragonAqua" }
+"type.builtin" = { fg = "dragonAqua" }
+"type.parameter" = { fg = "dragonGold" }
+"type.enum" = { fg = "dragonOrange" }
+"type.enum.variant" = { fg = "dragonOrange" }
+"constructor" = { fg = "dragonBlue" }
+"constant" = { fg = "dragonOrange" }
+"constant.numeric" = { fg = "dragonPink" }
+"constant.character.escape" = { fg = "dragonPink" }
+"string" = { fg = "dragonGreen2" }
+"string.regexp" = { fg = "dragonRed" }
+"string.special" = { fg = "dragonBlue" }
+"string.special.symbol" = { fg = "dragonGreen2" }
+"comment" = { fg = "dragonAsh", modifiers = ["italic"] }
+"variable" = { fg = "dragonWhite" }
+"variable.builtin" = { fg = "dragonRed" }
+"variable.parameter" = { fg = "dragonGold" }
+"variable.other" = { fg = "dragonWhite" }
+"variable.other.member" = { fg = "dragonWhite" }
+"label" = { fg = "dragonRed" }
+"punctuation" = { fg = "dragonWhite2" }
+"punctuation.bracket" = { fg = "dragonWhite2" }
+"punctuation.delimiter" = { fg = "dragonWhite2" }
+"punctuation.special" = { fg = "dragonRed" }
+"keyword" = { fg = "dragonViolet" }
+"keyword.operator" = { fg = "dragonViolet" }
+"keyword.directive" = { fg = "dragonViolet" }
+"keyword.function" = { fg = "dragonViolet" }
+"keyword.storage" = { fg = "dragonViolet" }
+"keyword.storage.type" = { fg = "dragonViolet" }
+"keyword.storage.modifier" = { fg = "dragonViolet" }
+"keyword.control" = { fg = "dragonViolet" }
+"keyword.control.import" = { fg = "dragonViolet" }
+"keyword.control.return" = { fg = "dragonViolet" }
+"keyword.control.conditional" = { fg = "dragonViolet" }
+"keyword.control.repeat" = { fg = "dragonViolet" }
+"keyword.control.exception" = { fg = "dragonViolet" }
+"operator" = { fg = "dragonWhite2" }
+"function" = { fg = "dragonBlue" }
+"function.builtin" = { fg = "dragonBlue" }
+"function.method" = { fg = "dragonBlue" }
+"function.macro" = { fg = "dragonRed" }
+"function.special" = { fg = "dragonBlue" }
+"tag" = { fg = "dragonOrange" }
+"tag.builtin" = { fg = "dragonOrange" }
+"namespace" = { fg = "dragonWhite" }
+"special" = { fg = "dragonBlue" }
+
+# Markup
+"markup.heading.marker" = { fg = "dragonWhite2" }
+"markup.heading.1" = { fg = "dragonOrange", modifiers = ["bold"] }
+"markup.heading.2" = { fg = "dragonYellow", modifiers = ["bold"] }
+"markup.heading.3" = { fg = "dragonGreen", modifiers = ["bold"] }
+"markup.heading.4" = { fg = "dragonAqua", modifiers = ["bold"] }
+"markup.heading.5" = { fg = "dragonViolet", modifiers = ["bold"] }
+"markup.heading.6" = { fg = "dragonRed", modifiers = ["bold"] }
+"markup.list" = { fg = "dragonWhite2" }
+"markup.bold" = { modifiers = ["bold"] }
+"markup.italic" = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link" = { fg = "dragonBlue", underline = { style = "line" } }
+"markup.link.url" = { fg = "dragonPink", underline = { style = "line" } }
+"markup.link.text" = { fg = "dragonBlue" }
+"markup.quote" = { fg = "dragonAsh", modifiers = ["italic"] }
+"markup.raw" = { fg = "dragonGreen2" }
+"markup.raw.inline" = { fg = "dragonGreen2" }
+"markup.raw.block" = { fg = "dragonGreen2" }
+
+[palette]
+# Dragon variant colors - darker theme
+dragonBlack0 = "#0d0c0c"  # Terminal Black
+dragonBlack1 = "#12120f"
+dragonBlack2 = "#1D1C19"
+dragonBlack3 = "#181616"  # Background
+dragonBlack4 = "#282727"
+dragonBlack5 = "#393836"
+dragonBlack6 = "#625e5a"  # Comment
+
+dragonWhite = "#c5c9c5"   # Foreground
+dragonWhite2 = "#C8C093"   # Terminal White
+
+dragonGreen = "#87a987"    # Terminal Bright Green
+dragonGreen2 = "#8a9a7b"   # Terminal Green
+dragonPink = "#a292a3"     # Terminal Magenta
+dragonOrange = "#b6927b"   # Mix between yellows
+dragonRed = "#c4746e"      # Terminal Red
+dragonAqua = "#8ea4a2"     # Terminal Cyan
+dragonAsh = "#737c73"      # Muted gray
+dragonGray = "#9c9c9c"
+dragonGray2 = "#7a8382"
+dragonGray3 = "#4c4c4c"
+
+dragonBlue = "#8ba4b0"     # Terminal Blue
+oldWhite = "#C8C093"
+roninYellow = "#c4b28a"    # Terminal Yellow
+dragonYellow = "#E6C384"   # Terminal Bright Yellow
+dragonViolet = "#938AA9"   # Terminal Bright Magenta
+dragonGold = "#a292a3"
+
+waveBlue1 = "#223249"
+waveBlue2 = "#2d4f67"     # Selection color
+waveAqua1 = "#7AA89F"     # Terminal Bright Cyan
