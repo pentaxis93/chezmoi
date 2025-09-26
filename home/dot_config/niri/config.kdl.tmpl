@@ -1,3 +1,4 @@
+{{- $c := .kanagawa.dragon -}}
 // Niri configuration for CachyOS
 // For documentation and full reference, see: https://github.com/YaLTeR/niri/wiki
 
@@ -194,8 +195,8 @@ binds {
 
         focus-ring {
             width 2
-            active-color "#8a9a7b" // Kanagawa dragon muted green
-            inactive-color "#2d4f67" // Kanagawa selection blue
+            active-color {{ template "color-quoted.tmpl" $c.focus }}
+            inactive-color {{ template "color-quoted.tmpl" $c.selection }}
         }
 
         tab-indicator {
@@ -203,15 +204,15 @@ binds {
             width 4 // Width of the indicator bar
             gap 8 // Gap from the window edge
             position "left" // Show on left side of window
-            active-color "#8a9a7b" // Kanagawa dragon green
-            inactive-color "#2d4f67" // Kanagawa selection blue
+            active-color {{ template "color-quoted.tmpl" $c.focus }}
+            inactive-color {{ template "color-quoted.tmpl" $c.selection }}
         }
 
         shadow {
             softness 30
             spread 5
             offset x=0 y=5
-            color "#0007"
+            color {{ template "color-quoted.tmpl" $c.shadow }}
         }
 
         struts {}

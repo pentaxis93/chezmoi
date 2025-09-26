@@ -1,3 +1,4 @@
+{{- $c := .kanagawa.dragon -}}
 [env]
 TERM = "xterm-256color"
 WINIT_X11_SCALE_FACTOR = "1"
@@ -25,28 +26,28 @@ multiplier = 3
 draw_bold_text_with_bright_colors = true
 
 [colors.primary]
-background = "#181616"
-foreground = "#c5c9c5"
+background = {{ template "color-quoted.tmpl" $c.bg_dark }}
+foreground = {{ template "color-quoted.tmpl" $c.fg_primary }}
 
 [colors.normal]
-black = "#0d0c0c"
-red = "#c4746e"
-green = "#8a9a7b"
-yellow = "#c4b28a"
-blue = "#8ba4b0"
-magenta = "#a292a3"
-cyan = "#8ea4a2"
-white = "#C8C093"
+black = {{ template "color-quoted.tmpl" $c.black }}
+red = {{ template "color-quoted.tmpl" $c.red }}
+green = {{ template "color-quoted.tmpl" $c.green }}
+yellow = {{ template "color-quoted.tmpl" $c.yellow }}
+blue = {{ template "color-quoted.tmpl" $c.blue }}
+magenta = {{ template "color-quoted.tmpl" $c.magenta }}
+cyan = {{ template "color-quoted.tmpl" $c.cyan }}
+white = {{ template "color-quoted.tmpl" $c.white }}
 
 [colors.bright]
-black = "#a6a69c"
-red = "#E46876"
-green = "#87a987"
-yellow = "#E6C384"
-blue = "#7FB4CA"
-magenta = "#938AA9"
-cyan = "#7AA89F"
-white = "#c5c9c5"
+black = {{ template "color-quoted.tmpl" $c.bright_black }}
+red = {{ template "color-quoted.tmpl" $c.bright_red }}
+green = {{ template "color-quoted.tmpl" $c.bright_green }}
+yellow = {{ template "color-quoted.tmpl" $c.bright_yellow }}
+blue = {{ template "color-quoted.tmpl" $c.bright_blue }}
+magenta = {{ template "color-quoted.tmpl" $c.bright_magenta }}
+cyan = {{ template "color-quoted.tmpl" $c.bright_cyan }}
+white = {{ template "color-quoted.tmpl" $c.bright_white }}
 
 [font]
 size = 20
@@ -68,16 +69,16 @@ family = "monospace"
 style = "Bold Italic"
 
 [colors.selection]
-background = "#2d4f67"
-foreground = "#c8c093"
+background = {{ template "color-quoted.tmpl" $c.selection }}
+foreground = {{ template "color-quoted.tmpl" $c.fg_default }}
 
 [[colors.indexed_colors]]
 index = 16
-color = "#ffa066"
+color = {{ template "color-quoted.tmpl" $c.indexed_16 }}
 
 [[colors.indexed_colors]]
 index = 17
-color = "#ff5d62"
+color = {{ template "color-quoted.tmpl" $c.indexed_17 }}
 
 [selection]
 semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"

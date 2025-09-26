@@ -1,4 +1,6 @@
+{{- $c := .kanagawa.dragon -}}
 /* Kanagawa Dragon Theme - Ultra-thin Waybar */
+/* Colors sourced from ~/.chezmoidata/colors.yaml */
 
 * {
     font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
@@ -10,8 +12,8 @@
 }
 
 window#waybar {
-    background-color: #181616;  /* Kanagawa Dragon background */
-    color: #c5c9c5;
+    background-color: {{ template "color-hex.tmpl" $c.bg_dark }};
+    color: {{ template "color-hex.tmpl" $c.fg_primary }};
 }
 
 /* All modules default styling */
@@ -29,7 +31,7 @@ window#waybar {
     padding: 0 8px;
     margin: 0;
     background-color: transparent;
-    color: #c5c9c5;
+    color: {{ template "color-hex.tmpl" $c.fg_primary }};
 }
 
 /* Workspace buttons */
@@ -37,20 +39,20 @@ window#waybar {
     padding: 0 8px;
     margin: 0;
     background-color: transparent;
-    color: #8a9a7b;  /* Niri focus ring active color */
+    color: {{ template "color-hex.tmpl" $c.focus }};
     font-weight: 500;
 }
 
 #workspaces button.active {
-    color: #8a9a7b;  /* Matches niri focus ring */
-    background-color: #3c4a37;  /* Dark green background */
+    color: {{ template "color-hex.tmpl" $c.focus }};
+    background-color: {{ template "color-hex.tmpl" $c.ui_active_workspace }};
     font-weight: 600;
 }
 
 #workspaces button:hover {
-    background: #2a2a37;  /* Override GTK defaults */
-    background-color: #2a2a37;
-    color: #98a88f;  /* Brighter green on hover */
+    background: {{ template "color-hex.tmpl" $c.ui_hover }};
+    background-color: {{ template "color-hex.tmpl" $c.ui_hover }};
+    color: #98a88f;  /* Computed brighter green */
     box-shadow: inherit;
     text-shadow: inherit;
     border: none;
@@ -58,9 +60,9 @@ window#waybar {
 }
 
 #workspaces button.active:hover {
-    background: #4a5a44;  /* Brighter green on active hover */
-    background-color: #4a5a44;
-    color: #98a88f;
+    background: {{ template "color-hex.tmpl" $c.ui_hover_active }};
+    background-color: {{ template "color-hex.tmpl" $c.ui_hover_active }};
+    color: #98a88f;  /* Computed brighter green */
     box-shadow: inherit;
     text-shadow: inherit;
     border: none;
@@ -69,75 +71,75 @@ window#waybar {
 
 /* Active window title */
 #window {
-    color: #8a9a7b;  /* Matches niri focus ring */
+    color: {{ template "color-hex.tmpl" $c.focus }};
     font-weight: 400;
 }
 
 window#waybar.empty #window {
-    color: #625e5a;
+    color: {{ template "color-hex.tmpl" $c.bg_lighter }};
 }
 
 /* Spectrum progression: Red → Orange → Yellow → Green → Cyan → Blue → Violet */
 
 /* Disk - Red (root resources) */
 #disk {
-    color: #c4746e;
+    color: {{ template "color-hex.tmpl" $c.red }};
 }
 
 /* CPU - Orange (processing heat) */
 #cpu {
-    color: #b6927b;
+    color: {{ template "color-hex.tmpl" $c.orange }};
 }
 
 /* Memory - Yellow (storage) */
 #memory {
-    color: #c4b28a;
+    color: {{ template "color-hex.tmpl" $c.yellow }};
 }
 
 /* Backlight - Yellow-green (illumination) */
 #backlight {
-    color: #87a96b;
+    color: #87a96b;  /* Custom blend */
 }
 
 /* Pulseaudio - Green (sound waves) */
 #pulseaudio {
-    color: #8a9a7b;
+    color: {{ template "color-hex.tmpl" $c.green }};
 }
 
 #pulseaudio.muted {
-    color: #625e5a;
+    color: {{ template "color-hex.tmpl" $c.bg_lighter }};
     text-decoration: line-through;
 }
 
 /* Bluetooth - Cyan (wireless) */
 #bluetooth {
-    color: #7aa89f;
+    color: {{ template "color-hex.tmpl" $c.bright_cyan }};
 }
 
 /* Network - Blue (connectivity) */
 #network {
-    color: #8ba4b0;
+    color: {{ template "color-hex.tmpl" $c.blue }};
 }
 
 /* Weather - Light blue (atmosphere) */
 #custom-weather {
-    color: #7e9cd8;
+    color: #7e9cd8;  /* Custom weather blue */
 }
 
 /* Battery - Blue-violet (energy) */
 #battery {
-    color: #938aa9;
+    color: {{ template "color-hex.tmpl" $c.bright_magenta }};
 }
 #battery.warning {
-    color: #c4b28a;  /* Yellow warning */
+    color: {{ template "color-hex.tmpl" $c.yellow }};
 }
 #battery.critical {
-    color: #c4746e;  /* Red critical */
+    color: {{ template "color-hex.tmpl" $c.red }};
 }
 
 /* Clock - Violet (time's mystery) */
 #clock {
-    color: #a292a3;
+    color: {{ template "color-hex.tmpl" $c.magenta }};
     font-weight: 600;
     padding-right: 12px;
 }
@@ -147,14 +149,14 @@ window#waybar.empty #window {
 #backlight:hover,
 #bluetooth:hover,
 #network:hover {
-    background-color: #2a2a37;
+    background-color: {{ template "color-hex.tmpl" $c.ui_hover }};
 }
 
 /* Tooltip styling */
 tooltip {
-    background-color: #181616;
-    color: #c5c9c5;
-    border: 1px solid #2d4f67;
+    background-color: {{ template "color-hex.tmpl" $c.bg_dark }};
+    color: {{ template "color-hex.tmpl" $c.fg_primary }};
+    border: 1px solid {{ template "color-hex.tmpl" $c.selection }};
     padding: 4px 8px;
     font-size: 12px;
 }
