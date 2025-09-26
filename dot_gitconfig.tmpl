@@ -1,3 +1,64 @@
+# Foundation: Core identity
 [user]
 	name = {{ .name }}
 	email = {{ .email }}
+
+# Editor: Use the configured editor
+[core]
+	editor = {{ .editor }}
+	excludesfile = ~/.gitignore
+
+# Branch: Modern defaults
+[init]
+	defaultBranch = main
+
+[branch]
+	sort = -committerdate  # Most recent branches first
+
+# Pull & Push: Safer defaults
+[pull]
+	rebase = true  # Avoid merge commits on pull
+
+[push]
+	autoSetupRemote = true  # Auto-setup tracking for new branches
+	followTags = true  # Push annotated tags with commits
+
+# Rebase: Quality of life
+[rebase]
+	autoStash = true  # Auto-stash uncommitted changes
+	autoSquash = true  # Auto-apply fixup!/squash! commits
+	updateRefs = true  # Update dependent branches
+
+# Merge & Diff: Better visualization
+[merge]
+	conflictstyle = zdiff3  # Show common ancestor in conflicts
+
+[diff]
+	algorithm = histogram  # Better diff quality
+	colorMoved = plain  # Highlight moved lines
+
+# Fetch: Keep it clean
+[fetch]
+	prune = true  # Remove deleted remote branches
+	pruneTags = true  # Remove deleted remote tags
+
+# Rerere: Remember conflict resolutions
+[rerere]
+	enabled = true  # Remember how conflicts were resolved
+	autoupdate = true  # Auto-stage resolved conflicts
+
+# Help: Be forgiving
+[help]
+	autocorrect = prompt  # Suggest corrections for typos
+
+# Commit: More context
+[commit]
+	verbose = true  # Show diff in commit message editor
+
+# UI: Better formatting
+[column]
+	ui = auto  # Columnize output when appropriate
+
+# Optional: URL shortcuts for GitHub (uncomment if desired)
+# [url "git@github.com:"]
+# 	insteadOf = https://github.com/
