@@ -1,0 +1,120 @@
+{
+    "layer": "top",
+    "height": 30,
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 0,
+
+    "modules-left": [
+        "niri/workspaces",
+        "niri/window"
+    ],
+
+    "modules-center": [],
+
+    "modules-right": [
+        "disk",
+        "cpu",
+        "memory",
+        "backlight",
+        "pulseaudio",
+        "bluetooth",
+        "network",
+        "custom/weather",
+        {{- if .is_laptop }}
+        "battery",
+        {{- end }}
+        "clock"
+    ],
+
+    "niri/workspaces": {
+        "format": "{index}",
+        "on-click": "activate"
+    },
+
+    "niri/window": {
+        "format": "| {title}",
+        "max-length": 50,
+        "rewrite": {
+            "(.*) - Brave": "$1",
+            "(.*) - Firefox": "$1",
+            "(.*) - Mozilla Firefox": "$1"
+        }
+    },
+
+    {{- if .is_laptop }}
+    "battery": {
+        "format": "[bat:{capacity}%]",
+        "format-charging": "[bat:{capacity}%⚡]",
+        "format-plugged": "[bat:{capacity}%🔌]",
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "tooltip": false
+    },
+    {{- end }}
+
+    "backlight": {
+        "format": "[☀:{percent}%]",
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-",
+        "tooltip": false
+    },
+
+    "disk": {
+        "interval": 30,
+        "format": "[/:{percentage_used}%]",
+        "path": "/",
+        "tooltip": false
+    },
+
+    "bluetooth": {
+        "format": "[bt:on]",
+        "format-disabled": "[bt:off]",
+        "format-connected": "[bt:{device_alias}]",
+        "tooltip": false
+    },
+
+    "network": {
+        "format-wifi": "[wifi:{signalStrength}%]",
+        "format-ethernet": "[eth]",
+        "format-linked": "[no ip]",
+        "format-disconnected": "[offline]",
+        "tooltip": false
+    },
+
+    "cpu": {
+        "format": "[cpu:{usage}%]",
+        "interval": 2,
+        "tooltip": false
+    },
+
+    "memory": {
+        "format": "[mem:{percentage}%]",
+        "interval": 5,
+        "tooltip": false
+    },
+
+    "pulseaudio": {
+        "format": "[vol:{volume}%]",
+        "format-muted": "[muted]",
+        "on-click": "pavucontrol",
+        "scroll-step": 5,
+        "tooltip": false
+    },
+
+    "custom/weather": {
+        "format": "{}",
+        "exec": "curl -s 'wttr.in/?format=[%c+%t]' | sed 's/+//' | sed 's/°C/°/'",
+        "interval": 3600,
+        "tooltip": false
+    },
+
+    "clock": {
+        "format": "{:%a %d %b | %H:%M}",
+        "tooltip": false
+    }
+}
