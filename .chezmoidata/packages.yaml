@@ -1,0 +1,8 @@
+# Declarative package management for CachyOS
+# Add packages here and they'll be installed automatically
+# when running chezmoi apply
+
+packages:
+  cachyos:
+    pacman:
+      - npm  # Node.js package manager (nodejs is a dependency)

@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Declarative package installation for CachyOS
+# Automatically installs packages defined in .chezmoidata/packages.yaml
+# Only runs when the package list changes (tracked by hash comment)
+
+# Hash of package list for change detection
+# packages: {{ .packages.cachyos.pacman | toJson | sha256sum }}
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📦 Installing system packages for CachyOS"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Track what needs installation
+PACKAGES_TO_INSTALL=()
+
+{{ range .packages.cachyos.pacman -}}
+# Check if {{ . }} is installed
+if ! pacman -Qi "{{ . }}" &>/dev/null; then
+    PACKAGES_TO_INSTALL+=("{{ . }}")
+    echo "📋 Will install: {{ . }}"
+else
+    echo "✓ Already installed: {{ . }}"
+fi
+{{ end }}
+
+# Install packages if needed
+if [ ${#PACKAGES_TO_INSTALL[@]} -gt 0 ]; then
+    echo ""
+    echo "Installing ${#PACKAGES_TO_INSTALL[@]} package(s)..."
+    sudo pacman -S --noconfirm "${PACKAGES_TO_INSTALL[@]}"
+    echo "✓ All packages installed successfully"
+else
+    echo "✓ All packages already installed"
+fi
+
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ Package installation complete"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "💡 To add more packages:"
+echo "   1. Edit: ~/.local/share/chezmoi/.chezmoidata/packages.yaml"
+echo "   2. Run:  chezmoi apply"
