@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Install Claude Code managed settings to /etc
+# This is a one-time setup that requires sudo privileges
+
+echo "═══════════════════════════════════════════════════════════"
+echo " Claude Code Managed Settings Installation"
+echo "═══════════════════════════════════════════════════════════"
+echo ""
+echo "This script will install managed settings for Claude Code to:"
+echo "  /etc/claude-code/managed-settings.json"
+echo ""
+echo "These settings control:"
+echo "  • Co-authorship attribution"
+echo "  • Output verbosity"
+echo "  • Path permissions and restrictions"
+echo ""
+
+SETTINGS_FILE="/etc/claude-code/managed-settings.json"
+
+# Create the JSON with proper home directory path
+cat <<EOF > /tmp/claude-managed-settings.json
+{
+  "includeCoAuthoredBy": false,
+  "outputStyle": "verbose",
+  "permissions": {
+    "allowedPaths": ["$HOME"],
+    "deniedPaths": [
+      "$HOME/.ssh/id_*",
+      "$HOME/.gnupg/**",
+      "$HOME/.aws/credentials",
+      "$HOME/.kube/config",
+      "/etc/passwd",
+      "/etc/shadow"
+    ]
+  }
+}
+EOF
+
+# Check if update needed
+if [ -f "$SETTINGS_FILE" ]; then
+    if diff -q /tmp/claude-managed-settings.json "$SETTINGS_FILE" >/dev/null 2>&1; then
+        echo "✓ Managed settings are already up to date"
+        rm -f /tmp/claude-managed-settings.json
+        exit 0
+    else
+        echo "⚠ Existing settings found but differ from template"
+        echo ""
+        echo "Current settings:"
+        sudo cat "$SETTINGS_FILE" | jq '.' 2>/dev/null || sudo cat "$SETTINGS_FILE"
+        echo ""
+        echo "New settings:"
+        cat /tmp/claude-managed-settings.json | jq '.' 2>/dev/null || cat /tmp/claude-managed-settings.json
+        echo ""
+        read -p "Update to new settings? (y/N): " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            echo "❌ Installation cancelled"
+            rm -f /tmp/claude-managed-settings.json
+            exit 0
+        fi
+    fi
+fi
+
+echo "Installing managed settings (requires sudo)..."
+sudo mkdir -p /etc/claude-code
+sudo cp /tmp/claude-managed-settings.json "$SETTINGS_FILE"
+sudo chmod 644 "$SETTINGS_FILE"
+
+rm -f /tmp/claude-managed-settings.json
+
+echo ""
+echo "✅ Claude Code managed settings installed successfully!"
+echo ""
+echo "Settings location: $SETTINGS_FILE"
+echo "To view settings: cat $SETTINGS_FILE | jq"
+echo ""
