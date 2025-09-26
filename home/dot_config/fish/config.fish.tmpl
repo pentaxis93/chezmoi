@@ -8,10 +8,10 @@ source /usr/share/cachyos-fish-config/cachyos-config.fish
 
 export PATH="$HOME/.local/bin:$PATH"
 
-# nmtui Configuration - Zen-elegant Kanagawa color theme
-# Following project guidelines: unified color theme matching Alacritty's Kanagawa palette
-# Uses chezmoi template to maintain complex NEWT_COLORS configuration
-export NEWT_COLORS='{{ template "newt-colors-kanagawa.tmpl" . }}'
+# nmtui Configuration - Dynamic Kanagawa color theme from centralized palette
+# Following project guidelines: unified color theme from colors.yaml
+# Uses dynamic template that maps semantic color names to terminal indices
+export NEWT_COLORS='{{ template "newt-colors-dynamic.tmpl" . }}'
 
 # nmtui wrapper function - Enhanced NetworkManager TUI with zen aesthetics
 # Provides consistent keybinding reference and usage guidance
