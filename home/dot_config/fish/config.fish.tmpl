@@ -8,6 +8,11 @@ source /usr/share/cachyos-fish-config/cachyos-config.fish
 
 export PATH="$HOME/.local/bin:$PATH"
 
+# Dark Mode Configuration - System-wide dark theme preferences
+# Ensures consistent dark theme across GTK and Qt applications
+export GTK_THEME="adw-gtk3-dark"
+export QT_STYLE_OVERRIDE="adwaita-dark"
+
 # nmtui Configuration - Dynamic Kanagawa color theme from centralized palette
 # Following project guidelines: unified color theme from colors.yaml
 # Uses dynamic template that maps semantic color names to terminal indices

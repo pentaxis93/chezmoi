@@ -39,10 +39,10 @@ kanagawa:
     bright_black: "625e5a"   # terminal color8 - inactive (comments/disabled)
     bright_red: "e46876"     # terminal color9 - urgent (critical errors)
     bright_green: "87a987"   # terminal color10 - confirm (strong success)
-    bright_yellow: "393836"  # terminal color11 - highlight (subtle bg_light)
-    bright_blue: "223249"    # terminal color12 - link_active (selection_alt)
+    bright_yellow: "c4b28a"  # terminal color11 - warning_bright (actual yellow)
+    bright_blue: "7fb4ca"    # terminal color12 - info_bright (actual bright blue)
     bright_magenta: "938aa9" # terminal color13 - special_bright
-    bright_cyan: "2d4f67"    # terminal color14 - selection (PRIMARY HIGHLIGHT)
+    bright_cyan: "8a9a7b"    # terminal color14 - focus/active (our green)
     bright_white: "c5c9c5"   # terminal color15 - emphasis (brightest text)
 
     # Extended Palette (special use)
@@ -74,10 +74,10 @@ kanagawa:
       color8: "inactive"          # Inactive, disabled, comments
       color9: "urgent"            # Urgent errors, critical alerts
       color10: "confirm"          # Strong success, active confirmations
-      color11: "highlight"        # Alternative highlights, current line
-      color12: "link_active"      # Active links, bright info
+      color11: "warning_bright"   # Bright warnings, emphasis
+      color12: "info_bright"      # Bright info, active links
       color13: "special_bright"   # Bright special elements
-      color14: "selection"        # Primary selection, active highlight
+      color14: "focus"            # Focus indicator, active element (NOT selection bg)
       color15: "emphasis"         # Maximum emphasis, brightest text
 
     # Semantic UI Mappings (what each color means)

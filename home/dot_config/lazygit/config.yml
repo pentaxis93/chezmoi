@@ -1,0 +1,22 @@
+# Lazygit configuration - Zen selection with reverse video
+# Following the Master's wisdom: "Let the fish and water exchange places"
+
+gui:
+  theme:
+    # Use reverse video for selections - perfect contrast always
+    selectedLineBgColor:
+      - reverse
+    # Keep active borders using our focus green (color2)
+    activeBorderColor:
+      - green
+      - bold
+    # Inactive borders use default
+    inactiveBorderColor:
+      - default
+    # Search uses our cyan (color6)
+    searchingActiveBorderColor:
+      - cyan
+      - bold
+    # Options text uses our info blue (color4)
+    optionsTextColor:
+      - blue

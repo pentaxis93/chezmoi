@@ -96,7 +96,7 @@ color: {{ template "color-hex.tmpl" $c.green }}     # CSS: #8a9a7b
 color = {{ template "color-quoted.tmpl" $c.red }}   # TOML: "#c4746e"
 ```
 
-### Ultra-Zen Philosophy: Semantic Terminal Colors
+### Ultra-Zen Philosophy: Semantic Terminal Colors & Reverse Video
 
 **"Do not define colors; define intentions. Let the intention manifest as color."**
 
@@ -104,18 +104,26 @@ Terminal colors are semantic purposes, not hues:
 - `color0` (background) = `#181616` - Our actual background, not darkest black
 - `color7` (foreground) = `#c5c9c5` - Our actual foreground, not brightest white
 - `color8` (inactive) = `#625e5a` - Comments/disabled, not just "bright black"
-- `color14` (selection) = `#2d4f67` - Primary highlight, not "bright cyan"
-- `color11` (highlight) = `#393836` - Subtle emphasis, not "bright yellow"
+- `color14` (focus) = `#8a9a7b` - Focus/active indicator (our green), NOT selection bg
+- `color11` (warning_bright) = `#c4b28a` - Actual yellow for warnings/emphasis
+
+**The Master's Wisdom on Selection:**
+*"Do not paint the water to make the fish visible. Let the fish and water exchange places."*
+
+Selections use **reverse video**, not colored backgrounds. This ensures:
+- Perfect contrast always (fg/bg swap)
+- No configuration complexity
+- Universal solution for all TUI apps
 
 Each terminal color slot has a PURPOSE:
 - **0-7**: Primary semantic roles (background, error, success, warning, etc.)
-- **8-15**: Enhanced semantic roles (inactive, urgent, selection, emphasis, etc.)
+- **8-15**: Enhanced semantic roles (inactive, urgent, focus, emphasis, etc.)
 - Apps express themselves through intentions, not raw colors
 
 ### Benefits
 - **Perfect Unity**: nmtui background = Waybar background = Alacritty background (#181616)
-- **No Jarring Highlights**: Lazygit selection uses muted `#2d4f67` instead of bright cyan
-- **Semantic Consistency**: Apps using color14 for selection all get proper highlight color
+- **Perfect Contrast**: Lazygit selections use reverse video - always readable
+- **Semantic Consistency**: color14 is focus/active (green), not selection background
 - **Maintainability**: Change theme by updating single file
 - **Extensibility**: Easy to add new apps with consistent theming
 - **Semantic Truth**: Colors represent intentions, not traditional ANSI meanings
