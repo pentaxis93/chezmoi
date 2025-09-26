@@ -35,15 +35,15 @@ kanagawa:
     cyan: "8ea4a2"           # terminal color6 - strings
     white: "c5c9c5"          # terminal color7 - fg_primary (our actual foreground)
 
-    # Bright Spectrum Colors
-    bright_black: "625e5a"   # terminal color8 - bg_lighter (comments/inactive)
-    bright_red: "e46876"     # terminal color9 - urgent errors
-    bright_green: "87a987"   # terminal color10 - bright success
-    bright_yellow: "e6c384"  # terminal color11 - bright warnings
-    bright_blue: "7fb4ca"    # terminal color12 - bright info
-    bright_magenta: "938aa9" # terminal color13 - bright special
-    bright_cyan: "7aa89f"    # terminal color14 - bright secondary
-    bright_white: "c5c9c5"   # terminal color15 - brightest text
+    # Bright Spectrum Colors (Semantically Mapped)
+    bright_black: "625e5a"   # terminal color8 - inactive (comments/disabled)
+    bright_red: "e46876"     # terminal color9 - urgent (critical errors)
+    bright_green: "87a987"   # terminal color10 - confirm (strong success)
+    bright_yellow: "393836"  # terminal color11 - highlight (subtle bg_light)
+    bright_blue: "223249"    # terminal color12 - link_active (selection_alt)
+    bright_magenta: "938aa9" # terminal color13 - special_bright
+    bright_cyan: "2d4f67"    # terminal color14 - selection (PRIMARY HIGHLIGHT)
+    bright_white: "c5c9c5"   # terminal color15 - emphasis (brightest text)
 
     # Extended Palette (special use)
     orange: "b6927b"         # mix of red/yellow
@@ -58,6 +58,27 @@ kanagawa:
     # Special Colors (for specific uses)
     indexed_16: "ffa066"     # extended color palette
     indexed_17: "ff5d62"     # extended color palette
+
+    # Terminal Color Semantic Meanings (what each slot represents)
+    # Maps terminal color indices to their semantic purposes
+    terminal_semantics:
+      color0: "background"        # Primary background
+      color1: "error"             # Errors, failures, deletions
+      color2: "success"           # Success, additions, confirmations
+      color3: "warning"           # Warnings, changes, cautions
+      color4: "info"              # Information, links, primary actions
+      color5: "accent"            # Special elements, accents
+      color6: "secondary"         # Secondary info, subtle highlights
+      color7: "foreground"        # Primary text
+
+      color8: "inactive"          # Inactive, disabled, comments
+      color9: "urgent"            # Urgent errors, critical alerts
+      color10: "confirm"          # Strong success, active confirmations
+      color11: "highlight"        # Alternative highlights, current line
+      color12: "link_active"      # Active links, bright info
+      color13: "special_bright"   # Bright special elements
+      color14: "selection"        # Primary selection, active highlight
+      color15: "emphasis"         # Maximum emphasis, brightest text
 
     # Semantic UI Mappings (what each color means)
     # These reference the colors above for consistent usage

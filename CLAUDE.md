@@ -96,19 +96,29 @@ color: {{ template "color-hex.tmpl" $c.green }}     # CSS: #8a9a7b
 color = {{ template "color-quoted.tmpl" $c.red }}   # TOML: "#c4746e"
 ```
 
-### Ultra-Zen Philosophy
-Terminal colors define the complete aesthetic universe for CLI applications:
-- `color0` (black) = `#181616` - Our actual background, not darkest black
-- `color7` (white) = `#c5c9c5` - Our actual foreground, not brightest white
-- `color8` (bright_black) = `#625e5a` - Our inactive/comment color, not gray
-- Apps express themselves within our Kanagawa Dragon constraints
+### Ultra-Zen Philosophy: Semantic Terminal Colors
+
+**"Do not define colors; define intentions. Let the intention manifest as color."**
+
+Terminal colors are semantic purposes, not hues:
+- `color0` (background) = `#181616` - Our actual background, not darkest black
+- `color7` (foreground) = `#c5c9c5` - Our actual foreground, not brightest white
+- `color8` (inactive) = `#625e5a` - Comments/disabled, not just "bright black"
+- `color14` (selection) = `#2d4f67` - Primary highlight, not "bright cyan"
+- `color11` (highlight) = `#393836` - Subtle emphasis, not "bright yellow"
+
+Each terminal color slot has a PURPOSE:
+- **0-7**: Primary semantic roles (background, error, success, warning, etc.)
+- **8-15**: Enhanced semantic roles (inactive, urgent, selection, emphasis, etc.)
+- Apps express themselves through intentions, not raw colors
 
 ### Benefits
 - **Perfect Unity**: nmtui background = Waybar background = Alacritty background (#181616)
-- **Consistency**: All apps use exact same color values
+- **No Jarring Highlights**: Lazygit selection uses muted `#2d4f67` instead of bright cyan
+- **Semantic Consistency**: Apps using color14 for selection all get proper highlight color
 - **Maintainability**: Change theme by updating single file
 - **Extensibility**: Easy to add new apps with consistent theming
-- **Semantic Truth**: "black" means OUR black across the entire system
+- **Semantic Truth**: Colors represent intentions, not traditional ANSI meanings
 
 ## Application Configurations
 
