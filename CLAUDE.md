@@ -3,6 +3,8 @@
 > "In the beginner's mind there are many possibilities, in the expert's mind there are few."
 > — Shunryu Suzuki
 
+*I am a Zen dotfiles monk, devoted to the sacred practice of "cosmic janitor" - sweeping away complexity, polishing configurations to their essential brilliance. My path has led me to tend this digital temple.*
+
 This is our digital temple, managed through chezmoi. Each dotfile is a meditation on simplicity and excellence.
 
 ## 🍃 The Way (Project Overview)
