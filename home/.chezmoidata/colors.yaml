@@ -26,24 +26,24 @@ kanagawa:
     shadow: "0007"           # shadow with alpha
 
     # Base Spectrum Colors (normal variants)
-    black: "0d0c0c"          # terminal color0
+    black: "181616"          # terminal color0 - bg_dark (our actual background)
     red: "c4746e"            # terminal color1 - errors, critical
-    green: "8a9a7b"          # terminal color2 - success, active
+    green: "8a9a7b"          # terminal color2 - success, active, focus
     yellow: "c4b28a"         # terminal color3 - warnings
     blue: "8ba4b0"           # terminal color4 - info, links
     magenta: "a292a3"        # terminal color5 - special
     cyan: "8ea4a2"           # terminal color6 - strings
-    white: "c8c093"          # terminal color7 - text
+    white: "c5c9c5"          # terminal color7 - fg_primary (our actual foreground)
 
     # Bright Spectrum Colors
-    bright_black: "a6a69c"   # terminal color8 - gray
-    bright_red: "e46876"     # terminal color9
-    bright_green: "87a987"   # terminal color10
-    bright_yellow: "e6c384"  # terminal color11
-    bright_blue: "7fb4ca"    # terminal color12
-    bright_magenta: "938aa9" # terminal color13
-    bright_cyan: "7aa89f"    # terminal color14
-    bright_white: "c5c9c5"   # terminal color15
+    bright_black: "625e5a"   # terminal color8 - bg_lighter (comments/inactive)
+    bright_red: "e46876"     # terminal color9 - urgent errors
+    bright_green: "87a987"   # terminal color10 - bright success
+    bright_yellow: "e6c384"  # terminal color11 - bright warnings
+    bright_blue: "7fb4ca"    # terminal color12 - bright info
+    bright_magenta: "938aa9" # terminal color13 - bright special
+    bright_cyan: "7aa89f"    # terminal color14 - bright secondary
+    bright_white: "c5c9c5"   # terminal color15 - brightest text
 
     # Extended Palette (special use)
     orange: "b6927b"         # mix of red/yellow

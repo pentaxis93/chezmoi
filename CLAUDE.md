@@ -87,6 +87,7 @@ When configuring new applications and dotfiles, follow these principles for cons
 - **Single Source of Truth**: All Kanagawa Dragon colors defined in `home/.chezmoidata/colors.yaml`
 - **Format Converters**: Template fragments handle format conversions for different config syntaxes
 - **Templated Configs**: Waybar CSS, Alacritty TOML, and Niri KDL use centralized colors
+- **Ultra-Zen Terminal Colors**: Terminal colors (0-15) map to actual theme colors, not traditional ANSI
 
 ### Usage
 ```go-template
@@ -95,10 +96,19 @@ color: {{ template "color-hex.tmpl" $c.green }}     # CSS: #8a9a7b
 color = {{ template "color-quoted.tmpl" $c.red }}   # TOML: "#c4746e"
 ```
 
+### Ultra-Zen Philosophy
+Terminal colors define the complete aesthetic universe for CLI applications:
+- `color0` (black) = `#181616` - Our actual background, not darkest black
+- `color7` (white) = `#c5c9c5` - Our actual foreground, not brightest white
+- `color8` (bright_black) = `#625e5a` - Our inactive/comment color, not gray
+- Apps express themselves within our Kanagawa Dragon constraints
+
 ### Benefits
+- **Perfect Unity**: nmtui background = Waybar background = Alacritty background (#181616)
 - **Consistency**: All apps use exact same color values
 - **Maintainability**: Change theme by updating single file
 - **Extensibility**: Easy to add new apps with consistent theming
+- **Semantic Truth**: "black" means OUR black across the entire system
 
 ## Application Configurations
 
