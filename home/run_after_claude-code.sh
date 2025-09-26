@@ -64,7 +64,7 @@ EOF
                 echo ""
                 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
                 echo "📝 Managed settings differ from template"
-                echo "   To review/update: chezmoi cd && ./setup-claude-code-managed-settings"
+                echo "   To review/update: chezmoi cd && ./scripts/setup-claude-code-managed-settings"
                 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             fi
         else
@@ -73,7 +73,7 @@ EOF
                 echo ""
                 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
                 echo "📝 Managed settings differ from template"
-                echo "   To review/update: chezmoi cd && ./setup-claude-code-managed-settings"
+                echo "   To review/update: chezmoi cd && ./scripts/setup-claude-code-managed-settings"
                 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             fi
         fi
@@ -84,6 +84,6 @@ else
     echo ""
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo "📝 To install Claude Code managed settings (one-time setup), run:"
-    echo "   chezmoi cd && ./setup-claude-code-managed-settings"
+    echo "   chezmoi cd && ./scripts/setup-claude-code-managed-settings"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 fi
