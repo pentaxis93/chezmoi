@@ -69,11 +69,42 @@ When configuring new applications and dotfiles, follow these principles for cons
 - `.chezmoiroot` - sets `home/` as the source directory root
 - `.chezmoiignore` - prevent unwanted management
 - `home/.chezmoidata/packages.yaml` - declarative package definitions
+- `home/.chezmoidata/colors.yaml` - centralized Kanagawa Dragon color palette
 - `home/dot_gitconfig.tmpl` - templated Git identity
 - `home/dot_config/fish/config.fish.tmpl` - Templated Fish shell configuration
 - `home/.chezmoitemplates/` - Reusable template fragments
+  - `color-hex.tmpl` - Convert color to #hex format (CSS/KDL)
+  - `color-quoted.tmpl` - Convert color to "#hex" format (TOML)
+  - `color-rgb.tmpl` - Convert hex to rgb() format
+  - `color-rgba.tmpl` - Convert hex to rgba() with alpha
+  - `color-index.tmpl` - Map color names to terminal indices
+  - `newt-colors-kanagawa.tmpl` - NEWT_COLORS for nmtui
+
+## Color Template System
+
+### Architecture
+- **Single Source of Truth**: All Kanagawa Dragon colors defined in `home/.chezmoidata/colors.yaml`
+- **Format Converters**: Template fragments handle format conversions for different config syntaxes
+- **Templated Configs**: Waybar CSS, Alacritty TOML, and Niri KDL use centralized colors
+
+### Usage
+```go-template
+{{- $c := .kanagawa.dragon -}}
+color: {{ template "color-hex.tmpl" $c.green }}     # CSS: #8a9a7b
+color = {{ template "color-quoted.tmpl" $c.red }}   # TOML: "#c4746e"
+```
+
+### Benefits
+- **Consistency**: All apps use exact same color values
+- **Maintainability**: Change theme by updating single file
+- **Extensibility**: Easy to add new apps with consistent theming
 
 ## Application Configurations
+
+### Color-Templated Applications
+- **Waybar** (`style.css.tmpl`) - Full spectrum color usage for module theming
+- **Alacritty** (`alacritty.toml.tmpl`) - Terminal base colors (0-15 + extended)
+- **Niri** (`config.kdl.tmpl`) - Focus ring and selection colors
 
 ### NetworkManager TUI (nmtui)
 - **Color Scheme**: Kanagawa theme mapping to terminal's 16-color palette
