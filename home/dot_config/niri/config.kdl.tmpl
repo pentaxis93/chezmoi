@@ -202,7 +202,7 @@ binds {
         tab-indicator {
             place-within-column // Tabs inside to ensure visibility
             width 4 // Width of the indicator bar
-            gap 8 // Gap from the window edge
+            gap 4 // Tighter gap from window edge
             position "left" // Show on left side of window
             active-color {{ template "color-quoted.tmpl" $c.focus }}
             inactive-color {{ template "color-quoted.tmpl" $c.selection }}
