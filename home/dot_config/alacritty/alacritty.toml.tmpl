@@ -95,6 +95,11 @@ vi_mode_style = "Block"            # Visual indicator for vi mode
 unfocused_hollow = true
 thickness = 0.15
 
+# Terminal bell configuration - Audio only, no visual
+[bell]
+duration = 0                                              # No visual bell
+command = { program = "paplay", args = ["/usr/share/sounds/freedesktop/stereo/complete.oga"] }  # Modern completion chime
+
 [mouse]
 hide_when_typing = true
 
