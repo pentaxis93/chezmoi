@@ -1,0 +1,14 @@
+allow_images=true
+hide_scroll=true
+no_actions=true
+term=alacritty
+mode=drun
+
+# Reduce clutter by only matching app names, not descriptions/categories
+drun-match_fields=name
+# Don't show generic names in parentheses
+drun-display_generic=false
+
+# Vi-style navigation (Helix-native)
+key_up=Up,Alt-k
+key_down=Down,Alt-j

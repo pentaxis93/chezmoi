@@ -1,0 +1,52 @@
+{{- $c := .kanagawa.dragon -}}
+* {
+    font-family: "Hack", monospace;
+    font-size: 26px;
+}
+
+window {
+    background-color: {{ template "color-hex.tmpl" $c.bg_dark }};
+}
+
+#input {
+    margin: 5px;
+    border-radius: 0px;
+    border: none;
+    background-color: {{ template "color-hex.tmpl" $c.bg_dark }};
+    color: {{ template "color-hex.tmpl" $c.fg_primary }};
+    font-size: 32px;
+    padding: 10px;
+}
+
+#inner-box {
+    background-color: {{ template "color-hex.tmpl" $c.bg_medium }};
+}
+
+#outer-box {
+    margin: 2px;
+    padding: 10px;
+    background-color: {{ template "color-hex.tmpl" $c.bg_medium }};
+}
+
+#scroll {
+    margin: 5px;
+}
+
+#text {
+    padding: 8px;
+    color: {{ template "color-hex.tmpl" $c.fg_primary }};
+    font-size: 26px;
+    line-height: 1.3;
+}
+
+#entry:nth-child(even){
+    background-color: {{ template "color-hex.tmpl" $c.bg_light }};
+}
+
+#entry:selected {
+    background-color: {{ template "color-hex.tmpl" $c.selection }};
+}
+
+#text:selected {
+    background: transparent;
+}
