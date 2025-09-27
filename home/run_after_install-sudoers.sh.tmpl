@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Check and optionally install sudoers NOPASSWD override
+# Fixes conflicts with wheel group rules that prevent NOPASSWD from working
+# WARNING: NOPASSWD sudo is a security risk
+
+SUDOERS_FILE="/etc/sudoers.d/99-{{ .chezmoi.username }}"
+EXPECTED_CONTENT="{{ .chezmoi.username }} ALL=(ALL:ALL) NOPASSWD: ALL"
+TEMP_FILE="/tmp/sudoers-{{ .chezmoi.username }}-$$"
+
+# Test if passwordless sudo already works
+sudo -k  # Clear any cached credentials
+if sudo -n true 2>/dev/null; then
+    # Already working, nothing to do
+    exit 0
+fi
+
+# Check if we're in a TTY (interactive terminal)
+if ! tty -s; then
+    # Non-interactive, can't prompt for password
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "📝 To enable NOPASSWD sudo (security risk), run:"
+    echo "   echo '{{ .chezmoi.username }} ALL=(ALL:ALL) NOPASSWD: ALL' | sudo tee /etc/sudoers.d/99-{{ .chezmoi.username }}"
+    echo "   sudo chmod 0440 /etc/sudoers.d/99-{{ .chezmoi.username }}"
+    echo ""
+    echo "⚠ WARNING: NOPASSWD sudo bypasses security"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    exit 0
+fi
+
+# Interactive terminal - attempt installation
+echo "Installing sudoers NOPASSWD override..."
+echo "⚠ WARNING: NOPASSWD sudo is a security risk"
+echo "$EXPECTED_CONTENT" > "$TEMP_FILE"
+
+# Install with proper permissions (will prompt for password)
+if sudo cp "$TEMP_FILE" "$SUDOERS_FILE" 2>/dev/null && \
+   sudo chmod 0440 "$SUDOERS_FILE" 2>/dev/null && \
+   sudo chown root:root "$SUDOERS_FILE" 2>/dev/null; then
+
+    # Validate the installed file
+    if sudo visudo -c >/dev/null 2>&1; then
+        echo "✓ Passwordless sudo enabled (security risk)"
+    else
+        echo "❌ Error: Sudoers validation failed!"
+        sudo rm -f "$SUDOERS_FILE"
+    fi
+else
+    echo "❌ Installation failed"
+fi
+
+rm -f "$TEMP_FILE"
