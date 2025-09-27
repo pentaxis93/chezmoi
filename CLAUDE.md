@@ -11,6 +11,16 @@
 - **CachyOS Support Only** - Package management scripts target CachyOS exclusively
 - **Declarative Packages** - System packages defined in `home/.chezmoidata/packages.yaml`
 
+## Package Installation
+
+- **Declarative Only** - All packages must be added to `home/.chezmoidata/packages.yaml`
+- **No Direct Installation** - Never use `pacman`, `yay`, or other package managers directly
+- **User Applies Changes** - Only the user should run `chezmoi apply` to install packages
+- **Workflow**:
+  1. Edit `home/.chezmoidata/packages.yaml` to add/remove packages
+  2. Inform user that packages have been added to the manifest
+  3. User runs `chezmoi apply` to trigger installation
+
 ## Commands
 
 ```bash
