@@ -23,7 +23,7 @@ SETTINGS_FILE="/etc/claude-code/managed-settings.json"
 cat <<EOF > /tmp/claude-managed-settings.json
 {
   "includeCoAuthoredBy": false,
-  "outputStyle": "verbose",
+  "outputStyle": "explanatory",
   "permissions": {
     "allowedPaths": ["$HOME"],
     "deniedPaths": [
