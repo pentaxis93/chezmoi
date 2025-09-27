@@ -1,0 +1,61 @@
+# Ultra-Zen Native Sovereignty Philosophy
+# "The mountain does not teach the river how to flow"
+
+native_sovereignty:
+  principle: |
+    Each tool is master of its domain. We import universal semantics (hjkl, /, ESC)
+    while honoring native innovations. Like water, we take the container's shape
+    while maintaining our essence.
+
+  domains:
+    helix:
+      sovereignty: "Text editing and navigation semantics"
+      we_import: ["gh/gl for line nav", "ge for end", "x for extend selection"]
+      we_honor: "The art of semantic modal editing"
+
+    fish:
+      sovereignty: "Shell completions and command construction"
+      we_import: ["vi modes", "/ for search", "hjkl + w/b/e for ALL navigation"]
+      we_honor: ["Tab for completion", "Ctrl+F tradition"]
+      we_reject: ["Alt+arrows - Helix navigation is superior"]
+
+    niri:
+      sovereignty: "Window management and spatial organization"
+      we_import: ["hjkl for focus", "universal dismissal with q"]
+      we_honor: "System-wide window manipulation patterns"
+
+    alacritty:
+      sovereignty: "Terminal emulation and system clipboard"
+      we_import: ["vi mode", "Helix navigation"]
+      we_honor: ["Ctrl+Shift+C/V for clipboard", "terminal conventions"]
+
+refinements_from_testing:
+  fish_shell:
+    # Buffer navigation (gg/ge) removed - not useful in shell context
+    removed:
+      - action: file_start
+        reason: "Jumping to first ever command not useful in shell"
+      - action: file_end
+        reason: "Jumping to last command not useful in shell"
+
+    # Selection modes kept for Helix consistency
+    preserved:
+      - action: extend_selection (x)
+        reason: "Maintain Helix muscle memory even if similar to v"
+      - action: visual_mode (v)
+        reason: "Standard vi visual mode"
+
+    # Native Fish autosuggestions honored
+    native_keys:
+      Tab: "Primary completion - universal"
+      Ctrl+F: "Fish tradition - respect existing muscle memory"
+      Alt+Right: "Accept next word - Fish innovation"
+      Alt+Left: "Move back word - natural pairing"
+      # Note: We don't override these with semantic templates
+
+wisdom_gained:
+  - "Not all editor navigation makes sense in a shell"
+  - "Honor the local language while maintaining your accent"
+  - "Native tools know their domain best"
+  - "Consistency matters where it helps, not where it hinders"
+  - "The Middle Way: universal semantics + native sovereignty"

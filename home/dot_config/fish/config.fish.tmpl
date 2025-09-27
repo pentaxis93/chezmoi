@@ -1,3 +1,4 @@
+{{- $kb := .keybindings -}}
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 
 # overwrite greeting
@@ -45,32 +46,44 @@ function fish_mode_prompt
     echo -n ' '
 end
 
-# Helix-native keybinding customizations for Fish vi mode
-# Implementing semantic navigate.file_end as 'ge' instead of 'G'
+# Ultra-Zen Keybinding Philosophy: Native Sovereignty
+# "The mountain does not teach the river how to flow"
+# We import Helix navigation wisdom while honoring Fish's native completion sovereignty
 function fish_user_key_bindings
-    # File navigation - Helix-native
-    bind -M default ge end-of-buffer           # Go to end (helix: ge, vim: G)
-    bind -M default gg beginning-of-buffer     # Go to start (universal)
+    # === HELIX NAVIGATION IMPORTS ===
+    # Line navigation - Helix semantic clarity
+    {{ template "keybind-fish.tmpl" dict "action" "line_start" "mode" "default" "keybindings" $kb }}  # Go to line start (helix: gh)
+    {{ template "keybind-fish.tmpl" dict "action" "line_end" "mode" "default" "keybindings" $kb }}  # Go to line end (helix: gl)
 
-    # Line navigation - Helix-native
-    bind -M default gh beginning-of-line       # Go to line start (helix: gh)
-    bind -M default gl end-of-line             # Go to line end (helix: gl)
+    # NOTE: Buffer navigation (gg/ge) removed - not useful in shell context
+    # These belong in editors where navigating entire documents makes sense
 
-    # Preserve current - Semantic action for accepting line
-    bind -M default \r execute                 # Enter executes in normal mode
-    bind -M insert \r execute                  # Enter executes in insert mode
+    # Discovery - Search through history with vi semantics
+    {{ template "keybind-fish.tmpl" dict "action" "search_backward" "mode" "default" "keybindings" $kb }}  # Search history with /
+    {{ template "keybind-fish.tmpl" dict "action" "search_forward" "mode" "default" "keybindings" $kb }}  # Reverse search with ?
 
-    # Discovery - Search through history
-    bind -M default / history-search-backward  # Search history with /
-    bind -M default ? history-search-forward   # Reverse search with ?
+    # Selection modes - Helix philosophy for consistency
+    {{ template "keybind-fish.tmpl" dict "action" "extend_selection" "mode" "default" "keybindings" $kb }}  # Extend selection (helix: x)
+    {{ template "keybind-fish.tmpl" dict "action" "kill_selection" "mode" "visual" "keybindings" $kb }}  # Cut selection in visual mode
 
-    # Quick mode switches - Helix-style
-    bind -M default x begin-selection          # Extend selection (helix: x)
-    bind -M visual x kill-selection            # Cut selection
+    # === FISH NATIVE COMPLETIONS ===
+    # We honor Fish's sovereignty over autosuggestions - this is Fish's domain
 
-    # Semantic preservation - Accept autosuggestion
-    bind -M default \cf forward-char          # Ctrl-f accepts suggestion
-    bind -M insert \cf forward-char           # Works in insert mode too
+    # Primary completion - Tab is universal
+    bind -M default \t forward-char        # Tab accepts suggestion (native Fish)
+    bind -M insert \t forward-char         # Tab in insert mode too
+
+    # Traditional Fish completion keys - respect existing muscle memory
+    bind -M default \cf forward-char       # Ctrl+F accepts full suggestion (Fish tradition)
+    bind -M insert \cf forward-char        # Ctrl+F in insert mode
+
+    # NOTE: Alt+arrows removed - we use Helix hjkl for ALL navigation
+    # Why reach for Alt+Right when 'w' moves forward a word?
+    # Why Alt+Left when 'b' moves back? Helix navigation is superior!
+
+    # Line acceptance - universal semantics
+    {{ template "keybind-fish.tmpl" dict "action" "execute" "mode" "default" "keybindings" $kb }}  # Enter executes in normal mode
+    {{ template "keybind-fish.tmpl" dict "action" "execute" "mode" "insert" "keybindings" $kb }}  # Enter executes in insert mode
 end
 
 # Editor alias - 'h' for helix (ultrathink keybinding consistency)
