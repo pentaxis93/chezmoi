@@ -1,0 +1,49 @@
+{{- /*
+Ultra-Zen Semantic Manipulation Template
+Maps manipulation intentions to context-appropriate keys
+
+Usage:
+  {{ template "keybind-manipulate.tmpl" dict "action" "move_prev" "context" "niri" }}
+
+Parameters:
+  action: Semantic action (move_prev, move_next, move_up, move_down, resize_increase, resize_decrease)
+  context: Application context
+*/ -}}
+{{- $action := .action -}}
+{{- $context := .context -}}
+{{- $kb := .keybindings -}}
+
+{{- /* Get base keys from semantic definitions */ -}}
+{{- $baseKey := "" -}}
+{{- if eq $action "move_prev" -}}
+    {{- $baseKey = "h" -}}
+{{- else if eq $action "move_next" -}}
+    {{- $baseKey = "l" -}}
+{{- else if eq $action "move_up" -}}
+    {{- $baseKey = "k" -}}
+{{- else if eq $action "move_down" -}}
+    {{- $baseKey = "j" -}}
+{{- else if eq $action "resize_increase" -}}
+    {{- $baseKey = $kb.semantic.manipulate.resize_increase | default "EQUAL" -}}
+{{- else if eq $action "resize_decrease" -}}
+    {{- $baseKey = $kb.semantic.manipulate.resize_decrease | default "MINUS" -}}
+{{- else if eq $action "move_to_workspace" -}}
+    {{- /* Special case - needs workspace number */ -}}
+    {{- $baseKey = .workspace | toString -}}
+{{- end -}}
+
+{{- /* Apply context-specific modifiers for manipulation */ -}}
+{{- if eq $context "niri" -}}
+    {{- if or (eq $action "move_prev") (eq $action "move_next") (eq $action "move_up") (eq $action "move_down") -}}
+        MOD+CTRL+{{ upper $baseKey }}
+    {{- else if or (eq $action "resize_increase") (eq $action "resize_decrease") -}}
+        MOD+{{ $baseKey }}
+    {{- else if eq $action "move_to_workspace" -}}
+        MOD+CTRL+{{ $baseKey }}
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else -}}
+    {{- /* Default fallback */ -}}
+    {{- $baseKey -}}
+{{- end -}}

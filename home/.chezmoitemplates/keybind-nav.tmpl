@@ -1,0 +1,74 @@
+{{- /*
+Ultra-Zen Semantic Navigation Template
+Maps semantic navigation intentions to context-appropriate keys
+
+Usage:
+  {{ template "keybind-nav.tmpl" dict "action" "prev" "context" "niri" }}
+  {{ template "keybind-nav.tmpl" dict "action" "file_end" "context" "fish" }}
+
+Parameters:
+  action: Semantic action from keybindings.yaml (prev, next, up, down, etc.)
+  context: Application context (niri, fish, alacritty)
+  modifier: (optional) Override modifier pattern
+*/ -}}
+{{- $action := .action -}}
+{{- $context := .context -}}
+{{- $modifier := "" -}}
+{{- if hasKey . "modifier" -}}
+    {{- $modifier = .modifier -}}
+{{- end -}}
+{{- $kb := .keybindings -}}
+
+{{- /* Get the base key from semantic definitions */ -}}
+{{- $baseKey := "" -}}
+{{- if eq $action "prev" -}}
+    {{- $baseKey = $kb.semantic.navigate.prev | default "h" -}}
+{{- else if eq $action "next" -}}
+    {{- $baseKey = $kb.semantic.navigate.next | default "l" -}}
+{{- else if eq $action "up" -}}
+    {{- $baseKey = $kb.semantic.navigate.up | default "k" -}}
+{{- else if eq $action "down" -}}
+    {{- $baseKey = $kb.semantic.navigate.down | default "j" -}}
+{{- else if eq $action "line_start" -}}
+    {{- $baseKey = $kb.semantic.navigate.line_start | default "gh" -}}
+{{- else if eq $action "line_end" -}}
+    {{- $baseKey = $kb.semantic.navigate.line_end | default "gl" -}}
+{{- else if eq $action "file_start" -}}
+    {{- $baseKey = $kb.semantic.navigate.file_start | default "gg" -}}
+{{- else if eq $action "file_end" -}}
+    {{- $baseKey = $kb.semantic.navigate.file_end | default "ge" -}}
+{{- else if eq $action "workspace_prev" -}}
+    {{- $baseKey = $kb.semantic.navigate.workspace_prev | default "TAB" -}}
+{{- else if eq $action "workspace_next" -}}
+    {{- $baseKey = $kb.semantic.navigate.workspace_next | default "SHIFT+TAB" -}}
+{{- end -}}
+
+{{- /* Apply context-specific modifiers */ -}}
+{{- if eq $context "niri" -}}
+    {{- /* Niri needs MOD prefix for window navigation */ -}}
+    {{- if or (eq $action "prev") (eq $action "next") (eq $action "up") (eq $action "down") -}}
+        {{- if $modifier -}}
+            {{- $modifier }}+{{ upper $baseKey }}
+        {{- else -}}
+            MOD+{{ upper $baseKey }}
+        {{- end -}}
+    {{- else if eq $action "workspace_prev" -}}
+        MOD+TAB
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "fish" -}}
+    {{- /* Fish uses unmodified keys in vi mode */ -}}
+    {{- $baseKey -}}
+{{- else if eq $context "alacritty" -}}
+    {{- /* Alacritty may need special handling for vi mode */ -}}
+    {{- if eq $action "file_end" -}}
+        {{- /* Return just the key for Alacritty's special handling */ -}}
+        E
+    {{- else -}}
+        {{- upper $baseKey -}}
+    {{- end -}}
+{{- else -}}
+    {{- /* Default: return base key */ -}}
+    {{- $baseKey -}}
+{{- end -}}

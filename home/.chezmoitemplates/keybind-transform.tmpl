@@ -1,0 +1,57 @@
+{{- /*
+Ultra-Zen Semantic Transformation Template
+Maps transformation intentions to context-appropriate keys
+
+Usage:
+  {{ template "keybind-transform.tmpl" dict "action" "fullscreen" "context" "niri" }}
+
+Parameters:
+  action: Semantic action (fullscreen, floating, tabbed, mode_normal, mode_insert, mode_select)
+  context: Application context
+*/ -}}
+{{- $action := .action -}}
+{{- $context := .context -}}
+{{- $kb := .keybindings -}}
+
+{{- /* Get base keys from semantic definitions */ -}}
+{{- $baseKey := "" -}}
+{{- if eq $action "fullscreen" -}}
+    {{- $baseKey = $kb.semantic.transform.fullscreen | default "f" -}}
+{{- else if eq $action "floating" -}}
+    {{- $baseKey = $kb.semantic.transform.floating | default "t" -}}
+{{- else if eq $action "tabbed" -}}
+    {{- $baseKey = $kb.semantic.transform.tabbed | default "w" -}}
+{{- else if eq $action "mode_normal" -}}
+    {{- $baseKey = $kb.semantic.transform.mode_normal | default "ESC" -}}
+{{- else if eq $action "mode_insert" -}}
+    {{- $baseKey = $kb.semantic.transform.mode_insert | default "i" -}}
+{{- else if eq $action "mode_select" -}}
+    {{- $baseKey = $kb.semantic.transform.mode_select | default "v" -}}
+{{- else if eq $action "mode_extend" -}}
+    {{- $baseKey = $kb.semantic.transform.mode_extend | default "x" -}}
+{{- else if eq $action "vi_toggle" -}}
+    {{- $baseKey = "SPACE" -}}
+{{- else if eq $action "overview" -}}
+    {{- $baseKey = "o" -}}
+{{- end -}}
+
+{{- /* Apply context-specific modifiers */ -}}
+{{- if eq $context "niri" -}}
+    {{- if or (eq $action "fullscreen") (eq $action "floating") (eq $action "tabbed") (eq $action "overview") -}}
+        MOD+{{ upper $baseKey }}
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "alacritty" -}}
+    {{- if eq $action "vi_toggle" -}}
+        {{- /* Alacritty uses Ctrl+Shift+Space for vi mode toggle */ -}}
+        CTRL+SHIFT+SPACE
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "fish" -}}
+    {{- /* Fish vi mode keys are typically unmodified */ -}}
+    {{- $baseKey -}}
+{{- else -}}
+    {{- $baseKey -}}
+{{- end -}}

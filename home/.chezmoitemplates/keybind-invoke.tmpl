@@ -1,0 +1,49 @@
+{{- /*
+Ultra-Zen Semantic Invocation Template
+Maps invocation intentions to context-appropriate keys
+
+Usage:
+  {{ template "keybind-invoke.tmpl" dict "action" "terminal" "context" "niri" }}
+
+Parameters:
+  action: Semantic action (terminal, launcher, browser, files, editor)
+  context: Application context
+*/ -}}
+{{- $action := .action -}}
+{{- $context := .context -}}
+{{- $kb := .keybindings -}}
+
+{{- /* Get base keys from semantic definitions */ -}}
+{{- $baseKey := "" -}}
+{{- if eq $action "terminal" -}}
+    {{- $baseKey = $kb.semantic.invoke.terminal | default "RETURN" -}}
+{{- else if eq $action "launcher" -}}
+    {{- $baseKey = $kb.semantic.invoke.launcher | default "SPACE" -}}
+{{- else if eq $action "browser" -}}
+    {{- $baseKey = $kb.semantic.invoke.browser | default "b" -}}
+{{- else if eq $action "files" -}}
+    {{- $baseKey = $kb.semantic.invoke.files | default "e" -}}
+{{- else if eq $action "editor" -}}
+    {{- $baseKey = $kb.semantic.invoke.editor | default "h" -}}
+{{- end -}}
+
+{{- /* Apply context-specific modifiers */ -}}
+{{- if eq $context "niri" -}}
+    {{- /* Niri uses MOD for all invocations */ -}}
+    {{- if eq $baseKey "RETURN" -}}
+        MOD+RETURN
+    {{- else if eq $baseKey "SPACE" -}}
+        MOD+SPACE
+    {{- else -}}
+        MOD+{{ upper $baseKey }}
+    {{- end -}}
+{{- else if eq $context "shell" -}}
+    {{- /* Shell may use aliases instead of keybindings */ -}}
+    {{- if eq $action "editor" -}}
+        h
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else -}}
+    {{- $baseKey -}}
+{{- end -}}

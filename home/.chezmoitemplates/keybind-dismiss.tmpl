@@ -1,0 +1,48 @@
+{{- /*
+Ultra-Zen Semantic Dismissal Template
+Maps dismissal intentions to context-appropriate keys
+
+Usage:
+  {{ template "keybind-dismiss.tmpl" dict "action" "current" "context" "niri" }}
+
+Parameters:
+  action: Semantic action (current, force, cancel)
+  context: Application context
+*/ -}}
+{{- $action := .action -}}
+{{- $context := .context -}}
+{{- $kb := .keybindings -}}
+
+{{- /* Get base keys from semantic definitions */ -}}
+{{- $baseKey := "" -}}
+{{- if eq $action "current" -}}
+    {{- $baseKey = $kb.semantic.dismiss.current | default "q" -}}
+{{- else if eq $action "force" -}}
+    {{- $baseKey = $kb.semantic.dismiss.force | default "Q" -}}
+{{- else if eq $action "cancel" -}}
+    {{- $baseKey = $kb.semantic.dismiss.cancel | default "ESC" -}}
+{{- end -}}
+
+{{- /* Apply context-specific modifiers */ -}}
+{{- if eq $context "niri" -}}
+    {{- if eq $action "current" -}}
+        {{- /* Niri uses MOD+Q for close-window */ -}}
+        MOD+{{ upper $baseKey }}
+    {{- else if eq $action "cancel" -}}
+        {{- /* Special escape for inhibitor */ -}}
+        MOD+ESCAPE
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "editor" -}}
+    {{- /* Editors often use :q pattern */ -}}
+    {{- if eq $action "current" -}}
+        :q
+    {{- else if eq $action "force" -}}
+        :q!
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else -}}
+    {{- $baseKey -}}
+{{- end -}}

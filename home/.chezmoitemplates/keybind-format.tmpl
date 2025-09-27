@@ -1,0 +1,38 @@
+{{- /*
+Ultra-Zen Keybinding Format Template
+Converts semantic keybinding definitions to format-specific syntax
+
+Usage:
+  {{ template "keybind-format.tmpl" dict "format" "niri" "key" "MOD+H" "action" "focus-column-left" }}
+  {{ template "keybind-format.tmpl" dict "format" "fish" "key" "h" "action" "beginning-of-line" "mode" "default" }}
+  {{ template "keybind-format.tmpl" dict "format" "alacritty" "key" "H" "mods" "Control|Shift" "action" "Copy" }}
+
+Parameters:
+  format: "niri", "fish", or "alacritty"
+  key: The key combination
+  action: The action to perform
+  mode: (optional) For Fish, the vi mode
+  mods: (optional) For Alacritty, the modifier keys
+  props: (optional) Additional properties as a string
+*/ -}}
+{{- $format := .format -}}
+{{- $key := .key -}}
+{{- $action := .action -}}
+{{- $mode := .mode | default "default" -}}
+{{- $mods := .mods | default "" -}}
+{{- $props := .props | default "" -}}
+
+{{- if eq $format "niri" -}}
+    {{- /* Niri KDL format: MOD+KEY props { action; } */ -}}
+    {{ $key }}{{ if $props }} {{ $props }}{{ end }} { {{ $action }}; }
+{{- else if eq $format "fish" -}}
+    {{- /* Fish bind format: bind -M mode KEY action */ -}}
+    bind -M {{ $mode }} {{ $key }} {{ $action }}
+{{- else if eq $format "alacritty" -}}
+    {{- /* Alacritty TOML format - outputs just the binding properties */ -}}
+    key = "{{ $key }}"
+    {{- if $mods }}
+    mods = "{{ $mods }}"
+    {{- end }}
+    action = "{{ $action }}"
+{{- end -}}
