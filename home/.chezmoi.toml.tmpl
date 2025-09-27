@@ -1,0 +1,70 @@
+{{- /* Machine detection */ -}}
+{{- $hostname := .chezmoi.hostname -}}
+
+{{- /* Auto-detect system defaults */ -}}
+{{- $envEditor := env "EDITOR" -}}
+{{- $visualEditor := env "VISUAL" -}}
+{{- $defaultEditor := "helix" -}}
+{{- if $envEditor -}}
+{{-   $defaultEditor = $envEditor -}}
+{{- else if $visualEditor -}}
+{{-   $defaultEditor = $visualEditor -}}
+{{- end -}}
+{{- $hasBattery := output "sh" "-c" "ls /sys/class/power_supply/BAT* 2>/dev/null | head -1" | trim -}}
+{{- $defaultIsLaptop := ne $hasBattery "" -}}
+{{- $sessionType := env "XDG_SESSION_TYPE" -}}
+{{- $waylandDisplay := env "WAYLAND_DISPLAY" -}}
+{{- $defaultDisplayServer := "x11" -}}
+{{- if or (eq $sessionType "wayland") $waylandDisplay -}}
+{{-   $defaultDisplayServer = "wayland" -}}
+{{- end -}}
+{{- $runningNiri := output "sh" "-c" "pgrep -x niri >/dev/null && echo yes || true" | trim -}}
+{{- $runningSway := output "sh" "-c" "pgrep -x sway >/dev/null && echo yes || true" | trim -}}
+{{- $defaultCompositor := "niri" -}}
+{{- if eq $runningNiri "yes" -}}
+{{-   $defaultCompositor = "niri" -}}
+{{- else if eq $runningSway "yes" -}}
+{{-   $defaultCompositor = "sway" -}}
+{{- end -}}
+
+{{- /* Personal identity prompts - no defaults for privacy */ -}}
+{{- $name := promptStringOnce . "name" "Your name" -}}
+{{- $email := promptStringOnce . "email" "Your personal email" -}}
+
+{{- /* Git/GitHub identity - can default to personal values */ -}}
+{{- $gitName := promptStringOnce . "git_name" "Your name for git commits" $name -}}
+{{- $gitEmail := promptStringOnce . "git_email" "Your email for git commits" $email -}}
+
+{{- /* System configuration with auto-detected defaults */ -}}
+{{- $editor := promptStringOnce . "editor" "Your preferred editor" $defaultEditor -}}
+{{- $isLaptop := promptBoolOnce . "is_laptop" "Is this a laptop (for battery widgets)" $defaultIsLaptop -}}
+
+{{- /* Optional but useful with better defaults */ -}}
+{{- $aurHelper := promptStringOnce . "aur_helper" "AUR helper (yay/paru)" "yay" -}}
+{{- $displayServer := promptStringOnce . "display_server" "Display server (wayland/x11)" $defaultDisplayServer -}}
+{{- $compositor := promptStringOnce . "compositor" "Window manager/compositor" $defaultCompositor -}}
+
+[data]
+    # Machine identity
+    hostname = {{ $hostname | quote }}
+
+    # Personal identity
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+
+    # Git identity (for commits)
+    git_name = {{ $gitName | quote }}
+    git_email = {{ $gitEmail | quote }}
+
+    # System capabilities
+    is_laptop = {{ $isLaptop }}
+
+    # Package management
+    aur_helper = {{ $aurHelper | quote }}
+
+    # Display server
+    display_server = {{ $displayServer | quote }}
+    compositor = {{ $compositor | quote }}
+
+    # Editor preference
+    editor = {{ $editor | quote }}
