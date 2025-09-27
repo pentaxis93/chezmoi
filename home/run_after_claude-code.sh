@@ -19,6 +19,7 @@ fi
 claude config set -g verbose true
 claude config set -g autoUpdates true
 claude config set -g theme dark
+claude config set -g preferredNotifChannel terminal_bell
 
 echo "✓ Claude Code settings configured"
 
