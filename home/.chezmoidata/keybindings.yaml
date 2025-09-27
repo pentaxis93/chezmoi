@@ -1,0 +1,207 @@
+# Ultra-Zen Semantic Keybinding System
+# "Do not define keybindings; define intentions. Let the intention manifest as the appropriate key."
+#
+# This file defines semantic actions that map to context-appropriate keybindings.
+# We follow Helix's semantic navigation philosophy as our foundation.
+
+semantic:
+  # Navigation - Move focus/cursor without changing state
+  # Helix-native: h/j/k/l for left/down/up/right
+  navigate:
+    # Cardinal directions (Helix/Vim universal)
+    prev: "h"              # Move left/previous
+    next: "l"              # Move right/next
+    up: "k"                # Move up
+    down: "j"              # Move down
+
+    # Line navigation (Helix-native)
+    line_start: "gh"       # Go to line start (helix: gh, vim: 0/^)
+    line_end: "gl"         # Go to line end (helix: gl, vim: $)
+
+    # File navigation (Helix-native)
+    file_start: "gg"       # Go to first line (universal)
+    file_end: "ge"         # Go to last line (helix: ge, vim: G)
+
+    # Word navigation
+    word_next: "w"         # Next word start
+    word_prev: "b"         # Previous word start
+    word_end: "e"          # Word end
+
+    # History navigation (shell/browser context)
+    history_prev: "k"      # Previous in history
+    history_next: "j"      # Next in history
+
+    # Workspace/Tab navigation
+    workspace_prev: "TAB"  # Previous workspace/tab
+    workspace_next: "SHIFT+TAB"  # Next workspace/tab
+    workspace_N: "N"       # Direct workspace N (1-9)
+
+  # Manipulation - Move/modify objects
+  manipulate:
+    # Object movement (window manager context)
+    move_prev: "CTRL+h"    # Move object left
+    move_next: "CTRL+l"    # Move object right
+    move_up: "CTRL+k"      # Move object up
+    move_down: "CTRL+j"    # Move object down
+
+    # Size adjustment
+    resize_increase: "+"   # Increase size
+    resize_decrease: "-"   # Decrease size
+
+    # Transfer between contexts
+    transfer_to_N: "CTRL+N"  # Move to workspace/desktop N
+
+  # Invocation - Create/summon/launch
+  invoke:
+    terminal: "RETURN"     # Open terminal
+    launcher: "SPACE"      # Application launcher
+    browser: "b"           # Web browser
+    files: "e"             # File explorer (e for explore)
+    editor: "h"            # Helix editor (our standard)
+
+  # Dismissal - Close/quit/cancel
+  dismiss:
+    current: "q"           # Close/quit current
+    force: "Q"             # Force quit
+    cancel: "ESC"          # Cancel operation
+
+  # Transformation - Toggle states/modes
+  transform:
+    fullscreen: "f"        # Toggle fullscreen
+    floating: "t"          # Toggle floating/tiled
+    tabbed: "w"            # Toggle window/tab mode (w for window)
+
+    # Modal transformations (editor/shell)
+    mode_normal: "ESC"     # Return to normal mode
+    mode_insert: "i"       # Enter insert mode
+    mode_select: "v"       # Enter select/visual mode
+    mode_extend: "x"       # Extend selection (helix-native)
+
+  # Preservation - Save/commit state
+  preserve:
+    current: "w"           # Write/save current (mnemonic: write)
+    all: "W"               # Write/save all
+
+  # Discovery - Search/find/help
+  discover:
+    search_forward: "/"    # Search forward
+    search_backward: "?"   # Search backward
+    find_char: "f"         # Find character (helix: f)
+    till_char: "t"         # Until character (helix: t)
+    help: "?"              # Show help/hotkeys
+
+  # Selection - Choose/activate
+  select:
+    all: "a"               # Select all
+    extend: "SHIFT"        # Extend selection (modifier)
+    toggle: "SPACE"        # Toggle selection
+
+# Context-specific modifier patterns
+modifiers:
+  # Window Manager (Niri)
+  wm:
+    primary: "MOD"         # Super/Windows key for WM operations
+    manipulate: "MOD+CTRL" # Moving/resizing windows
+    monitor: "MOD+SHIFT"   # Cross-monitor operations
+    system: "CTRL+ALT"     # System-level operations
+
+  # Terminal (Alacritty/General)
+  terminal:
+    system: "CTRL+SHIFT"   # Terminal system operations
+    app: "CTRL"            # Application-level operations
+
+  # Editor (Helix)
+  editor:
+    leader: "SPACE"        # Leader key for commands
+    goto: "g"              # Goto prefix (helix-native)
+    match: "m"             # Match prefix (helix-native)
+    view: "z"              # View adjustments
+
+  # Shell (Fish vi mode)
+  shell:
+    normal: ""             # No modifier in normal mode
+    command: "CTRL"        # Shell command operations
+
+# Helix-specific semantic mappings
+# These follow Helix's thoughtful semantic approach
+helix_semantics:
+  # Goto mode (g prefix) - "Go to" operations
+  goto:
+    definition: "gd"       # Go to definition
+    implementation: "gi"   # Go to implementation
+    reference: "gr"        # Go to references
+    line_start: "gh"       # Go to line start (home)
+    line_end: "gl"         # Go to line end
+    file_start: "gg"       # Go to file start
+    file_end: "ge"         # Go to file end (end, not G)
+
+  # Match mode (m prefix) - Matching operations
+  match:
+    surround_add: "ms"     # Match surround (add)
+    surround_replace: "mr" # Match surround (replace)
+    surround_delete: "md"  # Match surround (delete)
+
+  # View mode (z prefix) - View adjustments
+  view:
+    center: "zz"           # Center view on cursor
+    top: "zt"              # Cursor to top
+    bottom: "zb"           # Cursor to bottom
+
+# Semantic action documentation
+# Each action has an INTENTION that manifests differently per context
+documentation:
+  navigate:
+    intention: "Move focus without side effects"
+    contexts:
+      wm: "Focus different windows/workspaces"
+      editor: "Move cursor through text"
+      shell: "Navigate command line or history"
+
+  manipulate:
+    intention: "Relocate or reshape objects"
+    contexts:
+      wm: "Move/resize windows"
+      editor: "Move text blocks"
+      shell: "Modify command structure"
+
+  invoke:
+    intention: "Bring something into existence"
+    contexts:
+      wm: "Launch applications"
+      editor: "Insert text/objects"
+      shell: "Execute commands"
+
+  dismiss:
+    intention: "Remove from current context"
+    contexts:
+      wm: "Close windows"
+      editor: "Exit modes/close files"
+      shell: "Cancel operations"
+
+  transform:
+    intention: "Change state while preserving identity"
+    contexts:
+      wm: "Window display modes"
+      editor: "Editing modes"
+      shell: "Input modes"
+
+  preserve:
+    intention: "Persist current state"
+    contexts:
+      wm: "Save session/layout"
+      editor: "Write files"
+      shell: "Save history"
+
+  discover:
+    intention: "Reveal hidden information"
+    contexts:
+      wm: "Show help overlays"
+      editor: "Search/find in files"
+      shell: "Search history"
+
+  select:
+    intention: "Mark for subsequent action"
+    contexts:
+      wm: "Select windows/workspaces"
+      editor: "Select text"
+      shell: "Select arguments"

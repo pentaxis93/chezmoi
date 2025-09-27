@@ -42,10 +42,13 @@ chezmoi data               # View template variables
 When configuring new applications and dotfiles, follow these principles for consistency and elegance:
 
 1. **Unified Color Theme** - Apply consistent color theme across all applications to create visual harmony
-2. **Vim Keybindings** - Configure vim keybindings in every tool that supports them for universal editing muscle memory
-3. **Keybinding Consistency** - Ensure all keybindings align system-wide for consistent muscle memory
+2. **Helix-Native Keybindings** - Configure Helix-native vi keybindings in every tool that supports them for universal editing muscle memory
+   - Follow Helix's semantic improvements (e.g., `ge` for end, not `G`)
+   - Prioritize semantic clarity over vim tradition
+3. **Semantic Keybinding System** - All keybindings represent intentions, not physical keys
+   - Define semantic actions that manifest contextually
+   - Maintain consistency through `keybindings.yaml`
    - If conflicts arise, discuss resolution with human immediately
-   - Prioritize most-used actions for primary keybindings
 4. **Comprehensive Documentation** - Document everything that can and should be documented
    - In-document comments for complex configs
    - Inline documentation for non-obvious settings
@@ -70,6 +73,7 @@ When configuring new applications and dotfiles, follow these principles for cons
 - `.chezmoiignore` - prevent unwanted management
 - `home/.chezmoidata/packages.yaml` - declarative package definitions
 - `home/.chezmoidata/colors.yaml` - centralized Kanagawa Dragon color palette
+- `home/.chezmoidata/keybindings.yaml` - semantic keybinding definitions
 - `home/dot_gitconfig.tmpl` - templated Git identity
 - `home/dot_config/fish/config.fish.tmpl` - Templated Fish shell configuration
 - `home/.chezmoitemplates/` - Reusable template fragments
@@ -128,6 +132,50 @@ Each terminal color slot has a PURPOSE:
 - **Extensibility**: Easy to add new apps with consistent theming
 - **Semantic Truth**: Colors represent intentions, not traditional ANSI meanings
 
+## Semantic Keybinding System
+
+### Ultra-Zen Philosophy: Semantic Actions
+
+**"Do not define keybindings; define intentions. Let the intention manifest as the appropriate key."**
+
+Just as colors became semantic purposes, keybindings are semantic **intentions** that manifest contextually:
+
+```yaml
+# Instead of: MOD+H = move left
+# We define: navigate.prev = context-appropriate leftward movement
+```
+
+### Architecture
+- **Single Source of Truth**: All semantic actions defined in `home/.chezmoidata/keybindings.yaml`
+- **Helix-Native**: Follow Helix's thoughtful semantic improvements as our foundation
+- **Context Manifestation**: Same intention manifests appropriately per application
+- **Vi Mode Everywhere**: Fish shell, Alacritty terminal, and Helix editor all use vi modes
+
+### Core Semantic Categories
+- **Navigate**: Move focus without changing state (hjkl universally)
+- **Manipulate**: Move/modify objects (MOD+CTRL+hjkl for windows)
+- **Invoke**: Create/summon/launch (MOD+key for apps)
+- **Transform**: Toggle states/modes (f for fullscreen, i/v/ESC for modes)
+- **Preserve**: Save state (SPACE+W for write)
+- **Dismiss**: Close/quit (q/Q universally)
+- **Discover**: Search/help (/ for search, ? for help)
+
+### Helix-Native Navigation
+- `ge` instead of `G`: "Go end" is semantically clearer
+- `gh/gl` for line start/end: "Go home/line" is intuitive
+- `x` for extend: Direct selection without mode change
+- `g` prefix groups all "go to" operations
+
+### Benefits
+- **Muscle Memory Unity**: Same semantic action = same key pattern everywhere
+- **No Conflicts**: Semantic layer prevents accidental overlaps
+- **Self-Documenting**: Intentions explain themselves
+- **Extensibility**: New apps inherit semantic patterns automatically
+
+### Documentation
+- **Reference**: See `home/KEYBINDINGS.md` for complete semantic mappings
+- **Definition**: `home/.chezmoidata/keybindings.yaml` contains all semantic actions
+
 ## Application Configurations
 
 ### Color-Templated Applications
@@ -135,6 +183,19 @@ Each terminal color slot has a PURPOSE:
 - **Alacritty** (`alacritty.toml.tmpl`) - Terminal base colors (0-15 + extended)
 - **Niri** (`config.kdl.tmpl`) - Focus ring and selection colors
 - **nmtui** (via `fish/config.fish.tmpl`) - NEWT UI components with semantic mappings
+
+### Vi-Mode Enabled Applications
+- **Fish Shell** (`config.fish.tmpl`) - Vi mode with Helix-native keybindings
+  - Mode indicators: `[N]` green, `[I]` blue, `[V]` yellow
+  - Cursor changes per mode: block/line/underscore
+  - Custom bindings: `ge` for end, `gh/gl` for line navigation
+- **Alacritty Terminal** (`alacritty.toml.tmpl`) - Vi mode with visual feedback
+  - Toggle: `CTRL+SHIFT+SPACE`
+  - Green block cursor in vi mode
+  - Supports Helix-native navigation
+- **Helix Editor** (`config.toml`) - Native modal editing
+  - SPACE leader for commands
+  - Full Helix semantic navigation
 
 ### NetworkManager TUI (nmtui)
 - **Color Scheme**: Kanagawa theme from centralized palette

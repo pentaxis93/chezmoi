@@ -8,6 +8,71 @@ source /usr/share/cachyos-fish-config/cachyos-config.fish
 
 export PATH="$HOME/.local/bin:$PATH"
 
+# Ultra-Zen Semantic Keybindings - Vi mode with Helix-native philosophy
+# "Do not define keybindings; define intentions."
+fish_vi_key_bindings
+
+# Vi mode cursor configuration - Visual feedback for mode state
+# Uses Kanagawa semantic colors for mode indication
+set fish_vi_force_cursor 1
+set fish_cursor_default block        # Normal mode: solid block
+set fish_cursor_insert line          # Insert mode: thin line
+set fish_cursor_visual underscore    # Visual mode: underscore
+set fish_cursor_replace_one underscore # Replace: underscore
+
+# Vi mode prompt indicator - Semantic color feedback
+# Following the Master's wisdom: "Let the mode manifest as color"
+function fish_mode_prompt
+    switch $fish_bind_mode
+        case default
+            # Normal mode: Focus green (semantic: ready for action)
+            set_color --bold {{ template "color-hex.tmpl" .kanagawa.dragon.focus }}
+            echo '[N]'
+        case insert
+            # Insert mode: Info blue (semantic: accepting input)
+            set_color --bold {{ template "color-hex.tmpl" .kanagawa.dragon.blue }}
+            echo '[I]'
+        case visual
+            # Visual mode: Warning yellow (semantic: selection active)
+            set_color --bold {{ template "color-hex.tmpl" .kanagawa.dragon.yellow }}
+            echo '[V]'
+        case replace_one
+            # Replace mode: Error red (semantic: destructive change)
+            set_color --bold {{ template "color-hex.tmpl" .kanagawa.dragon.red }}
+            echo '[R]'
+    end
+    set_color normal
+    echo -n ' '
+end
+
+# Helix-native keybinding customizations for Fish vi mode
+# Implementing semantic navigate.file_end as 'ge' instead of 'G'
+function fish_user_key_bindings
+    # File navigation - Helix-native
+    bind -M default ge end-of-buffer           # Go to end (helix: ge, vim: G)
+    bind -M default gg beginning-of-buffer     # Go to start (universal)
+
+    # Line navigation - Helix-native
+    bind -M default gh beginning-of-line       # Go to line start (helix: gh)
+    bind -M default gl end-of-line             # Go to line end (helix: gl)
+
+    # Preserve current - Semantic action for accepting line
+    bind -M default \r execute                 # Enter executes in normal mode
+    bind -M insert \r execute                  # Enter executes in insert mode
+
+    # Discovery - Search through history
+    bind -M default / history-search-backward  # Search history with /
+    bind -M default ? history-search-forward   # Reverse search with ?
+
+    # Quick mode switches - Helix-style
+    bind -M default x begin-selection          # Extend selection (helix: x)
+    bind -M visual x kill-selection            # Cut selection
+
+    # Semantic preservation - Accept autosuggestion
+    bind -M default \cf forward-char          # Ctrl-f accepts suggestion
+    bind -M insert \cf forward-char           # Works in insert mode too
+end
+
 # Editor alias - 'h' for helix (ultrathink keybinding consistency)
 alias h="helix"
 

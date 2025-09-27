@@ -72,6 +72,11 @@ style = "Bold Italic"
 background = {{ template "color-quoted.tmpl" $c.selection }}
 foreground = {{ template "color-quoted.tmpl" $c.fg_default }}
 
+# Vi mode colors - Semantic visual feedback
+[colors.vi_mode_cursor]
+background = {{ template "color-quoted.tmpl" $c.focus }}  # Focus green for vi mode
+foreground = {{ template "color-quoted.tmpl" $c.bg_dark }}
+
 [[colors.indexed_colors]]
 index = 16
 color = {{ template "color-quoted.tmpl" $c.indexed_16 }}
@@ -86,7 +91,7 @@ save_to_clipboard = true
 
 [cursor]
 style = "Underline"
-vi_mode_style = "None"
+vi_mode_style = "Block"            # Visual indicator for vi mode
 unfocused_hollow = true
 thickness = 0.15
 
@@ -161,11 +166,30 @@ key = "B"
 mods = "Control|Shift"
 action = "SearchBackward"
 
+# Vi mode semantic keybindings - Helix-native navigation
 [[keyboard.bindings]]
 key = "C"
 mods = "Control|Shift"
 mode = "Vi"
 action = "ClearSelection"
+
+# Enable vi mode with semantic toggle
+[[keyboard.bindings]]
+key = "Space"
+mods = "Control|Shift"
+action = "ToggleViMode"        # Semantic: transform.mode
+
+# Helix-native file navigation in vi mode
+[[keyboard.bindings]]
+key = "G"
+mods = "Shift"
+mode = "Vi"
+action = "Last"                # Traditional G still works
+
+[[keyboard.bindings]]
+key = "E"
+mode = "Vi"
+action = "Last"                # Helix ge (go end) - semantic navigate.file_end
 
 [[keyboard.bindings]]
 key = "Key0"
