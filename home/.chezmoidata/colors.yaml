@@ -13,7 +13,7 @@ kanagawa:
     bg_lighter: "625e5a"     # dragonBlack6 - comments/inactive
 
     # Core Foreground Colors
-    fg_primary: "c5c9c5"     # dragonWhite - primary text
+    fg_primary: "a6a69c"     # dragonGray - primary text (zen restraint)
     fg_default: "c8c093"     # oldWhite - default terminal white
     fg_muted: "a6a69c"       # dragonGray - muted/inactive text
     fg_dim: "737c73"         # dragonAsh - very muted
@@ -33,7 +33,7 @@ kanagawa:
     blue: "8ba4b0"           # terminal color4 - info, links
     magenta: "a292a3"        # terminal color5 - special
     cyan: "8ea4a2"           # terminal color6 - strings
-    white: "c5c9c5"          # terminal color7 - fg_primary (our actual foreground)
+    white: "a6a69c"          # terminal color7 - fg_primary (our actual foreground)
 
     # Bright Spectrum Colors (Semantically Mapped)
     bright_black: "625e5a"   # terminal color8 - inactive (comments/disabled)
@@ -43,7 +43,7 @@ kanagawa:
     bright_blue: "7fb4ca"    # terminal color12 - info_bright (actual bright blue)
     bright_magenta: "938aa9" # terminal color13 - special_bright
     bright_cyan: "8a9a7b"    # terminal color14 - focus/active (our green)
-    bright_white: "c5c9c5"   # terminal color15 - emphasis (brightest text)
+    bright_white: "c8c093"   # terminal color15 - emphasis (oldWhite for subtle emphasis)
 
     # Extended Palette (special use)
     orange: "b6927b"         # mix of red/yellow
