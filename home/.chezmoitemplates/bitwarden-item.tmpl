@@ -1,0 +1,8 @@
+{{- /* Ultra-Zen Bitwarden Item Retrieval Template */ -}}
+{{- /* Usage: {{ template "bitwarden-item.tmpl" "item-name" }} */ -}}
+{{- /* Returns the complete item object from Bitwarden */ -}}
+{{- if . -}}
+    {{- bitwarden "item" . -}}
+{{- else -}}
+    {{- fail "bitwarden-item.tmpl requires an item name" -}}
+{{- end -}}

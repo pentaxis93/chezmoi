@@ -68,6 +68,45 @@ When configuring new applications and dotfiles, follow these principles for cons
    - Prefer defaults when they align with our principles
    - Choose simplicity over complexity when outcomes are equivalent
 
+## Secrets Management with Bitwarden
+
+### Ultra-Zen Philosophy: Secure Intentions
+**"Secrets flow from vault to configuration through semantic templates"**
+
+### Architecture
+- **Bitwarden CLI** (`bw`) - Password manager for secure secret storage
+- **Chezmoi Templates** - Reference secrets without storing plaintext
+- **Fish Functions** - Semantic wrapper functions for vault operations
+- **Auto-lock Security** - Vault locks automatically on terminal exit
+
+### Configuration
+- **Vault Config**: `home/dot_config/chezmoi/chezmoi.toml.tmpl` enables auto-unlock
+- **Template Helpers**: `home/.chezmoitemplates/bitwarden-*.tmpl` provide reusable secret retrieval
+- **Fish Integration**: Custom functions with semantic abbreviations (`bwu`, `bwc`, `bwg`)
+
+### Usage Patterns
+```go-template
+# SSH Private Key
+{{ template "bitwarden-note.tmpl" "ssh-private-key" }}
+
+# Password Field
+{{ template "bitwarden-password.tmpl" "github-pat" }}
+
+# Custom Fields
+{{ (bitwardenFields "item" "api-keys").api_key.value }}
+```
+
+### Security Guarantees
+- Vault remains encrypted at rest (`~/.config/Bitwarden CLI/data.json`)
+- Session keys are ephemeral (environment variable only)
+- No secrets in git repository (only template references)
+- Auto-lock on terminal exit prevents session persistence
+
+### Example Files
+- `home/private_dot_ssh/private_id_rsa.tmpl.example` - SSH key management
+- `home/private_dot_aws/credentials.tmpl.example` - AWS credentials
+- `home/dot_config/env.tmpl.example` - Environment variables with secrets
+
 ## Best Practices
 
 - **Preserve Git History** - Use `git mv` instead of delete/create when refactoring files
@@ -85,7 +124,9 @@ When configuring new applications and dotfiles, follow these principles for cons
 - `home/.chezmoidata/colors.yaml` - centralized Kanagawa Dragon color palette
 - `home/.chezmoidata/keybindings.yaml` - semantic keybinding definitions
 - `home/dot_gitconfig.tmpl` - templated Git identity
+- `home/dot_config/chezmoi/chezmoi.toml.tmpl` - Chezmoi configuration with Bitwarden integration
 - `home/dot_config/fish/config.fish.tmpl` - Templated Fish shell configuration
+- `home/dot_config/fish/functions/bw-*.fish.tmpl` - Bitwarden wrapper functions
 - `home/.chezmoitemplates/` - Reusable template fragments
   - `color-hex.tmpl` - Convert color to #hex format (CSS/KDL)
   - `color-quoted.tmpl` - Convert color to "#hex" format (TOML)
@@ -94,6 +135,9 @@ When configuring new applications and dotfiles, follow these principles for cons
   - `color-index.tmpl` - Map color names to terminal indices
   - `newt-colors-kanagawa.tmpl` - Legacy NEWT_COLORS (deprecated)
   - `newt-colors-dynamic.tmpl` - Dynamic NEWT_COLORS from colors.yaml
+  - `bitwarden-item.tmpl` - Retrieve complete Bitwarden item
+  - `bitwarden-password.tmpl` - Extract password field from item
+  - `bitwarden-note.tmpl` - Extract secure note content
 
 ## Color Template System
 

@@ -27,7 +27,7 @@ function fish_mode_prompt
     switch $fish_bind_mode
         case default
             # Normal mode: Focus green (semantic: ready for action)
-            set_color --bold {{ template "color-hex.tmpl" .kanagawa.dragon.focus }}
+            set_color --bold {{ template "color-hex.tmpl" .kanagawa.dragon.green }}
             echo '[N]'
         case insert
             # Insert mode: Info blue (semantic: accepting input)
@@ -120,4 +120,26 @@ function nmtui
 
     # Launch nmtui with arguments if provided
     command nmtui $argv
+end
+
+# Ultra-Zen Bitwarden Integration
+# "Secrets flow through semantic intentions"
+
+# Bitwarden abbreviations - Following semantic philosophy
+# These expand at the prompt for transparency and learning
+abbr -a bwu "bw-unlock"            # Unlock vault (semantic: prepare)
+abbr -a bwl "bw-lock"              # Lock vault (semantic: secure)
+abbr -a bwc "bw-copy"              # Copy password (semantic: retrieve)
+abbr -a bwg "bw-generate"          # Generate password (semantic: create)
+abbr -a bws "bw sync"              # Sync vault (semantic: synchronize)
+abbr -a bwlist "bw list items"     # List items (semantic: discover)
+abbr -a bwh "bw-help"              # Show help (semantic: learn)
+
+# Auto-lock Bitwarden on terminal exit - Security first
+# "The wise seal their treasures when departing"
+function __bw_auto_lock_on_exit --on-event fish_exit
+    if test -n "$BW_SESSION"
+        bw lock 2>/dev/null
+        set -e BW_SESSION
+    end
 end

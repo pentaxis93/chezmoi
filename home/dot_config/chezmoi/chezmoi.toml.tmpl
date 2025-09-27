@@ -1,0 +1,50 @@
+# Chezmoi Configuration - Following Ultra-Zen Philosophy
+# "Do not define tools; define intentions. Let the intention manifest as the appropriate tool."
+
+# Bitwarden CLI Integration
+# Secure password management following YAGNI principles
+[bitwarden]
+    # Command to execute Bitwarden CLI
+    command = "bw"
+
+    # Automatic unlock - seamless secret retrieval
+    # When enabled, chezmoi will automatically unlock the vault if BW_SESSION is not set
+    # This follows the principle of "intention manifests as action"
+    unlock = "auto"
+
+# Editor Configuration
+[edit]
+    # Use Helix as our semantic editor
+    command = "helix"
+
+# Diff Configuration
+[diff]
+    # Use git diff for familiar visualization
+    command = "git"
+    args = ["diff", "--no-index", "--color=always"]
+
+# Merge Configuration
+[merge]
+    # Use Helix for merge conflict resolution
+    command = "helix"
+
+# Git Configuration
+[git]
+    # Auto-commit changes with semantic messages
+    autoCommit = false  # YAGNI: Manual commits preserve intention
+    autoPush = false    # YAGNI: Explicit push maintains control
+
+# Prompt Configuration (for initial setup)
+[data]
+    # Git identity - will be prompted on first run
+    git_name = {{ .git_name | quote }}
+    git_email = {{ .git_email | quote }}
+
+    # Default editor
+    editor = "helix"
+
+    # Package manager
+    aur_helper = "yay"
+
+    # System type (for battery widget, etc.)
+    is_laptop = {{ .is_laptop | default true }}

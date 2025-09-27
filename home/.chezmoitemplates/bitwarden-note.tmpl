@@ -1,0 +1,16 @@
+{{- /* Ultra-Zen Bitwarden Secure Note Retrieval Template */ -}}
+{{- /* Usage: {{ template "bitwarden-note.tmpl" "note-name" }} */ -}}
+{{- /* Returns the notes field from a Bitwarden secure note */ -}}
+{{- if . -}}
+    {{- with bitwarden "item" . -}}
+        {{- if .notes -}}
+            {{- .notes -}}
+        {{- else -}}
+            {{- fail (printf "No notes found for item: %s" .) -}}
+        {{- end -}}
+    {{- else -}}
+        {{- fail (printf "Item not found: %s" .) -}}
+    {{- end -}}
+{{- else -}}
+    {{- fail "bitwarden-note.tmpl requires a note name" -}}
+{{- end -}}

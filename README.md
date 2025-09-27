@@ -32,8 +32,9 @@ chezmoi update -v
 
 ## What's Included
 
-- **Fish Shell** — Configuration and aliases
+- **Fish Shell** — Configuration and aliases with vi mode
 - **Git** — Global configuration with user templates
+- **Bitwarden CLI** — Secure password management integration
 - **Claude Code** — Development environment settings
 - **Package Management** — Declarative system package installation
 
@@ -71,6 +72,7 @@ packages:
   cachyos:
     pacman:
       - npm
+      - bitwarden-cli  # Password manager
       - ripgrep  # example: add more packages here
 ```
 
@@ -78,13 +80,42 @@ After adding packages, run `chezmoi apply` to install them.
 
 ### Manage secrets
 
-Secrets are handled through templates and stored locally in `~/.config/chezmoi/chezmoi.toml`:
+#### Configuration Data
+Non-sensitive configuration is stored in `~/.config/chezmoi/chezmoi.toml`:
 
 ```toml
 [data]
     email = "your.email@example.com"
     github_user = "yourusername"
 ```
+
+#### Secure Secrets with Bitwarden
+Sensitive data is managed through Bitwarden CLI integration:
+
+```bash
+# Unlock vault (creates session)
+bwu  # or: bw-unlock
+
+# Copy password to clipboard
+bwc  # or: bw-copy
+
+# Generate secure password
+bwg  # or: bw-generate --copy
+
+# Lock vault when done
+bwl  # or: bw-lock
+```
+
+Secrets are referenced in templates:
+```go-template
+# SSH key from secure note
+{{ template "bitwarden-note.tmpl" "ssh-private-key" }}
+
+# Password field
+{{ template "bitwarden-password.tmpl" "github-pat" }}
+```
+
+See example templates in `home/private_dot_ssh/` and `home/private_dot_aws/`.
 
 ## Project Structure
 
@@ -94,10 +125,19 @@ Secrets are handled through templates and stored locally in `~/.config/chezmoi/c
 ├── CLAUDE.md                          # Development guidelines
 ├── .chezmoidata/
 │   └── packages.yaml                  # Declarative package list
+├── .chezmoitemplates/                 # Reusable templates
+│   ├── bitwarden-*.tmpl               # Secret retrieval helpers
+│   └── color-*.tmpl                   # Color format converters
 ├── dot_config/                        # XDG configs
+│   ├── chezmoi/
+│   │   └── chezmoi.toml.tmpl          # Chezmoi configuration
 │   └── fish/
+│       ├── config.fish.tmpl           # Shell configuration
+│       └── functions/
+│           └── bw-*.fish.tmpl         # Bitwarden utilities
 ├── dot_gitconfig.tmpl                 # Templated git config
-├── private_dot_gitignore              # Global gitignore (0600)
+├── private_dot_ssh/                   # SSH keys (examples)
+├── private_dot_aws/                   # AWS credentials (examples)
 ├── run_onchange_install-packages.sh.tmpl  # Package installation
 └── run_after_*.sh                     # Post-apply hooks
 ```

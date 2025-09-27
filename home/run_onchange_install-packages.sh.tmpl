@@ -29,7 +29,7 @@ fi
 if [ ${#PACKAGES_TO_INSTALL[@]} -gt 0 ]; then
     echo ""
     echo "Installing ${#PACKAGES_TO_INSTALL[@]} package(s)..."
-    sudo pacman -S --noconfirm "${PACKAGES_TO_INSTALL[@]}"
+    sudo pacman -S "${PACKAGES_TO_INSTALL[@]}"
     echo "✓ All packages installed successfully"
 else
     echo "✓ All packages already installed"

@@ -1,0 +1,12 @@
+# Example: SSH Private Key from Bitwarden
+#
+# This is an EXAMPLE file showing how to retrieve an SSH private key from Bitwarden.
+# To use:
+# 1. Store your SSH private key in Bitwarden as a Secure Note named "ssh-private-key"
+# 2. Rename this file from 'private_id_rsa.tmpl.example' to 'private_id_rsa.tmpl'
+# 3. Run 'chezmoi apply' to retrieve and place the key
+#
+# The 'private_' prefix ensures the file has 0600 permissions (read/write for owner only)
+# Perfect for SSH keys which require strict permissions
+
+{{ template "bitwarden-note.tmpl" "ssh-private-key" }}
