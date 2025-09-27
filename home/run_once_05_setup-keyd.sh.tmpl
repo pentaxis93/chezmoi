@@ -1,0 +1,60 @@
+#!/bin/bash
+# Ultra-Zen Keyd Setup - "Both hands reach for the mountain peak"
+# Configures PrtSc as an additional Super key for ergonomic MOD access
+
+set -e
+
+echo "╭─────────────────────────────────────────────╮"
+echo "│ Ultra-Zen Keyd Configuration                │"
+echo "├─────────────────────────────────────────────┤"
+echo "│ PrtSc → Super: Right-side MOD key          │"
+echo "│ For balanced, ergonomic keybinding access  │"
+echo "╰─────────────────────────────────────────────╯"
+echo
+
+# Check if keyd is installed
+if ! command -v keyd &> /dev/null; then
+    echo "Installing keyd for kernel-level key remapping..."
+    yay -S --noconfirm keyd
+else
+    echo "keyd is already installed."
+fi
+
+# Create keyd configuration
+echo "Configuring PrtSc as Super key..."
+sudo tee /etc/keyd/default.conf > /dev/null << 'EOF'
+# Ultra-Zen Keyd Configuration
+# "The mountain does not choose its paths; it offers them all"
+#
+# This configuration makes Print Screen act as an additional Super key,
+# providing ergonomic MOD key access on both sides of the keyboard.
+# The original Super keys remain functional.
+
+[ids]
+*
+
+[main]
+# PrtSc becomes a Super key for ergonomic right-hand access
+sysrq = layer(meta)
+# Also map print in case it's recognized differently
+print = layer(meta)
+
+# Optional: You can also remap other rarely-used keys
+# menu = layer(meta)  # Menu key as Super (between right Alt and Ctrl)
+# capslock = layer(control)  # Caps Lock as Control (classic Unix tradition)
+EOF
+
+# Enable and start keyd service
+echo "Enabling keyd service..."
+sudo systemctl enable keyd
+sudo systemctl restart keyd
+
+echo
+echo "✓ Keyd configuration complete!"
+echo "  - PrtSc now acts as Super key"
+echo "  - Both Super keys remain functional"
+echo "  - MOD+W toggles window width (50% ↔ 100%)"
+echo
+echo "Test your new keybindings:"
+echo "  Left hand:  Super+W"
+echo "  Right hand: PrtSc+W"

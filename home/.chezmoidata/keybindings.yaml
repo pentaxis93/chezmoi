@@ -69,8 +69,8 @@ keybindings:
     # Transformation - Toggle states/modes
     transform:
       fullscreen: "f"        # Toggle fullscreen
-      floating: "t"          # Toggle floating/tiled
-      tabbed: "w"            # Toggle window/tab mode (w for window)
+      floating: "SHIFT+f"    # Toggle floating/tiled (modified F)
+      tabbed: "t"            # Toggle tabbed display mode - T for tabs!
 
       # Modal transformations (editor/shell)
       mode_normal: "ESC"     # Return to normal mode

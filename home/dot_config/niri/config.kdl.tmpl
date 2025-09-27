@@ -142,14 +142,20 @@ binds {
     MOD+CTRL+8                          { move-column-to-workspace 8; }
     MOD+CTRL+9                          { move-column-to-workspace 9; }
 
-    MOD+TAB                             { focus-workspace-previous; }
+    MOD+TAB                             { focus-workspace-down; }      // Next workspace
+    MOD+SHIFT+TAB                       { focus-workspace-up; }        // Previous workspace
 
     // ─── Layout Controls ───
     MOD+CTRL+F                          { expand-column-to-available-width; }
     MOD+C                               { center-column; }
     MOD+CTRL+C                          { center-visible-columns; }
-    MOD+MINUS                           { set-column-width "-10%"; }
-    MOD+EQUAL                           { set-column-width "+10%"; }
+    // Binary width toggle - "The stone is either whole or halved"
+    MOD+W                               { switch-preset-column-width; }
+
+    // Screenshot - PrtSc is now a MOD key, so we need a new binding
+    MOD+SHIFT+S                         { screenshot; }
+    MOD+CTRL+S                          { screenshot-screen; }
+    MOD+ALT+S                           { screenshot-window; }
     MOD+SHIFT+MINUS                     { set-window-height "-10%"; }
     MOD+SHIFT+EQUAL                     { set-window-height "+10%"; }
 
@@ -194,9 +200,8 @@ binds {
         center-focused-column "never" // Don't auto-center focused column
 
         preset-column-widths {
-            proportion 0.33333
-            proportion 0.5
-            proportion 0.66667
+            proportion 0.5      // Half - balanced duality
+            proportion 1.0      // Full - complete unity
         }
 
         focus-ring {

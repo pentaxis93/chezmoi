@@ -18,9 +18,9 @@ Parameters:
 {{- if eq $action "fullscreen" -}}
     {{- $baseKey = $kb.semantic.transform.fullscreen | default "f" -}}
 {{- else if eq $action "floating" -}}
-    {{- $baseKey = $kb.semantic.transform.floating | default "t" -}}
+    {{- $baseKey = $kb.semantic.transform.floating | default "SHIFT+f" -}}
 {{- else if eq $action "tabbed" -}}
-    {{- $baseKey = $kb.semantic.transform.tabbed | default "w" -}}
+    {{- $baseKey = $kb.semantic.transform.tabbed | default "t" -}}
 {{- else if eq $action "mode_normal" -}}
     {{- $baseKey = $kb.semantic.transform.mode_normal | default "ESC" -}}
 {{- else if eq $action "mode_insert" -}}
