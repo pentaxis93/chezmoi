@@ -150,7 +150,7 @@ dragonBlack4 = "#282727"
 dragonBlack5 = "#393836"
 dragonBlack6 = "#625e5a"  # Comment
 
-dragonWhite = "#c5c9c5"   # Foreground
+dragonWhite = "#a6a69c"   # Foreground (dragon grey)
 dragonWhite2 = "#C8C093"   # Terminal White
 
 dragonGreen = "#87a987"    # Terminal Bright Green
