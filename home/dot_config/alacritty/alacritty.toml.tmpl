@@ -191,6 +191,30 @@ key = "E"
 mode = "Vi"
 action = "Last"                # Helix ge (go end) - semantic navigate.file_end
 
+# Search in vi mode - Helix/vim style
+[[keyboard.bindings]]
+key = "Slash"
+mode = "Vi"
+action = "SearchForward"        # / for forward search
+
+[[keyboard.bindings]]
+key = "Slash"
+mods = "Shift"
+mode = "Vi"
+action = "SearchBackward"       # ? for backward search (Shift+/)
+
+# Search navigation - n/N to cycle through results
+[[keyboard.bindings]]
+key = "N"
+mode = "Vi"
+action = "SearchNext"            # n for next match
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Shift"
+mode = "Vi"
+action = "SearchPrevious"        # N for previous match
+
 [[keyboard.bindings]]
 key = "Key0"
 mods = "Control"
