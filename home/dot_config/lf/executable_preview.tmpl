@@ -1,0 +1,261 @@
+#!/usr/bin/env bash
+# LF Preview Script
+# Ultra-Zen Philosophy: "Each file reveals its essence through preview"
+
+set -C -f
+IFS=$'\n'
+
+# Arguments
+FILE_PATH="${1}"     # Full path of the highlighted file
+PV_WIDTH="${2}"      # Width of the preview pane (chars)
+PV_HEIGHT="${3}"     # Height of the preview pane (chars)
+IMAGE_CACHE_PATH="${4}"  # Path for caching image previews
+PV_IMAGE_ENABLED="${5}"  # 'True' if image previews are enabled
+
+FILE_EXTENSION="${FILE_PATH##*.}"
+FILE_EXTENSION_LOWER="$(printf "%s" "${FILE_EXTENSION}" | tr '[:upper:]' '[:lower:]')"
+MIME_TYPE="$(file --dereference --brief --mime-type -- "${FILE_PATH}")"
+
+# Settings
+MAX_FILE_SIZE=$((1024 * 1024 * 2))  # 2MB max for text files
+
+# Functions for handling different file types
+handle_extension() {
+    case "${FILE_EXTENSION_LOWER}" in
+        # Archives
+        a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|\
+        rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)
+            if command -v atool >/dev/null 2>&1; then
+                atool --list -- "${FILE_PATH}" && exit 0
+            fi
+            if command -v bsdtar >/dev/null 2>&1; then
+                bsdtar --list --file "${FILE_PATH}" && exit 0
+            fi
+            exit 1;;
+
+        rar)
+            if command -v unrar >/dev/null 2>&1; then
+                unrar lt -p- -- "${FILE_PATH}" && exit 0
+            fi
+            exit 1;;
+
+        7z)
+            if command -v 7z >/dev/null 2>&1; then
+                7z l -p -- "${FILE_PATH}" && exit 0
+            fi
+            exit 1;;
+
+        # PDF
+        pdf)
+            if command -v pdftotext >/dev/null 2>&1; then
+                # Try to extract text first
+                pdftotext -l 10 -nopgbrk -q -- "${FILE_PATH}" - | \
+                    fmt -w "${PV_WIDTH}" && exit 0
+            fi
+            if command -v mutool >/dev/null 2>&1; then
+                mutool draw -F txt -i -- "${FILE_PATH}" 1-10 | \
+                    fmt -w "${PV_WIDTH}" && exit 0
+            fi
+            exit 1;;
+
+        # BitTorrent
+        torrent)
+            if command -v transmission-show >/dev/null 2>&1; then
+                transmission-show -- "${FILE_PATH}" && exit 0
+            fi
+            exit 1;;
+
+        # OpenDocument
+        odt|ods|odp|sxw)
+            if command -v odt2txt >/dev/null 2>&1; then
+                odt2txt "${FILE_PATH}" && exit 0
+            fi
+            if command -v pandoc >/dev/null 2>&1; then
+                pandoc -s -t plain -- "${FILE_PATH}" && exit 0
+            fi
+            exit 1;;
+
+        # Markdown
+        md|markdown|mkd|mdown)
+            if command -v glow >/dev/null 2>&1; then
+                glow -s dark -w "${PV_WIDTH}" -- "${FILE_PATH}" && exit 0
+            fi
+            if command -v pandoc >/dev/null 2>&1; then
+                pandoc -s -t plain -- "${FILE_PATH}" && exit 0
+            fi
+            if command -v bat >/dev/null 2>&1; then
+                bat --color=always --style=plain --paging=never \
+                    --theme="TwoDark" \
+                    -- "${FILE_PATH}" && exit 0
+            fi
+            cat "${FILE_PATH}" && exit 0;;
+
+        # JSON
+        json|jsonl|jsonld)
+            if command -v jq >/dev/null 2>&1; then
+                jq --color-output . "${FILE_PATH}" && exit 0
+            fi
+            if command -v python3 >/dev/null 2>&1; then
+                python3 -m json.tool -- "${FILE_PATH}" && exit 0
+            fi
+            ;;
+
+        # HTML/XML
+        htm|html|xhtml|xml)
+            if command -v w3m >/dev/null 2>&1; then
+                w3m -dump "${FILE_PATH}" && exit 0
+            fi
+            if command -v lynx >/dev/null 2>&1; then
+                lynx -dump -- "${FILE_PATH}" && exit 0
+            fi
+            if command -v pandoc >/dev/null 2>&1; then
+                pandoc -s -t plain -- "${FILE_PATH}" && exit 0
+            fi
+            ;;
+    esac
+
+    # Return failure if extension not handled
+    return 1
+}
+
+handle_mime() {
+    case "${MIME_TYPE}" in
+        # Text files with syntax highlighting
+        text/*|application/json|application/javascript|application/x-perl|\
+        application/x-php|application/x-ruby|application/x-shellscript|\
+        application/x-yaml|application/xml|application/xhtml+xml)
+            # Check file size
+            FILE_SIZE=$(stat -f%z "${FILE_PATH}" 2>/dev/null || stat -c%s "${FILE_PATH}" 2>/dev/null)
+            if [ "${FILE_SIZE}" -gt "${MAX_FILE_SIZE}" ]; then
+                echo "File too large for preview ($(numfmt --to=iec-i --suffix=B "${FILE_SIZE}"))"
+                exit 0
+            fi
+
+            # Use bat for syntax highlighting if available
+            if command -v bat >/dev/null 2>&1; then
+                bat --color=always --style=plain --paging=never \
+                    --theme="TwoDark" \
+                    --line-range=":${PV_HEIGHT}" \
+                    -- "${FILE_PATH}" && exit 0
+            fi
+
+            # Fallback to cat with line limit
+            head -n "${PV_HEIGHT}" -- "${FILE_PATH}" && exit 0
+            ;;
+
+        # Images
+        image/*)
+            # Dimensions
+            if command -v identify >/dev/null 2>&1; then
+                identify -ping -format "%wx%h\n" -- "${FILE_PATH}" 2>/dev/null
+            fi
+
+            # EXIF data
+            if command -v exiftool >/dev/null 2>&1; then
+                exiftool -- "${FILE_PATH}" 2>/dev/null | head -n 20
+            fi
+
+            # ASCII preview with chafa
+            if command -v chafa >/dev/null 2>&1; then
+                chafa --colors=256 --size="${PV_WIDTH}x${PV_HEIGHT}" \
+                    -- "${FILE_PATH}" 2>/dev/null && exit 0
+            fi
+
+            # Or use ImageMagick
+            if command -v convert >/dev/null 2>&1; then
+                convert "${FILE_PATH}" -resize "${PV_WIDTH}x${PV_HEIGHT}" \
+                    -background black -alpha remove \
+                    txt:- | sed '1d;s/^# //;s/ \+/ /g;s/: /,/g' | \
+                    awk -F, '{print $3}' | tr -d '#' | \
+                    xxd -r -p | od -An -tx1 | tr -d ' \n' | \
+                    xxd -r -p && exit 0
+            fi
+            exit 1;;
+
+        # Videos
+        video/*)
+            # Show media info
+            if command -v mediainfo >/dev/null 2>&1; then
+                mediainfo -- "${FILE_PATH}" 2>/dev/null | head -n 40 && exit 0
+            fi
+
+            # Or use ffprobe
+            if command -v ffprobe >/dev/null 2>&1; then
+                ffprobe -hide_banner -pretty -show_format -show_streams \
+                    -- "${FILE_PATH}" 2>&1 | head -n 40 && exit 0
+            fi
+            exit 1;;
+
+        # Audio
+        audio/*)
+            # Show media info
+            if command -v mediainfo >/dev/null 2>&1; then
+                mediainfo -- "${FILE_PATH}" 2>/dev/null && exit 0
+            fi
+
+            # Or use ffprobe
+            if command -v ffprobe >/dev/null 2>&1; then
+                ffprobe -hide_banner -pretty -show_format -show_streams \
+                    -- "${FILE_PATH}" 2>&1 && exit 0
+            fi
+
+            # EXIF for audio
+            if command -v exiftool >/dev/null 2>&1; then
+                exiftool -- "${FILE_PATH}" 2>/dev/null && exit 0
+            fi
+            exit 1;;
+
+        # Binary application files
+        application/octet-stream|application/x-executable|\
+        application/x-sharedlib|application/x-object)
+            if command -v readelf >/dev/null 2>&1; then
+                readelf -h -- "${FILE_PATH}" 2>/dev/null | head -n 20 && exit 0
+            fi
+            if command -v file >/dev/null 2>&1; then
+                file --dereference --brief -- "${FILE_PATH}" && exit 0
+            fi
+            exit 1;;
+    esac
+}
+
+handle_fallback() {
+    # First, show file info
+    echo "File: ${FILE_PATH##*/}"
+    echo "Type: ${MIME_TYPE}"
+
+    FILE_SIZE=$(stat -f%z "${FILE_PATH}" 2>/dev/null || stat -c%s "${FILE_PATH}" 2>/dev/null)
+    if [ -n "${FILE_SIZE}" ]; then
+        echo "Size: $(numfmt --to=iec-i --suffix=B "${FILE_SIZE}" 2>/dev/null || echo "${FILE_SIZE} bytes")"
+    fi
+
+    # Modification time
+    if command -v stat >/dev/null 2>&1; then
+        stat -f "Modified: %Sm" "${FILE_PATH}" 2>/dev/null || \
+        stat -c "Modified: %y" "${FILE_PATH}" 2>/dev/null
+    fi
+
+    echo ""
+
+    # Try to show something useful
+    if command -v strings >/dev/null 2>&1; then
+        echo "--- Strings preview ---"
+        strings -- "${FILE_PATH}" | head -n 20
+    else
+        echo "No preview available"
+    fi
+    exit 0
+}
+
+# Handle directories
+if [ -d "${FILE_PATH}" ]; then
+    # Use tree if available
+    if command -v tree >/dev/null 2>&1; then
+        tree -L 2 -C --dirsfirst -- "${FILE_PATH}" | head -n "${PV_HEIGHT}"
+    else
+        ls -la --color=always -- "${FILE_PATH}" | head -n "${PV_HEIGHT}"
+    fi
+    exit 0
+fi
+
+# Handle by extension first, then MIME type, then fallback
+handle_extension || handle_mime || handle_fallback

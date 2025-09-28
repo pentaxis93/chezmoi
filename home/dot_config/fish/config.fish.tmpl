@@ -84,6 +84,11 @@ function fish_user_key_bindings
     # Line acceptance - universal semantics
     {{ template "keybind-fish.tmpl" dict "action" "execute" "mode" "default" "keybindings" $kb }}  # Enter executes in normal mode
     {{ template "keybind-fish.tmpl" dict "action" "execute" "mode" "insert" "keybindings" $kb }}  # Enter executes in insert mode
+
+    # File browser integration - Quick navigation with lf
+    # Ultra-Zen: "From command line to file explorer, one key bridges the realms"
+    bind -M default \co 'lfcd; commandline -f repaint'  # Ctrl+O opens lf, changes directory on exit
+    bind -M insert \co 'lfcd; commandline -f repaint'   # Available in insert mode too
 end
 
 # Editor alias - 'h' for helix (ultrathink keybinding consistency)

@@ -599,6 +599,41 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
 - **Nick Configuration**: System username ({{ .chezmoi.username }})
 - **Modern Features**: Split panes, better Unicode support, plugin ecosystem
 
+### LF Terminal File Manager (`lf`)
+- **Kanagawa Theme**: Consistent colors in borders and prompt from centralized palette
+- **Helix-Native Keybindings**: Vi navigation with semantic improvements (ge for end, gh/gl for line start/end)
+- **Rich File Previews**:
+  - Text files with syntax highlighting (bat)
+  - Images as ASCII art or sixels (chafa)
+  - Videos with thumbnails and metadata (mediainfo/ffmpeg)
+  - Archives showing contents (atool)
+  - PDFs as text or images (poppler)
+  - JSON pretty-printed (jq)
+  - Directories as tree structure
+- **Advanced Commands**:
+  - FZF integration for fuzzy finding (Ctrl+f)
+  - Bulk rename with $EDITOR (B key)
+  - Archive operations (create/extract)
+  - Trash integration with trash-cli (T key)
+  - Dragon drag-and-drop support (dr key)
+  - Clipboard operations (W/Y for Wayland/X11)
+  - Ripgrep file search (Ctrl+g)
+- **Fish Integration**:
+  - `lfcd` function for directory changing on exit
+  - Ctrl+O keybinding for quick access
+  - `lc` abbreviation for lfcd
+- **Icons**: Comprehensive Nerd Font icons for all file types
+- **Quick Jumps**: Bookmarks to common directories (gc for ~/.config, gv for ~/Videos, etc.)
+- **MPV Integration**: Already used as video file selector
+- **Git Operations**: Branch switching, log viewing, status checking
+- **Configuration Files**:
+  - `home/dot_config/lf/lfrc.tmpl` - Main configuration with keybindings
+  - `home/dot_config/lf/executable_preview.tmpl` - File preview script
+  - `home/dot_config/lf/executable_cleaner.tmpl` - Preview cleanup script
+  - `home/dot_config/lf/icons.tmpl` - File type icons mapping
+  - `home/dot_config/fish/functions/lfcd.fish.tmpl` - Directory change function
+
+
 ### Claude Code Output Styles
 - **Zen Engineer**: Technically precise yet contemplative engineering guidance
   - Green-colored Zen Moment callouts with ASCII decoration

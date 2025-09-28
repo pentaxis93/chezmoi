@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# LF Cleaner Script
+# Cleans up after preview operations
+
+# If using ueberzug for image previews
+if [ -n "$FIFO_UEBERZUG" ]; then
+    printf '{"action":"remove","identifier":"preview"}\n' > "$FIFO_UEBERZUG"
+fi
+
+# Clean up any temporary files created during preview
+if [ -d "/tmp/lf-preview-$$" ]; then
+    rm -rf "/tmp/lf-preview-$$"
+fi
+
+# Clear any cached preview images
+if [ -n "$4" ] && [ -f "$4" ]; then
+    rm -f "$4"
+fi

@@ -1,0 +1,396 @@
+# LF File Manager Configuration
+# Ultra-Zen Philosophy: "The file browser flows like water through directories"
+
+# Basic Settings
+set shell bash
+set shellopts '-eu'
+set ifs "\n"
+set scrolloff 10
+set icons true
+set period 1
+set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
+set info size
+set dircounts
+set findlen 2
+
+# UI Settings
+set drawbox true
+set borderfmt "\033[38;2;45;79;103m"  # Kanagawa selection color
+set preview true
+set previewer ~/.config/lf/preview
+set cleaner ~/.config/lf/cleaner
+
+# Mouse support
+set mouse true
+
+# Helix-Native Vi Keybindings
+# "Semantic movements manifest as physical keys"
+
+# Clear default bindings that conflict
+map g
+map d
+
+# Basic Navigation (Helix-native)
+map h updir
+map l open
+map j down
+map k up
+map gg top
+map ge bottom  # Helix-native: go to end
+map G bottom   # Vim compatibility
+map <c-u> half-up
+map <c-d> half-down
+map <c-b> page-up
+map <c-f> page-down
+
+# Selection (Helix-style)
+map x toggle  # Extend selection
+map X unselect  # Clear selection
+map <space>x invert  # Invert selection
+map V visual  # Visual selection mode
+map A :unselect; invert  # Select all
+
+# File Operations
+map . set hidden!  # Toggle hidden files
+map r reload
+map <enter> shell  # Execute shell command
+map o &mimeopen "$f"  # Open with default app
+map O $mimeopen --ask "$f"  # Ask which app to open with
+
+# Quick Actions
+map a push %touch<space>  # Add file
+map A push %mkdir<space>  # Add directory
+map R rename  # Rename current file
+map B bulkrename  # Bulk rename selected files
+map D delete  # Delete (with confirmation)
+map T trash  # Move to trash
+map U unselect  # Unselect all
+map W $printf "%s" "$fx" | wl-copy  # Copy paths to clipboard (Wayland)
+map Y $printf "%s" "$fx" | xclip -selection clipboard  # Copy paths (X11)
+
+# Archive Operations
+map az zip  # Create zip
+map at tar  # Create tar
+map ag targz  # Create tar.gz
+map ab tarbz2  # Create tar.bz2
+map au unarchive  # Extract archive
+
+# Search and Filter
+map / search
+map ? search-back
+map n search-next
+map N search-prev
+map f filter  # Filter files
+
+# Bookmarks and Quick Navigation
+map gc cd ~/.config
+map gd cd ~/Downloads
+map gD cd ~/Documents
+map gp cd ~/Pictures
+map gv cd ~/Videos
+map gm cd ~/Music
+map gs cd ~/.local/share
+map gt cd ~/.local/state
+map gT cd /tmp
+map gr cd /
+map gw cd ~/work
+map g. cd ~/.local/share/chezmoi
+
+# FZF Integration
+map <c-f> :fzf_jump
+map <c-g> :ripgrep_search
+
+# Mode indicators and help
+map <f1> :show_help
+map <esc> quit
+
+# Custom Commands
+cmd open &{{ "{{" }}
+    case $(file --mime-type -Lb "$f") in
+        text/*) $EDITOR "$fx";;
+        video/*|audio/*) mpv "$fx" ;;
+        image/*) nsxiv "$fx" ;;
+        application/pdf|application/postscript) zathura "$fx" ;;
+        application/x-bzip2|application/x-gzip|application/x-tar|application/zip|application/x-7z-compressed|application/x-rar)
+            atool -l "$f" | less ;;
+        *) for f in $fx; do xdg-open "$f" > /dev/null 2> /dev/null & done;;
+    esac
+{{ "}}" }}
+
+cmd mkdir %mkdir -p "$@"
+
+cmd mkfile %touch "$@"
+
+cmd chmod ${{ "{{" }}
+    printf "Mode bits: "
+    read mode
+    for f in $fx; do
+        chmod "$mode" "$f"
+    done
+    lf -remote "send reload"
+{{ "}}" }}
+
+cmd trash %{{ "{{" }}
+    set -f
+    if command -v trash-put >/dev/null 2>&1; then
+        trash-put $fx && echo "Moved to trash"
+    else
+        mkdir -p ~/.local/share/Trash/files
+        for f in $fx; do
+            mv "$f" ~/.local/share/Trash/files/
+        done && echo "Moved to trash"
+    fi
+{{ "}}" }}
+
+cmd delete ${{ "{{" }}
+    set -f
+    printf "%s\n" "$fx"
+    printf "Delete? [y/n] "
+    read ans
+    [ "$ans" = "y" ] && rm -rf $fx
+{{ "}}" }}
+
+cmd extract ${{ "{{" }}
+    set -f
+    case "$f" in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf "$f";;
+        *.tar.gz|*.tgz) tar xzvf "$f";;
+        *.tar.xz|*.txz) tar xJvf "$f";;
+        *.zip) unzip "$f";;
+        *.rar) unrar x "$f";;
+        *.7z) 7z x "$f";;
+        *) echo "Unsupported format";;
+    esac
+{{ "}}" }}
+
+cmd tar %tar cvf "$f.tar" "$f"
+cmd targz %tar czvf "$f.tar.gz" "$f"
+cmd tarbz2 %tar cjvf "$f.tar.bz2" "$f"
+cmd zip %zip -r "$f.zip" "$f"
+
+cmd unarchive ${{ "{{" }}
+    set -f
+    case "$f" in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf "$f";;
+        *.tar.gz|*.tgz) tar xzvf "$f";;
+        *.tar.xz|*.txz) tar xJvf "$f";;
+        *.tar) tar xvf "$f";;
+        *.zip) unzip "$f";;
+        *.rar) unrar x "$f";;
+        *.7z) 7z x "$f";;
+        *) echo "Unsupported format";;
+    esac
+{{ "}}" }}
+
+# Bulk rename with $EDITOR
+cmd bulkrename ${{ "{{" }}
+    old_files=$(mktemp)
+    new_files=$(mktemp)
+
+    # Save current file names
+    printf '%s\n' "$fx" > "$old_files"
+    printf '%s\n' "$fx" > "$new_files"
+
+    # Edit the names
+    $EDITOR "$new_files"
+
+    # Rename files if changed
+    [ "$(wc -l < "$new_files")" -eq "$(wc -l < "$old_files")" ] && \
+    paste "$old_files" "$new_files" | while IFS=$(printf '\t') read -r old new; do
+        if [ "$old" != "$new" ] && [ -n "$new" ]; then
+            mv -- "$old" "$new"
+        fi
+    done
+
+    rm -f "$old_files" "$new_files"
+    lf -remote "send reload"
+{{ "}}" }}
+
+# FZF jump to directory
+cmd fzf_jump ${{ "{{" }}
+    res="$(find . -maxdepth 4 -type d 2>/dev/null | fzf --reverse --header='Jump to directory')"
+    if [ -n "$res" ]; then
+        if [ -d "$res" ]; then
+            lf -remote "send cd \"$res\""
+        else
+            lf -remote "send select \"$res\""
+        fi
+    fi
+{{ "}}" }}
+
+# Ripgrep search in files
+cmd ripgrep_search ${{ "{{" }}
+    printf "Search for: "
+    read query
+    if [ -n "$query" ]; then
+        res="$(rg -l "$query" 2>/dev/null | fzf --reverse --header='Files containing: '"$query")"
+        [ -n "$res" ] && lf -remote "send select \"$res\""
+    fi
+{{ "}}" }}
+
+# Dragon drag-and-drop
+cmd dragon %dragon -a -x $fx
+cmd dragon-stay %dragon -a $fx
+cmd dragon-individual %dragon $fx
+
+map dr dragon
+map ds dragon-stay
+map di dragon-individual
+
+# Git integration
+cmd git_branch ${{ "{{" }}
+    git branch 2>/dev/null | fzf --reverse --header='Switch branch' | sed 's/^[* ] //' | xargs git checkout
+    lf -remote "send reload"
+{{ "}}" }}
+
+cmd git_log ${{ "{{" }}
+    git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --color=always | less -R
+{{ "}}" }}
+
+cmd git_status ${{ "{{" }}
+    clear
+    git status
+    printf "Press enter to continue..."
+    read
+{{ "}}" }}
+
+# Mount commands
+cmd mount_device ${{ "{{" }}
+    device=$(lsblk -lp | grep "part $" | awk '{print $1, "(" $4 ")"}' | fzf --reverse --header='Select device to mount')
+    [ -n "$device" ] && udisksctl mount -b $(echo $device | awk '{print $1}')
+    lf -remote "send reload"
+{{ "}}" }}
+
+cmd unmount_device ${{ "{{" }}
+    device=$(lsblk -lp | grep "part /" | awk '{print $1, "(" $4 ")", "mounted at", $7}' | fzf --reverse --header='Select device to unmount')
+    [ -n "$device" ] && udisksctl unmount -b $(echo $device | awk '{print $1}')
+    lf -remote "send reload"
+{{ "}}" }}
+
+# Show file info
+cmd fileinfo ${{ "{{" }}
+    file "$f"
+    stat "$f"
+    if command -v mediainfo >/dev/null 2>&1; then
+        case $(file --mime-type -Lb "$f") in
+            video/*|audio/*|image/*) mediainfo "$f";;
+        esac
+    fi
+    printf "Press enter to continue..."
+    read
+{{ "}}" }}
+
+map i fileinfo
+
+# Directory size
+cmd usage %du -sh "$f" | less
+
+# Quick shortcuts for common tasks
+map ee $$EDITOR "$f"  # Edit in editor
+map sp $nsxiv -t .  # Sxiv thumbnail mode in current dir
+map sv $mpv .  # Play all videos in current dir
+map st !bash  # Open terminal here
+map sT &alacritty --working-directory "$PWD"  # Open new terminal window
+
+# Copy/Move to directory with FZF
+cmd copyto ${{ "{{" }}
+    dest="$(find ~ -maxdepth 4 -type d 2>/dev/null | fzf --reverse --header='Copy to:')" &&
+    for f in $fx; do
+        cp -r "$f" "$dest"
+    done &&
+    lf -remote "send echo \"Copied to $dest\""
+{{ "}}" }}
+
+cmd moveto ${{ "{{" }}
+    dest="$(find ~ -maxdepth 4 -type d 2>/dev/null | fzf --reverse --header='Move to:')" &&
+    for f in $fx; do
+        mv "$f" "$dest"
+    done &&
+    lf -remote "send echo \"Moved to $dest\"" &&
+    lf -remote "send reload"
+{{ "}}" }}
+
+map C copyto
+map M moveto
+
+# Set wallpaper (if using niri/sway)
+cmd set_wallpaper ${{ "{{" }}
+    case $(file --mime-type -Lb "$f") in
+        image/*)
+            if command -v niri >/dev/null 2>&1; then
+                niri msg output eDP-1 background-image "$f"
+                echo "Wallpaper set for niri"
+            elif command -v swaymsg >/dev/null 2>&1; then
+                swaymsg output "*" bg "$f" fill
+                echo "Wallpaper set for sway"
+            else
+                echo "No compatible compositor found"
+            fi
+            ;;
+        *) echo "Not an image file";;
+    esac
+{{ "}}" }}
+
+map sw set_wallpaper
+
+# Show current keybindings
+cmd show_help ${{ "{{" }}
+    cat << 'EOF' | less
+LF KEYBINDINGS (Helix-Native)
+==============================
+
+Navigation:
+  h/l      - Navigate up/down directories
+  j/k      - Move cursor down/up
+  gg/ge    - Go to top/end (ge is Helix-native)
+  Ctrl+u/d - Half page up/down
+  Ctrl+b/f - Full page up/down
+
+Selection:
+  x        - Toggle selection (Helix: extend)
+  X        - Clear selection
+  Space+x  - Invert selection
+  V        - Visual mode
+  A        - Select all
+
+Files:
+  .        - Toggle hidden files
+  Enter    - Shell command
+  o/O      - Open file / Open with...
+  a/A      - Add file/directory
+  R        - Rename file
+  B        - Bulk rename
+  D        - Delete (confirm)
+  T        - Trash
+
+Archives:
+  az/at/ag - Create zip/tar/tar.gz
+  au       - Extract archive
+
+Search:
+  /        - Search forward
+  ?        - Search backward
+  n/N      - Next/previous match
+  Ctrl+f   - FZF directory jump
+  Ctrl+g   - Ripgrep file search
+
+Quick Jumps:
+  gc       - ~/.config
+  gd       - ~/Downloads
+  gv       - ~/Videos
+  g.       - Chezmoi source
+
+Clipboard:
+  W        - Copy paths (Wayland)
+  Y        - Copy paths (X11)
+  dr       - Dragon drag-and-drop
+
+Special:
+  ee       - Edit in $EDITOR
+  i        - File info
+  C/M      - Copy/Move with FZF
+  sw       - Set wallpaper
+  F1       - This help
+
+EOF
+{{ "}}" }}
