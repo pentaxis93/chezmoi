@@ -10,3 +10,6 @@ packages:
       - openvpn  # Secure tunneling daemon for VPN connections
       - transmission-cli  # BitTorrent client with daemon for VPN-bound torrenting
       - tremc  # Terminal UI for transmission with vi-like keybindings
+      - mpv  # Media player with resume, history, and file browser support
+      - mpv-mpris  # MPRIS integration for mpv (media controls)
+      - lf  # Terminal file manager for video browsing (already installed)

@@ -1,0 +1,153 @@
+# MPV Input Configuration - Helix-Native Vi Keybindings
+# "Do not define keybindings; define intentions"
+
+# ============================================================================
+# NAVIGATION - Move through video without changing state
+# ============================================================================
+# Helix-native: hjkl for movement
+
+h     seek -5                    # Navigate prev: 5 seconds back
+l     seek  5                    # Navigate next: 5 seconds forward
+j     seek -60                   # Navigate down: 1 minute back
+k     seek  60                   # Navigate up: 1 minute forward
+
+H     seek -10                   # Shift+h: 10 seconds back
+L     seek  10                   # Shift+l: 10 seconds forward
+J     playlist-prev              # Shift+j: Previous in playlist
+K     playlist-next              # Shift+k: Next in playlist
+
+# Line/File navigation (Helix semantic)
+gh    seek 0 absolute-percent   # Go home: Start of video
+gl    seek 100 absolute-percent # Go line end: End of video
+gg    seek 0 absolute            # Go to beginning
+ge    seek 100 absolute-percent # Go end (Helix, not G)
+
+# Word-like navigation (chapters)
+w     add chapter 1              # Word next: Next chapter
+b     add chapter -1             # Word prev: Previous chapter
+
+# ============================================================================
+# MANIPULATION - Modify playback parameters
+# ============================================================================
+
+Ctrl+h    add speed -0.1         # Slow down
+Ctrl+l    add speed 0.1          # Speed up
+Ctrl+j    add volume -2          # Volume down
+Ctrl+k    add volume 2           # Volume up
+
+# Fine control
++     add volume 2               # Increase volume
+-     add volume -2              # Decrease volume
+=     set speed 1.0              # Reset speed
+0     set volume 100             # Reset volume
+
+# ============================================================================
+# TRANSFORMATION - Toggle states/modes
+# ============================================================================
+
+f     cycle fullscreen           # Transform: Toggle fullscreen
+i     show-text "${filename}"    # Info mode: Show filename
+v     cycle sub-visibility       # Visual: Toggle subtitles
+m     cycle mute                 # Mute toggle
+t     cycle ontop                # Top: Always on top
+p     show-progress              # Progress bar
+
+# ============================================================================
+# PRESERVATION - Save state
+# ============================================================================
+
+s     screenshot                 # Save screenshot
+S     screenshot video           # Save without subtitles
+Ctrl+s write-watch-later-config # Save position manually
+
+# ============================================================================
+# DISCOVERY - Search/browse content
+# ============================================================================
+
+/     script-binding console/enable       # Search forward (console)
+?     script-binding stats/display-stats  # Help: Show statistics
+b     script-binding browse-files         # Browse: Open file browser
+B     script-binding browse-files/open-folder # Browse folder
+Tab   script-binding stats/display-stats-toggle # Stats toggle
+
+# ============================================================================
+# SELECTION - Choose/activate
+# ============================================================================
+
+SPACE cycle pause                # Toggle selection: Play/Pause
+Enter cycle pause                # Alternative pause toggle
+a     cycle audio                # Audio track selection
+
+# ============================================================================
+# SUBTITLE CONTROL - Comprehensive subtitle management
+# ============================================================================
+
+# Primary subtitles
+v     cycle sub-visibility       # Toggle subtitle visibility
+V     cycle secondary-sub-visibility # Toggle secondary subtitles
+s     cycle sub                  # Cycle through available subtitles
+S     cycle sub down             # Cycle backwards through subtitles
+Alt+s cycle secondary-sid        # Cycle secondary subtitle track
+
+# Subtitle timing
+z     add sub-delay -0.1         # Shift subtitles earlier
+x     add sub-delay +0.1         # Shift subtitles later
+Z     set sub-delay 0            # Reset subtitle delay
+
+# Subtitle positioning
+Alt+j add sub-pos +1             # Move subtitles down
+Alt+k add sub-pos -1             # Move subtitles up
+Alt+r set sub-pos 95             # Reset subtitle position
+
+# Subtitle sizing
+Alt++ add sub-scale +0.1         # Increase subtitle size
+Alt+- add sub-scale -0.1         # Decrease subtitle size
+Alt+0 set sub-scale 1.0          # Reset subtitle size
+
+# Subtitle styling
+Alt+b cycle-values sub-bold "yes" "no"     # Toggle bold
+Alt+i cycle-values sub-italic "yes" "no"   # Toggle italic
+Alt+u cycle-values sub-border-size "0" "1" "2" "3" "4" # Cycle border size
+
+# Load external subtitles
+Alt+f script-message-to console type "sub-add " # Type path to load subtitle file
+Alt+F sub-remove                 # Remove current external subtitle
+
+# ============================================================================
+# DISMISSAL - Close/quit
+# ============================================================================
+
+q     quit                       # Quit current
+Q     quit-watch-later           # Quit and save position
+ESC   set fullscreen no          # Escape fullscreen
+
+# ============================================================================
+# PLAYLIST MANAGEMENT
+# ============================================================================
+
+n     playlist-next              # Next in playlist
+N     playlist-prev              # Previous in playlist
+>     playlist-next              # Alternative next
+<     playlist-prev              # Alternative prev
+P     script-binding console/enable # Playlist console
+
+# ============================================================================
+# ADVANCED CONTROLS
+# ============================================================================
+
+c     cycle-values video-rotate "90" "180" "270" "0" # Cycle rotation
+r     set video-rotate 0         # Reset rotation
+d     cycle deinterlace          # Deinterlace toggle
+A     cycle-values video-aspect-override "16:9" "4:3" "2.35:1" "-1" # Aspect ratio
+
+# ============================================================================
+# MOUSE BINDINGS
+# ============================================================================
+
+WHEEL_UP      add volume 2
+WHEEL_DOWN    add volume -2
+WHEEL_LEFT    seek -10
+WHEEL_RIGHT   seek 10
+MBTN_LEFT     cycle pause
+MBTN_LEFT_DBL cycle fullscreen
+MBTN_RIGHT    quit

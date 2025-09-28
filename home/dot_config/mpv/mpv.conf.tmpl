@@ -1,0 +1,159 @@
+{{- $c := .kanagawa.dragon -}}
+# MPV Configuration - Ultra-Zen Media Experience
+# Kanagawa Dragon themed with semantic keybindings and file browser integration
+
+# ============================================================================
+# WATCH LATER / RESUME FEATURES
+# ============================================================================
+# "The river remembers where it paused"
+
+save-position-on-quit=yes       # Auto-save position on quit
+resume-playback=yes              # Resume from saved position
+resume-playback-check-mtime=yes # Only resume if file unchanged
+watch-later-options=start        # Save only playback position
+
+# ============================================================================
+# WATCH HISTORY
+# ============================================================================
+# "Each journey leaves a trace in ~/.local/state/mpv/watch_history.jsonl"
+
+watch-later-directory=~/.local/state/mpv/watch_later
+log-file=~/.local/state/mpv/mpv.log
+
+# ============================================================================
+# QUALITY OF LIFE
+# ============================================================================
+# "Sensible defaults for daily viewing meditation"
+
+keep-open=yes                    # Don't close when video ends
+autofit=85%                      # Start at 85% of screen size
+volume=70                        # Safe default volume
+volume-max=150                   # Allow boosting quiet videos
+cursor-autohide=1000             # Hide cursor after 1 second
+
+# ============================================================================
+# ON-SCREEN DISPLAY (OSD)
+# ============================================================================
+# "Information appears when needed, disappears when not"
+
+osd-level=1                      # Show brief status on seek
+osd-duration=2000                # Show OSD for 2 seconds
+osd-font-size=32                 # Readable from distance
+osd-font='Monospace'
+osd-color='#{{ $c.fg_primary }}'       # Kanagawa foreground
+osd-border-color='#{{ $c.bg_dark }}'   # Kanagawa background
+osd-border-size=2
+osd-bar-align-y=0.9
+osd-bar-h=2
+osd-bar-w=60
+
+# ============================================================================
+# SCREENSHOTS
+# ============================================================================
+# "Capture moments in ~/Pictures/mpv/"
+
+screenshot-directory=~/Pictures/mpv
+screenshot-template="%F_%P"      # VideoFileName_Timestamp
+screenshot-format=png
+screenshot-png-compression=7
+
+# ============================================================================
+# SUBTITLES - AUTO-DETECTION & DISPLAY
+# ============================================================================
+# "Understanding flows naturally from every source"
+
+# Automatic subtitle loading
+sub-auto=all                     # Load all subtitle files in directory
+slang=en,eng,english            # Preferred subtitle languages
+alang=en,eng,english,ja,jpn     # Preferred audio languages
+
+# Subtitle file detection
+sub-file-paths=subs:subtitles:Subs:Subtitles:sub:Sub:**  # Search paths (including subdirs)
+sub-file-paths-append=.                  # Also check current directory
+sub-file-paths-append=..                 # Check parent directory
+sub-file-paths-append=../subs            # Check parent's subs folder
+sub-file-paths-append=../../subs         # Check grandparent's subs folder
+
+# Fuzzy matching for external subtitles
+sub-auto=fuzzy                   # Find subs even if names don't match exactly
+sub-fuzzy-match-threshold=90    # 90% similarity threshold
+
+# Display settings
+sub-visibility=yes               # Show subtitles by default
+sub-pos=95                       # Position (95 = near bottom)
+sub-delay=0                      # No delay by default
+
+# Subtitle styling - Kanagawa Dragon theme
+sub-font='Monospace'
+sub-font-size=40                 # Slightly larger for readability
+sub-color='#{{ $c.fg_default }}'        # Use default foreground for best contrast
+sub-border-color='#{{ $c.bg_darkest }}' # Darkest background for border
+sub-border-size=3                # Thicker border for readability
+sub-shadow-offset=2              # Shadow offset
+sub-shadow-color='#{{ $c.bg_darkest }}'
+sub-blur=0.2                     # Slight blur for softer appearance
+sub-bold=no                      # No bold by default
+sub-italic=no                    # No italic by default
+sub-margin-x=25                  # Horizontal margins
+sub-margin-y=50                  # Vertical margin from bottom
+sub-align-x=center               # Center horizontally
+sub-align-y=bottom               # Align to bottom
+
+# ASS/SSA subtitle handling
+sub-ass=yes                      # Use ASS subtitle rendering
+sub-ass-vsfilter-blur-compat=no # Better quality rendering
+sub-ass-scale-with-window=yes   # Scale with window size
+sub-ass-force-margins=yes        # Respect margins
+sub-ass-force-style='Kerning=yes' # Enable kerning
+
+# Secondary subtitles (for dual subtitle display)
+secondary-sid=auto               # Auto-select secondary subtitle
+secondary-sub-visibility=no     # Hidden by default (toggle with Alt+v)
+
+# ============================================================================
+# CACHE / BUFFERING
+# ============================================================================
+# "Smooth flow, no interruptions"
+
+cache=yes                        # Enable cache
+cache-secs=300                   # Cache 5 minutes
+demuxer-max-bytes=1024M          # 1GB max demuxer cache
+demuxer-max-back-bytes=256M      # 256MB back buffer
+
+# ============================================================================
+# AUDIO
+# ============================================================================
+# "Sound balanced with intention"
+
+audio-channels=stereo            # Downmix to stereo
+audio-normalize-downmix=yes     # Normalize when downmixing
+audio-pitch-correction=yes       # Maintain pitch when speed changes
+
+# ============================================================================
+# VIDEO
+# ============================================================================
+# "Visual clarity without excess"
+
+vo=gpu                           # GPU acceleration
+hwdec=auto-safe                  # Safe hardware decoding
+profile=gpu-hq                   # High quality GPU settings
+video-sync=display-resample      # Smooth playback
+
+# ============================================================================
+# WINDOW
+# ============================================================================
+# "The frame complements the content"
+
+geometry=50%:50%                 # Center window
+snap-window=yes                  # Snap to screen edges
+border=no                        # No window border in windowed mode
+
+# ============================================================================
+# TERMINAL
+# ============================================================================
+# "Silence in the terminal"
+
+msg-level=all=error              # Only show errors
+msg-color=yes                    # Colored terminal output
+term-osd-bar=yes                 # Show OSD bar in terminal
+term-osd-bar-chars=[━━]

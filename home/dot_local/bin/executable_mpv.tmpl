@@ -1,0 +1,105 @@
+#!/bin/bash
+# MPV Wrapper with LF File Browser Integration
+# "When called without direction, the browser guides the way"
+
+# Pass through to real mpv if arguments provided
+if [[ $# -gt 0 ]]; then
+    exec /usr/bin/mpv "$@"
+fi
+
+# No arguments - open lf for file selection
+# Determine starting directory
+if [[ -d "$HOME/Videos" ]] && [[ "$(ls -A "$HOME/Videos" 2>/dev/null)" ]]; then
+    START_DIR="$HOME/Videos"
+elif [[ -d "$HOME/Downloads" ]] && [[ "$(ls -A "$HOME/Downloads" 2>/dev/null)" ]]; then
+    START_DIR="$HOME/Downloads"
+else
+    START_DIR="$HOME"
+fi
+
+# Create temporary file for selection
+SELECTION_FILE=$(mktemp /tmp/lf-mpv-XXXXXX)
+
+# Create lf wrapper script
+cat > /tmp/lf-mpv-select.sh << 'LFSCRIPT'
+#!/bin/bash
+SELECTION_FILE="$1"
+START_DIR="$2"
+
+# Create custom lf config for video selection
+mkdir -p /tmp/lf-mpv-config
+cat > /tmp/lf-mpv-config/lfrc << 'CONFIG'
+# Helix-native navigation
+map h updir
+map l open
+map j down
+map k up
+map gg top
+map ge bottom
+map G bottom
+map q quit
+
+# Custom command to select and play video
+cmd select-video &{
+    if test -f "$f"; then
+        case "$f" in
+            *.mp4|*.mkv|*.avi|*.webm|*.mp3|*.flac|*.opus|*.m4a|*.mov|*.wmv|*.flv|*.mpg|*.mpeg)
+                echo "$f" > SELECTION_FILE_PLACEHOLDER
+                lf -remote "send $id quit"
+                ;;
+            *)
+                lf -remote "send $id echo Not a media file"
+                ;;
+        esac
+    fi
+}
+
+# Map Enter to select video
+map <enter> select-video
+
+# File preview settings
+set preview true
+set hidden false
+set icons true
+
+# Filter to show only media files (visual hint, not enforced)
+set info size:time
+CONFIG
+
+# Replace placeholder with actual file path
+sed -i "s|SELECTION_FILE_PLACEHOLDER|$SELECTION_FILE|" /tmp/lf-mpv-config/lfrc
+
+# Run lf with custom config
+cd "$START_DIR"
+lf -config /tmp/lf-mpv-config/lfrc
+
+# Clean up
+rm -rf /tmp/lf-mpv-config
+LFSCRIPT
+
+chmod +x /tmp/lf-mpv-select.sh
+
+# Check if alacritty is available, otherwise use default terminal
+if command -v alacritty &>/dev/null; then
+    alacritty -T "Select video for mpv" -e /tmp/lf-mpv-select.sh "$SELECTION_FILE" "$START_DIR"
+else
+    # Try to use default terminal
+    if [[ -n "$TERMINAL" ]]; then
+        $TERMINAL -e /tmp/lf-mpv-select.sh "$SELECTION_FILE" "$START_DIR"
+    else
+        # Direct execution if no terminal available
+        /tmp/lf-mpv-select.sh "$SELECTION_FILE" "$START_DIR"
+    fi
+fi
+
+# Check if a file was selected
+if [[ -f "$SELECTION_FILE" ]] && [[ -s "$SELECTION_FILE" ]]; then
+    SELECTED_FILE=$(cat "$SELECTION_FILE")
+    if [[ -f "$SELECTED_FILE" ]]; then
+        # Launch mpv with the selected file
+        exec /usr/bin/mpv "$SELECTED_FILE"
+    fi
+fi
+
+# Clean up
+rm -f "$SELECTION_FILE" /tmp/lf-mpv-select.sh

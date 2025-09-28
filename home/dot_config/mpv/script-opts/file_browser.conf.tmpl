@@ -1,0 +1,65 @@
+{{- $c := .kanagawa.dragon -}}
+# MPV File Browser - Kanagawa Dragon Theme
+# "Browse with intention, select with purpose"
+
+# ============================================================================
+# DISPLAY SETTINGS
+# ============================================================================
+
+num_entries=20                   # Number of entries to show
+wrap=true                        # Wrap at top/bottom
+show_hidden=no                   # Hide dotfiles by default
+use_vim_keys=yes                 # Enable vim navigation
+
+# ============================================================================
+# START LOCATION
+# ============================================================================
+
+root=~/Videos,~/Downloads,~/     # Search paths in order
+default_to_working_directory=no  # Start in root paths
+save_last_opened_directory=yes   # Remember last location
+
+# ============================================================================
+# KANAGAWA DRAGON COLORS (BGR format for mpv)
+# ============================================================================
+# Colors must be in BGR format (Blue Green Red) for mpv
+# Manual BGR conversion from Kanagawa Dragon RGB values
+
+font_colour_header=7b9a8a              # green: 8a9a7b -> 7b9a8a
+font_colour_body=9ca6a6                # fg_primary: a6a69c -> 9ca6a6
+font_colour_cursor=a2a48e              # cyan: 8ea4a2 -> a2a48e
+font_colour_selected=8ab2c4            # yellow: c4b28a -> 8ab2c4
+font_colour_playing=b0a48b              # blue: 8ba4b0 -> b0a48b
+font_colour_multiselect=8ab2c4         # yellow: c4b28a -> 8ab2c4
+font_colour_playing_multiselected=7b9a8a # green: 8a9a7b -> 7b9a8a
+font_colour_wrappers=9ca6a6            # fg_muted: a6a69c -> 9ca6a6
+font_colour_footer=93c0c8              # fg_default: c8c093 -> 93c0c8
+
+# ============================================================================
+# TYPOGRAPHY
+# ============================================================================
+
+font_name_header=Monospace
+font_name_body=Monospace
+font_name_wrappers=Monospace
+font_name_footer=Monospace
+scaling_factor_header=1.2
+font_bold_header=yes
+
+# ============================================================================
+# TEXT ICONS WITH KANAGAWA COLORS
+# ============================================================================
+# Using ASS tags with BGR colors
+
+folder_icon={\c&H7b9a8a&}▶ {\r}
+cursor_icon=►
+
+# ============================================================================
+# BEHAVIOR
+# ============================================================================
+
+filter_files=yes                 # Enable file filtering
+filter=*.{mp4,mkv,avi,webm,mp3,flac,opus,m4a,mov,wmv,flv,mpg,mpeg}
+case_sensitive=no                # Case insensitive filtering
+history_size=50                  # Command history
+custom_keybinds=yes              # Allow custom keybinds

@@ -168,6 +168,71 @@ systemctl --user enable goosevpn  # Auto-connect on boot
 - Foundation for future enhancements (encryption, systemd-creds)
 - Works around Claude Code's broken deny permissions
 
+## MPV Media Player with File Browser
+
+### Ultra-Zen Philosophy: Mindful Media Consumption
+**"Each viewing journey begins with intention, pauses with memory, resumes with continuity"**
+
+### Architecture
+- **MPV Core** - Feature-rich media player with resume and history tracking
+- **Dual File Browsers** - Built-in plugin and LF terminal browser for flexible selection
+- **Kanagawa Theme** - Consistent theming across OSD, subtitles, and file browser
+- **Helix-Native Keys** - Vi navigation with semantic improvements (ge for end)
+- **Fish Integration** - Semantic functions for media management (mp, mpb, mps, mpc)
+
+### Configuration Files
+- **Main Config**: `home/dot_config/mpv/mpv.conf.tmpl` - Core settings and theming
+- **Keybindings**: `home/dot_config/mpv/input.conf.tmpl` - Helix-native navigation
+- **File Browser Theme**: `home/dot_config/mpv/script-opts/file_browser.conf.tmpl` - Kanagawa colors
+- **Browser Keys**: `home/dot_config/mpv/script-opts/file-browser-keybinds.json.tmpl` - Vi navigation
+- **LF Wrapper**: `home/dot_local/bin/executable_mpv.tmpl` - Terminal browser integration
+- **Fish Functions**: `home/dot_config/fish/functions/mp*.fish.tmpl` - Semantic commands
+- **Plugin Installer**: `home/run_once_install-mpv-scripts.sh.tmpl` - Auto-install file browser
+
+### Usage
+```bash
+mp                # Launch with LF file browser
+mp video.mp4      # Play specific file
+mpb               # Force browse mode
+mps               # Show watch history and saved positions
+mpc               # Clear history and positions
+mpsub <cmd>       # Subtitle management (find/organize/rename/check)
+
+# Within MPV:
+b                 # Open built-in file browser
+hjkl              # Navigate (vi-style)
+ge                # Go to end (Helix-native)
+q                 # Quit and save position
+
+# Subtitle controls:
+v                 # Toggle subtitle visibility
+s/S               # Cycle through available subtitles
+z/x               # Adjust subtitle timing (-/+ 0.1s)
+Alt+j/k           # Move subtitles up/down
+Alt++/-           # Increase/decrease subtitle size
+V                 # Toggle secondary subtitles (dual subs)
+```
+
+### Features
+- **Resume Playback** - Automatically saves and restores position
+- **Watch History** - Tracks all viewed media in `~/.local/state/mpv/`
+- **Smart Directories** - Starts in ~/Videos, falls back to ~/Downloads
+- **Dual Browse Modes** - Plugin for in-player browsing, LF for pre-selection
+- **Screenshot Organization** - Saves to `~/Pictures/mpv/` with timestamps
+- **Advanced Subtitle Support**:
+  - Automatic detection in multiple directories (., subs/, .., ../subs)
+  - Fuzzy matching (90% threshold) for misnamed subtitles
+  - Dual subtitle display capability
+  - Kanagawa-themed styling with readable borders
+  - Comprehensive timing and positioning controls
+  - `mpsub` tool for organizing and renaming subtitle files
+
+### Navigation Philosophy
+- **In Player**: Press `b` to browse without leaving mpv
+- **Pre-Selection**: Launch `mp` without args for LF browser
+- **Helix-Native**: `ge` for end, consistent with editor navigation
+- **Semantic Functions**: `mp` (media-play), `mpb` (media-play-browse)
+
 ## Transmission BitTorrent with VPN Killswitch
 
 ### Ultra-Zen Philosophy: Secure Torrenting
@@ -242,6 +307,13 @@ tui      # Launch tremc interface
 - `home/dot_config/tremc/settings.cfg.tmpl` - Tremc TUI configuration
 - `home/dot_local/bin/executable_transmission-vpn-bind.tmpl` - VPN binding script
 - `home/dot_config/fish/conf.d/10-transmission-vpn.fish.tmpl` - Transmission VPN monitor
+- `home/dot_config/mpv/mpv.conf.tmpl` - MPV main configuration
+- `home/dot_config/mpv/input.conf.tmpl` - MPV Helix-native keybindings
+- `home/dot_config/mpv/script-opts/file_browser.conf.tmpl` - File browser theme config
+- `home/dot_config/mpv/script-opts/file-browser-keybinds.json.tmpl` - File browser vi keys
+- `home/dot_local/bin/executable_mpv.tmpl` - MPV wrapper for LF integration
+- `home/dot_config/fish/functions/mp*.fish.tmpl` - MPV management functions
+- `home/run_once_install-mpv-scripts.sh.tmpl` - MPV plugin installation script
 - `home/.chezmoitemplates/` - Reusable template fragments
   - `color-hex.tmpl` - Convert color to #hex format (CSS/KDL)
   - `color-quoted.tmpl` - Convert color to "#hex" format (TOML)
@@ -390,6 +462,18 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
 - **Launch Command**: `tui` function auto-starts daemon if needed
 - **Profile Support**: Pre-configured filters for active/downloading/seeding
 - **Confirmation Dialogs**: Protects against accidental removal/deletion
+
+### MPV Media Player (`mpv`)
+- **Kanagawa Theme**: OSD, subtitles, and file browser themed from centralized palette
+- **Helix-Native Keybindings**: Vi navigation throughout (hjkl, ge for end, b for browse)
+- **Dual File Browsers**:
+  - Built-in mpv-file-browser plugin (press `b` during playback)
+  - LF terminal browser (launch `mp` without arguments)
+- **Resume Playback**: Automatic position saving and resuming
+- **Watch History**: Tracks viewing in `~/.local/state/mpv/watch_history.jsonl`
+- **Advanced Subtitles**: Auto-detection, fuzzy matching, dual display, full control
+- **Fish Functions**: `mp` (play), `mpb` (browse), `mps` (status), `mpc` (clear), `mpsub` (subtitle management)
+- **Screenshots**: Saved to `~/Pictures/mpv/` with video name and timestamp
 
 ## Workflow
 
