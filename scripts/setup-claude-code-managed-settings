@@ -13,7 +13,6 @@ echo "  /etc/claude-code/managed-settings.json"
 echo ""
 echo "These settings control:"
 echo "  • Co-authorship attribution"
-echo "  • Output verbosity"
 echo "  • Path permissions and restrictions"
 echo ""
 
@@ -23,7 +22,6 @@ SETTINGS_FILE="/etc/claude-code/managed-settings.json"
 cat <<EOF > /tmp/claude-managed-settings.json
 {
   "includeCoAuthoredBy": false,
-  "outputStyle": "explanatory",
   "permissions": {
     "allowedPaths": ["$HOME"],
     "deniedPaths": [
