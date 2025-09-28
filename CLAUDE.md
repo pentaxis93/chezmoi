@@ -599,6 +599,13 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
 - **Nick Configuration**: System username ({{ .chezmoi.username }})
 - **Modern Features**: Split panes, better Unicode support, plugin ecosystem
 
+### Claude Code Output Styles
+- **Zen Engineer**: Technically precise yet contemplative engineering guidance
+  - Green-colored Zen Moment callouts with ASCII decoration
+  - Adaptive depth philosophy - surface simplicity revealing deeper patterns
+  - Helix-native keybindings philosophy carried into prose
+  - Location: `home/dot_claude/output-styles/zen-engineer.md`
+
 ## Workflow
 
 1. `chezmoi edit ~/.config/app`
