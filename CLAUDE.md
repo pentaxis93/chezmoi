@@ -168,6 +168,51 @@ systemctl --user enable goosevpn  # Auto-connect on boot
 - Foundation for future enhancements (encryption, systemd-creds)
 - Works around Claude Code's broken deny permissions
 
+## Transmission BitTorrent with VPN Killswitch
+
+### Ultra-Zen Philosophy: Secure Torrenting
+**"The river flows only through the secure tunnel; when the tunnel closes, the river stops"**
+
+### Architecture
+- **Transmission Daemon** - BitTorrent client bound to VPN interface IP
+- **VPN Killswitch** - Transmission stops automatically if VPN disconnects
+- **Minimal Seeding** - Ultra-low upload limits (10KB/s, 0.1 ratio, 5min idle)
+- **Security Hardened** - Required encryption, no DHT/PEX/LPD, blocklist enabled
+- **Tremc TUI** - Kanagawa-themed terminal interface with vi keybindings
+
+### Configuration Files
+- **Daemon Config**: `home/dot_config/transmission-daemon/settings.json.tmpl` - Security-focused settings
+- **VPN Binding**: `home/dot_local/bin/executable_transmission-vpn-bind.tmpl` - Dynamic IP updater
+- **Systemd Service**: `home/dot_config/systemd/user/transmission-daemon.service.tmpl` - VPN-dependent service
+- **Fish Functions**: `home/dot_config/fish/functions/t*.fish.tmpl` - Semantic management commands
+- **Tremc Config**: `home/dot_config/tremc/settings.cfg.tmpl` - Kanagawa theme and vi navigation
+
+### Usage
+```bash
+tstart   # Start transmission (checks VPN, updates binding)
+tstop    # Stop transmission daemon
+tstatus  # Show daemon and VPN binding status
+tadd     # Add torrent file or magnet link
+tlist    # List active torrents
+tremove  # Remove torrent by ID
+tui      # Launch tremc interface
+```
+
+### Security Features
+- **Bind to VPN IP** - Only works when VPN is connected (bind-address-ipv4)
+- **Auto-stop on VPN disconnect** - Killswitch via systemd BindsTo
+- **Minimal upload** - 10KB/s limit, 0.1 ratio, 5-minute idle timeout
+- **Full encryption** - Peer connections require encryption
+- **No discovery** - DHT, PEX, LPD all disabled for privacy
+- **Random ports** - New peer port on each start
+- **Download to ~/Videos** - Organized media storage
+
+### VPN Integration
+- Transmission service depends on goosevpn.service
+- VPN IP dynamically detected and bound on startup
+- Fish conf.d hook monitors VPN status
+- Manual `tstart` includes automatic VPN check
+
 ## Best Practices
 
 - **Preserve Git History** - Use `git mv` instead of delete/create when refactoring files
@@ -191,6 +236,12 @@ systemctl --user enable goosevpn  # Auto-connect on boot
 - `home/dot_config/fish/functions/vpn-*.fish.tmpl` - VPN management functions
 - `home/dot_config/private_openvpn/` - OpenVPN configuration files
 - `home/dot_config/systemd/user/goosevpn.service.tmpl` - VPN systemd service
+- `home/dot_config/transmission-daemon/settings.json.tmpl` - Transmission daemon configuration
+- `home/dot_config/fish/functions/t*.fish.tmpl` - Transmission management functions
+- `home/dot_config/systemd/user/transmission-daemon.service.tmpl` - Transmission systemd service
+- `home/dot_config/tremc/settings.cfg.tmpl` - Tremc TUI configuration
+- `home/dot_local/bin/executable_transmission-vpn-bind.tmpl` - VPN binding script
+- `home/dot_config/fish/conf.d/10-transmission-vpn.fish.tmpl` - Transmission VPN monitor
 - `home/.chezmoitemplates/` - Reusable template fragments
   - `color-hex.tmpl` - Convert color to #hex format (CSS/KDL)
   - `color-quoted.tmpl` - Convert color to "#hex" format (TOML)
@@ -324,6 +375,21 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
 - **Fish Integration**: Custom wrapper function provides navigation reference
 - **Waybar Integration**: Click wifi widget to launch nmtui in Alacritty
 - **Limitations**: No vim keybinding support; limited to 16 terminal colors (not RGB)
+
+### Transmission BitTorrent (`transmission-daemon`)
+- **VPN Binding**: Bound to VPN interface IP (killswitch if VPN disconnects)
+- **Security Hardened**: Required encryption, minimal seeding, no peer discovery
+- **Download Location**: `~/Videos` with incomplete files in `.incomplete` subdirectory
+- **Fish Functions**: `tstart`, `tstop`, `tstatus`, `tadd`, `tlist`, `tremove`
+- **Systemd Integration**: Depends on goosevpn.service, auto-stops if VPN fails
+- **Dynamic IP Binding**: `transmission-vpn-bind` script updates bind address
+
+### Tremc TUI (`tremc`)
+- **Kanagawa Theme**: Full color customization from centralized palette
+- **Vi Keybindings**: Helix-native navigation (hjkl, ge for end)
+- **Launch Command**: `tui` function auto-starts daemon if needed
+- **Profile Support**: Pre-configured filters for active/downloading/seeding
+- **Confirmation Dialogs**: Protects against accidental removal/deletion
 
 ## Workflow
 

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Bind transmission to VPN interface IP address
+# Acts as a killswitch - transmission won't work if VPN is down
+
+set -euo pipefail
+
+CONFIG_FILE="{{ .chezmoi.homeDir }}/.config/transmission-daemon/settings.json"
+
+# Get VPN interface IP (tun0 for OpenVPN)
+VPN_IP=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1)
+
+if [ -n "$VPN_IP" ]; then
+    echo "VPN connected with IP: $VPN_IP"
+
+    # Update bind address in settings.json
+    if [ -f "$CONFIG_FILE" ]; then
+        echo "Updating bind address to $VPN_IP..."
+        sed -i "s/\"bind-address-ipv4\": \"[^\"]*\"/\"bind-address-ipv4\": \"$VPN_IP\"/" "$CONFIG_FILE"
+        echo "✓ Transmission will be bound to VPN IP: $VPN_IP"
+        exit 0
+    else
+        echo "⚠ Config file not found: $CONFIG_FILE"
+        echo "Run 'chezmoi apply' first to create configuration"
+        exit 1
+    fi
+else
+    echo "⚠ VPN not connected - transmission daemon cannot start"
+    echo "Please connect to VPN first with 'vpc' command"
+    # Exit with error to prevent daemon from starting
+    exit 1
+fi

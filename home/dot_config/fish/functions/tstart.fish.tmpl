@@ -1,0 +1,16 @@
+{{- /* Start transmission daemon with VPN check */ -}}
+function tstart --description "Start transmission daemon (VPN-bound)"
+    # Check if VPN is connected
+    if not ip addr show tun0 2>/dev/null | grep -q 'inet '
+        echo "⚠ VPN not connected. Starting VPN first..."
+        vpc
+        sleep 3
+    end
+
+    # Update binding and start daemon
+    transmission-vpn-bind
+
+    # Show status
+    sleep 1
+    tstatus
+end

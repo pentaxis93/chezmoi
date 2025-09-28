@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Tremc
+GenericName=Transmission Remote Client
+Comment=Curses interface for Transmission
+Exec=alacritty -e tremc --netrc
+Icon=transmission
+Terminal=false
+Categories=Network;P2P;FileTransfer;
+Keywords=torrent;transmission;

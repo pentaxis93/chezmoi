@@ -8,3 +8,5 @@ packages:
       - npm  # Node.js package manager (nodejs is a dependency)
       - bitwarden-cli  # Password manager CLI for secure secret management
       - openvpn  # Secure tunneling daemon for VPN connections
+      - transmission-cli  # BitTorrent client with daemon for VPN-bound torrenting
+      - tremc  # Terminal UI for transmission with vi-like keybindings

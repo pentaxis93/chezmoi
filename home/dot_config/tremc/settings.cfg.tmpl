@@ -1,0 +1,150 @@
+{{- /* Tremc configuration with Kanagawa Dragon theme */ -}}
+{{- $c := .kanagawa.dragon -}}
+#
+# Transmission Remote Curses Interface Configuration
+# Ultra-Zen: Kanagawa Dragon Theme
+#
+
+[Colors]
+# Title bar colors based on torrent status
+# Green for active seeding (focus color)
+title_seed = bg:green,fg:black
+# Blue for downloading (info color)
+title_download = bg:blue,fg:black
+# Default for idle torrents
+title_idle = bg:default,fg:cyan
+# Magenta for verification
+title_verify = bg:magenta,fg:black
+# Default for paused
+title_paused = bg:default,fg:yellow
+# Red for errors
+title_error = bg:red,fg:white
+
+# Rate display colors
+download_rate = bg:default,fg:blue
+upload_rate = bg:default,fg:red
+
+# Status indicators
+eta+ratio = bg:default,fg:green
+filter_status = bg:default,fg:red
+multi_filter_status = bg:default,fg:blue
+
+# Dialog colors
+dialog = bg:default,fg:default
+dialog_important = bg:default,fg:red
+
+# File priority colors
+file_prio_high = bg:default,fg:red
+file_prio_normal = bg:default,fg:default
+file_prio_low = bg:default,fg:yellow
+file_prio_off = bg:default,fg:black
+
+[Misc]
+# Update interval in seconds
+update_interval = 1
+
+# Compact mode for smaller displays
+compact_list = false
+
+# Show file sizes in human readable format
+human_readable = true
+
+# Confirm before quitting
+confirm_quit = true
+
+# Confirm before removing torrents
+confirm_remove = true
+
+# Confirm before deleting torrents with data
+confirm_delete = true
+
+# Reverse list order (newest first)
+reverse_sort = true
+
+# Show ETA instead of percentage
+show_eta = true
+
+# Show totals in footer
+show_totals = true
+
+[Profiles]
+# Default profile: Active torrents only
+Default = filter:active
+
+# All torrents profile
+All = filter:
+
+# Downloading profile
+Downloading = filter:downloading
+
+# Seeding profile
+Seeding = filter:seeding
+
+# Paused profile
+Paused = filter:paused
+
+[Filtering]
+# Default filter on startup (active torrents only)
+filter = active
+
+[ListKeys]
+# Vi-like navigation (Helix-native)
+move_up = k
+move_down = j
+move_left = h
+move_right = l
+move_page_up = <C-b>
+move_page_down = <C-f>
+move_home = g g
+move_end = g e
+
+# Selection
+select = <Space>
+select_all = <C-a>
+deselect_all = <C-d>
+
+# Actions
+pause = p
+start = s
+verify = v
+remove = <Delete>
+delete = <S-Delete>
+
+# Views
+details = <Enter>
+files = f
+peers = e
+trackers = t
+
+# Filtering
+filter = /
+clear_filter = <Esc>
+
+# Sorting
+sort = o
+reverse_sort = O
+
+# Other
+help = ?
+quit = q
+
+[DetailsKeys]
+# Navigation in details view
+move_up = k
+move_down = j
+move_left = h
+move_right = l
+
+# Tab switching
+next_tab = <Tab>
+prev_tab = <S-Tab>
+
+# Return to list
+back = q
+back2 = <Esc>
+
+[CommonKeys]
+# Global hotkeys
+refresh = r
+help = ?
+quit = Q
