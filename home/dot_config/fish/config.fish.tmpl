@@ -141,6 +141,13 @@ abbr -a vpc "vpn-connect"          # Connect VPN (semantic: establish)
 abbr -a vpd "vpn-disconnect"       # Disconnect VPN (semantic: terminate)
 abbr -a vps "vpn-status"           # Check status (semantic: observe)
 
+# IRC Semantic Abbreviations
+abbr -a i "irc"                     # Launch IRC (semantic: communicate)
+abbr -a is "irc-status"            # IRC status (semantic: observe)
+abbr -a id "irc-downloads"         # Manage downloads (semantic: organize)
+abbr -a idl "irc-downloads list"   # List downloads (semantic: discover)
+abbr -a idc "irc-downloads clean"  # Clean old files (semantic: maintain)
+
 # Auto-lock Bitwarden on terminal exit - Security first
 # "The wise seal their treasures when departing"
 function __bw_auto_lock_on_exit --on-event fish_exit

@@ -1,0 +1,77 @@
+{{- /* WeeChat xfer (file transfer) configuration */ -}}
+{{- /* Ultra-Zen: Automatic acceptance of IRC file transfers with security limits */ -}}
+
+#
+# weechat -- xfer.conf
+#
+# WARNING: It is NOT recommended to edit this file by hand,
+# especially if WeeChat is running.
+#
+# Use commands like /set or /fset to change settings in WeeChat.
+#
+# For more info, see: https://weechat.org/doc/weechat/quickstart/#configuration
+#
+
+config_version = 2
+
+[look]
+auto_open_buffer = on
+progress_bar_size = 20
+pv_tags = "notify_private"
+
+[color]
+status_aborted = lightred
+status_active = lightblue
+status_connecting = yellow
+status_done = lightgreen
+status_failed = lightred
+status_waiting = lightcyan
+text = default
+text_bg = default
+text_selected = white
+
+[network]
+blocksize = 65536
+fast_send = on
+ip = ""
+own_ip = ""
+port_range = ""
+send_ack = on
+speed_limit_recv = 0
+speed_limit_send = 0
+timeout = 300
+
+[file]
+# Auto-accept all incoming files (use with caution!)
+auto_accept_files = on
+
+# Comma-separated list of nicks to auto-accept from
+# This will be automatically populated by the trigger when bots send files
+auto_accept_nicks = ""
+
+# Auto-accept chats (keep disabled for security)
+auto_accept_chats = off
+
+# Automatically check CRC32 checksum if provided by sender
+auto_check_crc32 = off
+
+# Auto-rename files if they already exist (adds .1, .2, etc.)
+auto_rename = on
+
+# Auto-resume partial transfers
+auto_resume = on
+
+# Convert spaces in filenames to underscores
+convert_spaces = on
+
+# Download path for received files
+download_path = "~/Downloads"
+
+# Temporary suffix for incomplete downloads
+download_temporary_suffix = ".part"
+
+# Upload path for sending files
+upload_path = "~/.weechat/xfer"
+
+# Use nick in filename (adds sender's nick to filename)
+use_nick_in_filename = off

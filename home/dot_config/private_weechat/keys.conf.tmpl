@@ -1,0 +1,122 @@
+{{- /* WeeChat keybindings with vi-style navigation and Helix improvements */ -}}
+{{- /* Ultra-Zen: Semantic keybindings for mindful IRC interaction */ -}}
+
+#
+# weechat -- keys.conf
+#
+# WARNING: It is NOT recommended to edit this file by hand,
+# especially if WeeChat is running.
+#
+# Use commands like /set or /fset to change settings in WeeChat.
+#
+# For more info, see: https://weechat.org/doc/weechat/quickstart/#configuration
+#
+
+[key]
+# Vi-style navigation
+ctrl-b = "/window page_up"
+ctrl-f = "/window page_down"
+ctrl-u = "/window scroll -50%"
+ctrl-d = "/window scroll +50%"
+
+# Helix-native improvements
+meta-g = "/input move_end_of_line"  # ge for end (Helix-native)
+meta-0 = "/input move_beginning_of_line"  # gh for home
+
+# Buffer navigation with Alt+h/l
+meta-h = "/buffer -1"  # Previous buffer
+meta-l = "/buffer +1"  # Next buffer
+meta-j = "/window down"  # Window down
+meta-k = "/window up"    # Window up
+
+# Quick buffer switching with Alt+number
+meta-1 = "/buffer *1"
+meta-2 = "/buffer *2"
+meta-3 = "/buffer *3"
+meta-4 = "/buffer *4"
+meta-5 = "/buffer *5"
+meta-6 = "/buffer *6"
+meta-7 = "/buffer *7"
+meta-8 = "/buffer *8"
+meta-9 = "/buffer *9"
+meta-0 = "/buffer *10"
+
+# Search (semantic: discover)
+ctrl-r = "/input search_text_here"
+/ = "/input search_text_here"
+
+# Command mode
+: = "/input insert /"
+
+# DCC management
+meta-d = "/dcc"  # Open DCC buffer
+
+# Help
+? = "/help"
+F1 = "/help"
+
+# Input line editing (vi-style)
+ctrl-a = "/input move_beginning_of_line"
+ctrl-e = "/input move_end_of_line"
+ctrl-k = "/input delete_end_of_line"
+ctrl-w = "/input delete_previous_word"
+ctrl-y = "/input clipboard_paste"
+
+# History navigation
+ctrl-p = "/input history_previous"
+ctrl-n = "/input history_next"
+
+# Completion
+tab = "/input complete_next"
+shift-tab = "/input complete_previous"
+
+# Standard WeeChat keys that should remain
+ctrl-c = "/quit"
+ctrl-l = "/window refresh"
+ctrl-s = "/mute filter toggle"
+ctrl-x = "/buffer switch"
+
+# Page navigation
+page_up = "/window page_up"
+page_down = "/window page_down"
+
+# Arrow keys for basic movement (fallback)
+up = "/input history_previous"
+down = "/input history_next"
+left = "/input move_previous_char"
+right = "/input move_next_char"
+
+# Enter and backspace
+return = "/input return"
+backspace = "/input delete_previous_char"
+delete = "/input delete_next_char"
+
+# Home/End keys
+home = "/input move_beginning_of_line"
+end = "/input move_end_of_line"
+
+[key_search]
+# Search mode keys
+ctrl-c = "/input search_stop"
+ctrl-j = "/input search_stop"
+ctrl-m = "/input search_stop"
+ctrl-r = "/input search_previous"
+ctrl-s = "/input search_next"
+meta-c = "/input search_toggle_case_sensitive"
+
+[key_cursor]
+# Cursor mode keys (for mouse-free operation)
+up = "/cursor move up"
+down = "/cursor move down"
+left = "/cursor move left"
+right = "/cursor move right"
+meta-up = "/cursor move area_up"
+meta-down = "/cursor move area_down"
+meta-left = "/cursor move area_left"
+meta-right = "/cursor move area_right"
+return = "/cursor stop"
+ctrl-c = "/cursor stop"
+q = "/cursor stop"
+
+[key_mouse]
+# Mouse bindings remain default for those who want them

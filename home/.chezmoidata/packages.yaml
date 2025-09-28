@@ -13,3 +13,4 @@ packages:
       - mpv  # Media player with resume, history, and file browser support
       - mpv-mpris  # MPRIS integration for mpv (media controls)
       - lf  # Terminal file manager for video browsing (already installed)
+      - weechat  # Modern IRC client with better vi-mode and extensibility

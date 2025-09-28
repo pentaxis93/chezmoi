@@ -1,0 +1,23 @@
+{{- /* WeeChat alias configuration for trust management */ -}}
+{{- /* Ultra-Zen: Simple commands for bot trust */ -}}
+
+#
+# weechat -- alias.conf
+#
+# WARNING: It is NOT recommended to edit this file by hand,
+# especially if WeeChat is running.
+#
+# Use commands like /set or /fset to change settings in WeeChat.
+#
+# For more info, see: https://weechat.org/doc/weechat/quickstart/#configuration
+#
+
+[cmd]
+# Trust management aliases for XDCC/DCC auto-accept
+t = "/eval /set xfer.file.auto_accept_nicks ${if:${xfer.file.auto_accept_nicks}?${xfer.file.auto_accept_nicks},${1}:${1}}"
+trust = "/eval /set xfer.file.auto_accept_nicks ${if:${xfer.file.auto_accept_nicks}?${xfer.file.auto_accept_nicks},${1}:${1}}"
+tlist = "/eval /print Trust list: ${if:${xfer.file.auto_accept_nicks}?${xfer.file.auto_accept_nicks}:(empty)}"
+tclear = "/set xfer.file.auto_accept_nicks"
+untrust = "/eval /set xfer.file.auto_accept_nicks ${info:replace_regex,${xfer.file.auto_accept_nicks},(^|,)${1}(,|$),,}"
+
+[completion]

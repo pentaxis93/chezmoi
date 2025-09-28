@@ -278,6 +278,112 @@ tui      # Launch tremc interface
 - Fish conf.d hook monitors VPN status
 - Manual `tstart` includes automatic VPN check
 
+## WeeChat IRC Client
+
+### Ultra-Zen Philosophy: Modern IRC Evolution
+**"The river of communication flows through a more mindful channel; downloads arrive with greater wisdom"**
+
+### Architecture
+- **WeeChat Client** - Modern, extensible IRC client with superior vi-mode support
+- **IRC Highway** - Pre-configured server connection with auto-join #ebooks
+- **DCC Auto-Accept** - Enhanced file acceptance (10MB limit) to ~/Downloads
+- **Kanagawa Theme** - Full Kanagawa Dragon colors from centralized palette
+- **Vi-Mode Navigation** - Comprehensive vi and Helix-native keybindings
+- **Fish Integration** - Semantic functions for WeeChat management (wc, wcs, wcd)
+
+### Configuration Files
+- **Main Config**: `home/dot_config/private_weechat/weechat.conf.tmpl` - Core settings and DCC configuration
+- **IRC Config**: `home/dot_config/private_weechat/irc.conf.tmpl` - Server settings and channels
+- **Xfer Config**: `home/dot_config/private_weechat/xfer.conf.tmpl` - File transfer and auto-accept settings
+- **Alias Config**: `home/dot_config/private_weechat/alias.conf.tmpl` - Trust management aliases (/t, /tlist, etc.)
+- **Keybindings**: `home/dot_config/private_weechat/keys.conf.tmpl` - Vi-style and Helix-native keys
+- **Fish Functions**: `home/dot_config/fish/functions/wc*.fish.tmpl` - Management commands
+- **Script Installer**: `home/run_once_install-weechat-scripts.sh.tmpl` - Auto-installs xdccq.py
+
+### Usage
+```bash
+wc                   # Launch WeeChat (weechat-connect)
+wcs                  # Show WeeChat and download status (weechat-status)
+wcd                  # Download management (weechat-downloads)
+wcd list             # List recent downloads
+wcd clean            # Clean old downloads (>30 days)
+wcd open             # Open downloads directory
+
+# Within WeeChat:
+/msg bot xdcc send #123     # Request file from XDCC bot
+
+# xdccq.py script commands (auto-installed):
+/xdccq add <bot> <packs>    # Queue downloads (e.g., /xdccq add SearchOok 1-5,10,15)
+/xdccq list                 # Show all queued packs
+/xdccq list <bot>           # Show queued packs for specific bot
+/xdccq clear <bot>          # Clear specific bot's queue
+/xdccq clearall             # Clear all queues
+
+/dcc                        # Open DCC buffer (Alt+d)
+/help                       # Show help (?)
+/quit                       # Exit WeeChat
+Alt+1-9                     # Switch to buffer 1-9
+Alt+h/l                     # Previous/next buffer
+Alt+j/k                     # Window down/up
+ge                          # Go to end (Helix-native)
+/                           # Search
+```
+
+### Key Improvements over irssi
+- **Better Vi-Mode** - Native vi-mode with comprehensive bindings
+- **Modern UI** - Split panes, better colors, more customizable
+- **Script Support** - Python/Perl/Ruby plugin ecosystem
+- **Better DCC** - Enhanced file transfer display and management
+- **Unicode Support** - Superior emoji and special character handling
+- **Extensibility** - Large ecosystem of scripts and plugins
+- **xdccq.py Script** - Automatically manages auto_accept_nicks for XDCC bots
+
+### Security Features
+- **Auto-Accept Management** - xdccq.py dynamically adds bot names to auto_accept_nicks
+- **Download Directory** - All files go to ~/Downloads with .part suffix
+- **Auto-Resume** - Intelligent partial download continuation
+- **Auto-Rename** - Prevents overwriting existing files
+- **CRC Checking** - Optional CRC32 verification for transfers
+
+### XDCC Auto-Accept System
+
+**Managing Bot Trust List:**
+
+**1. Identify Bot Names:**
+- When a transfer is waiting, check the xfer buffer (Alt+x or `/buffer xfer.list`)
+- Bot name appears after `***` (e.g., `*** Search`)
+- Or look in #ebooks for bots responding to `@search` or `!list` commands
+
+**2. Add Bots Using Simple Aliases:**
+```bash
+/t Search           # Trust "Search" bot (super quick!)
+/trust Search       # Same as /t but more explicit
+/tlist              # Show current trust list
+/untrust Search     # Remove a bot from trust list
+/tclear             # Clear entire trust list (use carefully!)
+```
+- Only need to add each bot once - setting persists across restarts
+- Future transfers from trusted bots auto-accept immediately
+
+**3. xdccq.py Script (for queuing):**
+```bash
+/xdccq add <bot> <packs>     # Queue downloads AND auto-add bot to trust list
+/xdccq list                  # Show queued downloads
+/xdccq clear <bot>           # Clear bot's queue
+```
+- When you use `/xdccq add`, it automatically adds the bot to auto_accept_nicks
+- Great for queuing multiple packs: `/xdccq add SearchOok 1-5,10,15`
+
+**Mnemonic: "X-Duck Queue"** 🦆
+- Think of XDCC downloads like ducks in a row
+- **X**tra **D**ownloads? **C**leverly **C**ueue **Q**uickly!
+
+### IRC Highway Configuration
+- Server: irc.irchighway.net:6667
+- Auto-connects on startup
+- Auto-joins #ebooks channel
+- Nick from system username ({{ .chezmoi.username }})
+
 ## Best Practices
 
 - **Preserve Git History** - Use `git mv` instead of delete/create when refactoring files
@@ -314,6 +420,13 @@ tui      # Launch tremc interface
 - `home/dot_local/bin/executable_mpv.tmpl` - MPV wrapper for LF integration
 - `home/dot_config/fish/functions/mp*.fish.tmpl` - MPV management functions
 - `home/run_once_install-mpv-scripts.sh.tmpl` - MPV plugin installation script
+- `home/dot_config/private_weechat/weechat.conf.tmpl` - WeeChat main configuration
+- `home/dot_config/private_weechat/irc.conf.tmpl` - WeeChat IRC server configuration
+- `home/dot_config/private_weechat/xfer.conf.tmpl` - WeeChat file transfer settings with auto-accept
+- `home/dot_config/private_weechat/alias.conf.tmpl` - WeeChat aliases for trust management
+- `home/dot_config/private_weechat/keys.conf.tmpl` - WeeChat vi-style keybindings
+- `home/dot_config/fish/functions/wc*.fish.tmpl` - WeeChat management functions
+- `home/run_once_install-weechat-scripts.sh.tmpl` - Installs xdccq.py for XDCC auto-accept
 - `home/.chezmoitemplates/` - Reusable template fragments
   - `color-hex.tmpl` - Convert color to #hex format (CSS/KDL)
   - `color-quoted.tmpl` - Convert color to "#hex" format (TOML)
@@ -474,6 +587,17 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
 - **Advanced Subtitles**: Auto-detection, fuzzy matching, dual display, full control
 - **Fish Functions**: `mp` (play), `mpb` (browse), `mps` (status), `mpc` (clear), `mpsub` (subtitle management)
 - **Screenshots**: Saved to `~/Pictures/mpv/` with video name and timestamp
+
+### WeeChat IRC Client (`weechat`)
+- **Kanagawa Theme**: Full color customization from centralized palette
+- **IRC Highway**: Auto-connects to server, auto-joins #ebooks channel
+- **DCC Downloads**: Enhanced auto-accept (10MB limit) to ~/Downloads with .part suffix
+- **Trust Aliases**: `/t BotName` to quickly trust bots, `/tlist` to view, `/untrust` to remove
+- **Vi-Mode Navigation**: Comprehensive vi and Helix-native keybindings
+- **Fish Functions**: `wc` (launch), `wcs` (status), `wcd` (downloads management)
+- **Buffer Management**: Alt+h/l for buffer navigation, Alt+1-9 for quick switching
+- **Nick Configuration**: System username ({{ .chezmoi.username }})
+- **Modern Features**: Split panes, better Unicode support, plugin ecosystem
 
 ## Workflow
 

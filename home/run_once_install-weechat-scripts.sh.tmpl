@@ -1,0 +1,42 @@
+#!/bin/bash
+# Install WeeChat scripts for enhanced IRC functionality
+
+set -e
+
+# Check if WeeChat is installed
+if ! command -v weechat &> /dev/null; then
+    echo "WeeChat is not installed. Skipping script installation."
+    exit 0
+fi
+
+echo "Installing WeeChat scripts..."
+
+# Create a temporary WeeChat command file
+WEECHAT_CMD=$(mktemp)
+trap "rm -f $WEECHAT_CMD" EXIT
+
+# Write commands to install xdccq.py script
+cat > "$WEECHAT_CMD" << 'EOF'
+/script install xdccq.py
+/quit
+EOF
+
+# Run WeeChat in headless mode to install the script
+# The -r flag runs commands and the /quit ensures WeeChat exits
+echo "Installing xdccq.py for automatic XDCC management..."
+weechat-headless -r "/script install xdccq.py;/quit" 2>/dev/null || {
+    # Fallback: Try regular weechat with -r flag if headless fails
+    timeout 5 weechat -r "/script install xdccq.py;/quit" 2>/dev/null || {
+        echo "Note: Automatic script installation failed."
+        echo "Please install manually in WeeChat with: /script install xdccq.py"
+    }
+}
+
+echo "✓ WeeChat script installation complete"
+echo ""
+echo "xdccq.py commands:"
+echo "  /xdccq add <bot> <packs>  - Queue downloads (e.g., /xdccq add SearchOok 1-5,10)"
+echo "  /xdccq list               - Show queued packs"
+echo "  /xdccq clear <bot>        - Clear bot's queue"
+echo ""
+echo "The script will automatically manage xfer.file.auto_accept_nicks for you."
