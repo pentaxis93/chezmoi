@@ -1,0 +1,21 @@
+{{- /* Ultra-Zen VPN Disconnection */ -}}
+function vpn-disconnect --description "Disconnect from VPN"
+    # Semantic: Terminate secure tunnel and restore default route
+
+    if not pgrep -x openvpn >/dev/null
+        echo "ℹ️  No active VPN connection"
+        return 0
+    end
+
+    echo "🔒 Disconnecting VPN..."
+
+    # Kill OpenVPN process
+    sudo pkill -x openvpn
+
+    if test $status -eq 0
+        echo "✓ VPN disconnected"
+    else
+        echo "✗ Failed to disconnect VPN"
+        return 1
+    end
+end

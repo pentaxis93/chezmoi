@@ -1,0 +1,31 @@
+{{- /* Ultra-Zen VPN Connection */ -}}
+function vpn-connect --description "Connect to Goose VPN via OpenVPN"
+    # Semantic: Establish secure tunnel through vault-authenticated gateway
+
+    set -l config_file "$HOME/.config/openvpn/goosevpn.conf"
+    set -l vpn_name "GooseVPN"
+
+    # Check if config exists
+    if not test -f $config_file
+        echo "⚠️  VPN config not found. Run 'chezmoi apply' first."
+        return 1
+    end
+
+    # Check if already connected
+    if pgrep -x openvpn >/dev/null
+        echo "✓ Already connected to VPN"
+        return 0
+    end
+
+    echo "🔐 Connecting to $vpn_name..."
+
+    # Use sudo to run OpenVPN (requires root for TUN device)
+    sudo openvpn --config $config_file --daemon
+
+    if test $status -eq 0
+        echo "✓ Connected to $vpn_name"
+    else
+        echo "✗ Failed to connect to $vpn_name"
+        return 1
+    end
+end

@@ -135,6 +135,12 @@ abbr -a bws "bw sync"              # Sync vault (semantic: synchronize)
 abbr -a bwlist "bw list items"     # List items (semantic: discover)
 abbr -a bwh "bw-help"              # Show help (semantic: learn)
 
+# VPN abbreviations - Secure tunneling through the vault
+# "The path to the network flows through the vault"
+abbr -a vpc "vpn-connect"          # Connect VPN (semantic: establish)
+abbr -a vpd "vpn-disconnect"       # Disconnect VPN (semantic: terminate)
+abbr -a vps "vpn-status"           # Check status (semantic: observe)
+
 # Auto-lock Bitwarden on terminal exit - Security first
 # "The wise seal their treasures when departing"
 function __bw_auto_lock_on_exit --on-event fish_exit

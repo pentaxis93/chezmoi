@@ -1,0 +1,21 @@
+[Unit]
+Description=Goose VPN Connection
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+ExecStart=/usr/bin/openvpn --config %h/.config/openvpn/goosevpn.conf
+Restart=on-failure
+RestartSec=5s
+PrivateTmp=true
+
+# Security hardening
+NoNewPrivileges=true
+ProtectHome=read-only
+ProtectSystem=strict
+ReadWritePaths=/run/openvpn
+
+[Install]
+WantedBy=default.target

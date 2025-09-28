@@ -7,3 +7,4 @@ packages:
     pacman:
       - npm  # Node.js package manager (nodejs is a dependency)
       - bitwarden-cli  # Password manager CLI for secure secret management
+      - openvpn  # Secure tunneling daemon for VPN connections

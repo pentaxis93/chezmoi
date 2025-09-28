@@ -1,0 +1,32 @@
+{{- /* Ultra-Zen VPN Status Check */ -}}
+function vpn-status --description "Check VPN connection status"
+    # Semantic: Observe the state of our secure tunnel
+
+    if pgrep -x openvpn >/dev/null
+        echo "🟢 VPN Status: Connected"
+
+        # Show tunnel interface if available
+        set -l tun_ip (ip addr show tun0 2>/dev/null | grep -oP 'inet \K[\d.]+')
+        if test -n "$tun_ip"
+            echo "   Tunnel IP: $tun_ip"
+        end
+
+        # Show public IP (requires curl)
+        if command -q curl
+            set -l public_ip (curl -s https://ipinfo.io/ip 2>/dev/null)
+            if test -n "$public_ip"
+                echo "   Public IP: $public_ip"
+            end
+        end
+    else
+        echo "🔴 VPN Status: Disconnected"
+
+        # Show current public IP if available
+        if command -q curl
+            set -l public_ip (curl -s https://ipinfo.io/ip 2>/dev/null)
+            if test -n "$public_ip"
+                echo "   Current IP: $public_ip"
+            end
+        end
+    end
+end

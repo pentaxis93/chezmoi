@@ -31,6 +31,10 @@ cat <<EOF > /tmp/claude-managed-settings.json
       "$HOME/.gnupg/**",
       "$HOME/.aws/credentials",
       "$HOME/.kube/config",
+      "$HOME/.config/openvpn/auth.txt",
+      "$HOME/.config/openvpn/*.txt",
+      "$HOME/.local/state/secrets/**",
+      "$HOME/.config/Bitwarden CLI/data.json",
       "/etc/passwd",
       "/etc/shadow"
     ]

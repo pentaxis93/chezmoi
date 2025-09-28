@@ -107,6 +107,67 @@ When configuring new applications and dotfiles, follow these principles for cons
 - `home/private_dot_aws/credentials.tmpl.example` - AWS credentials
 - `home/dot_config/env.tmpl.example` - Environment variables with secrets
 
+## VPN Configuration with OpenVPN
+
+### Ultra-Zen Philosophy: Secure Tunneling
+**"The path to the network flows through the vault, authenticated and encrypted"**
+
+### Architecture
+- **OpenVPN Client** - Secure tunneling daemon for VPN connections
+- **Bitwarden Integration** - Credentials retrieved from vault via templates
+- **Fish Functions** - Semantic wrappers for connection management (`vpc`, `vpd`, `vps`)
+- **Systemd Service** - Optional user-level service for automatic connection
+
+### Configuration Files
+- **VPN Config**: `home/dot_config/private_openvpn/goosevpn.conf.tmpl` - Main OpenVPN configuration
+- **Auth File**: `home/dot_local/state/private_secrets/openvpn/goosevpn-auth.tmpl` - Credentials from Bitwarden
+- **Service**: `home/dot_config/systemd/user/goosevpn.service.tmpl` - Systemd service (optional)
+- **Auto-loading**: `home/dot_config/fish/conf.d/00-secrets.fish.tmpl` - Loads secrets into environment
+
+### Usage
+```bash
+vpc  # Connect to VPN (vpn-connect)
+vpd  # Disconnect from VPN (vpn-disconnect)
+vps  # Check VPN status (vpn-status)
+
+# Or use systemd (after enabling)
+systemctl --user start goosevpn
+systemctl --user enable goosevpn  # Auto-connect on boot
+```
+
+### Security Features
+- All config files use `private_` prefix (600 permissions)
+- `auth-nocache` prevents password caching in memory
+- Credentials only exist when Bitwarden is unlocked
+- Secrets stored in `~/.local/state/secrets/` outside project directories
+- Environment variables auto-loaded by Fish for script access
+
+## Secure Secrets Architecture
+
+### Ultra-Zen Philosophy: Isolated Secrets
+**"Secrets dwell in their own realm, beyond the reach of wandering eyes"**
+
+### Architecture
+- **Secrets Directory**: `~/.local/state/secrets/` - All secrets outside project paths
+- **Auto-loading**: Fish conf.d loads secrets into environment on shell startup
+- **Environment Variables**: Secrets available as `GOOSE_VPN_USER`, `GOOSE_VPN_PASS`, etc.
+
+### Directory Structure
+```
+~/.local/state/secrets/
+├── openvpn/          # VPN credentials
+│   └── goosevpn-auth
+├── env/              # Environment variable files
+│   └── vpn-config    # VPN configuration vars
+└── ssh/              # Future: SSH keys
+```
+
+### Security Benefits
+- Secrets isolated from project directories and Git repositories
+- Single location for all sensitive data
+- Foundation for future enhancements (encryption, systemd-creds)
+- Works around Claude Code's broken deny permissions
+
 ## Best Practices
 
 - **Preserve Git History** - Use `git mv` instead of delete/create when refactoring files
@@ -127,6 +188,9 @@ When configuring new applications and dotfiles, follow these principles for cons
 - `home/dot_config/chezmoi/chezmoi.toml.tmpl` - Chezmoi configuration with Bitwarden integration
 - `home/dot_config/fish/config.fish.tmpl` - Templated Fish shell configuration
 - `home/dot_config/fish/functions/bw-*.fish.tmpl` - Bitwarden wrapper functions
+- `home/dot_config/fish/functions/vpn-*.fish.tmpl` - VPN management functions
+- `home/dot_config/private_openvpn/` - OpenVPN configuration files
+- `home/dot_config/systemd/user/goosevpn.service.tmpl` - VPN systemd service
 - `home/.chezmoitemplates/` - Reusable template fragments
   - `color-hex.tmpl` - Convert color to #hex format (CSS/KDL)
   - `color-quoted.tmpl` - Convert color to "#hex" format (TOML)
@@ -137,6 +201,7 @@ When configuring new applications and dotfiles, follow these principles for cons
   - `newt-colors-dynamic.tmpl` - Dynamic NEWT_COLORS from colors.yaml
   - `bitwarden-item.tmpl` - Retrieve complete Bitwarden item
   - `bitwarden-password.tmpl` - Extract password field from item
+  - `bitwarden-username.tmpl` - Extract username field from item
   - `bitwarden-note.tmpl` - Extract secure note content
 
 ## Color Template System

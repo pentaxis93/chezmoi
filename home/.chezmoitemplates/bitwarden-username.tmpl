@@ -1,0 +1,16 @@
+{{- /* Ultra-Zen Bitwarden Username Retrieval Template */ -}}
+{{- /* Usage: {{ template "bitwarden-username.tmpl" "item-name" }} */ -}}
+{{- /* Returns only the username field from a Bitwarden item */ -}}
+{{- if . -}}
+    {{- with bitwarden "item" . -}}
+        {{- if .login.username -}}
+            {{- .login.username }}
+        {{- else -}}
+            {{- fail (printf "No username found for item: %s" .) -}}
+        {{- end -}}
+    {{- else -}}
+        {{- fail (printf "Item not found: %s" .) -}}
+    {{- end -}}
+{{- else -}}
+    {{- fail "bitwarden-username.tmpl requires an item name" -}}
+{{- end -}}
