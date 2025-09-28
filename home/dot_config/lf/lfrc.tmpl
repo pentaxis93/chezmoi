@@ -5,6 +5,9 @@
 set shell bash
 set shellopts '-eu'
 set ifs "\n"
+
+# Ensure EDITOR is always set for lf commands
+$[ $LF_LEVEL -eq 1 ] && export EDITOR=helix
 set scrolloff 10
 set icons true
 set period 1
@@ -54,8 +57,6 @@ map A :unselect; invert  # Select all
 map . set hidden!  # Toggle hidden files
 map r reload
 map <enter> shell  # Execute shell command
-map o &mimeopen "$f"  # Open with default app
-map O $mimeopen --ask "$f"  # Ask which app to open with
 
 # Quick Actions
 map a push %touch<space>  # Add file
@@ -65,6 +66,9 @@ map B bulkrename  # Bulk rename selected files
 map D delete  # Delete (with confirmation)
 map T trash  # Move to trash
 map U unselect  # Unselect all
+
+# Semantic File Actions (intention-driven)
+map L :open_with  # Choose app from available handlers
 map W $printf "%s" "$fx" | wl-copy  # Copy paths to clipboard (Wayland)
 map Y $printf "%s" "$fx" | xclip -selection clipboard  # Copy paths (X11)
 
@@ -105,15 +109,15 @@ map <f1> :show_help
 map <esc> quit
 
 # Custom Commands
-cmd open &{{ "{{" }}
+cmd open ${{ "{{" }}
     case $(file --mime-type -Lb "$f") in
         text/*) $EDITOR "$fx";;
-        video/*|audio/*) mpv "$fx" ;;
-        image/*) nsxiv "$fx" ;;
-        application/pdf|application/postscript) zathura "$fx" ;;
+        video/*|audio/*) mpv "$fx" & ;;
+        image/*) nsxiv "$fx" & ;;
+        application/pdf|application/postscript) zathura "$fx" & ;;
         application/x-bzip2|application/x-gzip|application/x-tar|application/zip|application/x-7z-compressed|application/x-rar)
             atool -l "$f" | less ;;
-        *) for f in $fx; do xdg-open "$f" > /dev/null 2> /dev/null & done;;
+        *) for f in $fx; do handlr open "$f" & done;;
     esac
 {{ "}}" }}
 
@@ -333,7 +337,11 @@ cmd set_wallpaper ${{ "{{" }}
 
 map sw set_wallpaper
 
-# Show current keybindings
+# Custom command for opening with selection
+cmd open_with ${{ "{{" }}
+    handlr open "$f"
+{{ "}}" }}
+
 cmd show_help ${{ "{{" }}
     cat << 'EOF' | less
 LF KEYBINDINGS (Helix-Native)
@@ -356,12 +364,14 @@ Selection:
 Files:
   .        - Toggle hidden files
   Enter    - Shell command
-  o/O      - Open file / Open with...
+  l        - Open with default app
+  L        - Choose app from available handlers
   a/A      - Add file/directory
   R        - Rename file
   B        - Bulk rename
   D        - Delete (confirm)
   T        - Trash
+  ee       - Quick edit in Helix
 
 Archives:
   az/at/ag - Create zip/tar/tar.gz
@@ -386,7 +396,6 @@ Clipboard:
   dr       - Dragon drag-and-drop
 
 Special:
-  ee       - Edit in $EDITOR
   i        - File info
   C/M      - Copy/Move with FZF
   sw       - Set wallpaper

@@ -602,6 +602,12 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
 ### LF Terminal File Manager (`lf`)
 - **Kanagawa Theme**: Consistent colors in borders and prompt from centralized palette
 - **Helix-Native Keybindings**: Vi navigation with semantic improvements (ge for end, gh/gl for line start/end)
+- **Handlr Integration**: Modern file handler replacing xdg-open with wofi selector
+- **Simplified File Actions**: Two-key system for maximum simplicity
+  - `l` - Open with default app (instant)
+  - `L` - Choose app from available handlers (wofi menu)
+  - `ee` - Quick edit in Helix
+  - Preview pane handles viewing automatically
 - **Rich File Previews**:
   - Text files with syntax highlighting (bat)
   - Images as ASCII art or sixels (chafa)
@@ -632,6 +638,8 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
   - `home/dot_config/lf/executable_cleaner.tmpl` - Preview cleanup script
   - `home/dot_config/lf/icons.tmpl` - File type icons mapping
   - `home/dot_config/fish/functions/lfcd.fish.tmpl` - Directory change function
+  - `home/dot_config/handlr/handlr.toml.tmpl` - Handlr config with wofi selector
+  - `home/run_once_setup-handlr-defaults.sh.tmpl` - Handlr default associations setup
 
 
 ### Claude Code Output Styles

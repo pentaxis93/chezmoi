@@ -1,0 +1,113 @@
+#!/bin/bash
+# Ultra-Zen Philosophy: "Default applications manifest from semantic intentions"
+
+set -euo pipefail
+
+# Only run if handlr is installed
+if ! command -v handlr &> /dev/null; then
+    echo "handlr not found, skipping default associations setup"
+    exit 0
+fi
+
+echo "Setting up handlr default associations..."
+
+# Text files
+handlr set .txt helix.desktop 2>/dev/null || true
+handlr set .log helix.desktop 2>/dev/null || true
+handlr set .conf helix.desktop 2>/dev/null || true
+handlr set .cfg helix.desktop 2>/dev/null || true
+handlr set .ini helix.desktop 2>/dev/null || true
+handlr set .toml helix.desktop 2>/dev/null || true
+handlr set .yaml helix.desktop 2>/dev/null || true
+handlr set .yml helix.desktop 2>/dev/null || true
+handlr set .json helix.desktop 2>/dev/null || true
+handlr set .xml helix.desktop 2>/dev/null || true
+
+# Markdown files - use helix for editing
+handlr set .md helix.desktop 2>/dev/null || true
+handlr set .markdown helix.desktop 2>/dev/null || true
+
+# Code files
+handlr set .sh helix.desktop 2>/dev/null || true
+handlr set .bash helix.desktop 2>/dev/null || true
+handlr set .fish helix.desktop 2>/dev/null || true
+handlr set .py helix.desktop 2>/dev/null || true
+handlr set .rs helix.desktop 2>/dev/null || true
+handlr set .go helix.desktop 2>/dev/null || true
+handlr set .js helix.desktop 2>/dev/null || true
+handlr set .ts helix.desktop 2>/dev/null || true
+handlr set .c helix.desktop 2>/dev/null || true
+handlr set .cpp helix.desktop 2>/dev/null || true
+handlr set .h helix.desktop 2>/dev/null || true
+
+# Images - use imv as default viewer with multiple options
+handlr set .jpg imv.desktop 2>/dev/null || true
+handlr add .jpg nsxiv.desktop 2>/dev/null || true
+handlr add .jpg satty.desktop 2>/dev/null || true
+handlr add .jpg gimp.desktop 2>/dev/null || true
+
+handlr set .jpeg imv.desktop 2>/dev/null || true
+handlr add .jpeg nsxiv.desktop 2>/dev/null || true
+handlr add .jpeg satty.desktop 2>/dev/null || true
+handlr add .jpeg gimp.desktop 2>/dev/null || true
+
+handlr set .png imv.desktop 2>/dev/null || true
+handlr add .png nsxiv.desktop 2>/dev/null || true
+handlr add .png satty.desktop 2>/dev/null || true
+handlr add .png gimp.desktop 2>/dev/null || true
+
+handlr set .gif imv.desktop 2>/dev/null || true
+handlr add .gif nsxiv.desktop 2>/dev/null || true
+handlr add .gif gimp.desktop 2>/dev/null || true
+
+handlr set .bmp imv.desktop 2>/dev/null || true
+handlr add .bmp nsxiv.desktop 2>/dev/null || true
+handlr add .bmp gimp.desktop 2>/dev/null || true
+
+handlr set .svg imv.desktop 2>/dev/null || true
+handlr add .svg gimp.desktop 2>/dev/null || true
+
+handlr set .webp imv.desktop 2>/dev/null || true
+handlr add .webp nsxiv.desktop 2>/dev/null || true
+handlr add .webp gimp.desktop 2>/dev/null || true
+
+# Videos and audio - use mpv
+handlr set .mp4 mpv.desktop 2>/dev/null || true
+handlr set .mkv mpv.desktop 2>/dev/null || true
+handlr set .avi mpv.desktop 2>/dev/null || true
+handlr set .webm mpv.desktop 2>/dev/null || true
+handlr set .mov mpv.desktop 2>/dev/null || true
+handlr set .mp3 mpv.desktop 2>/dev/null || true
+handlr set .flac mpv.desktop 2>/dev/null || true
+handlr set .wav mpv.desktop 2>/dev/null || true
+handlr set .ogg mpv.desktop 2>/dev/null || true
+handlr set .opus mpv.desktop 2>/dev/null || true
+handlr set .m4a mpv.desktop 2>/dev/null || true
+
+# Documents
+handlr set .pdf zathura.desktop 2>/dev/null || true
+handlr add .pdf firefox.desktop 2>/dev/null || true
+
+handlr set .epub zathura.desktop 2>/dev/null || true
+handlr set .djvu zathura.desktop 2>/dev/null || true
+
+# Web content
+handlr set .html firefox.desktop 2>/dev/null || true
+handlr set .htm firefox.desktop 2>/dev/null || true
+
+# Archives - handled specially in lf open command
+# No desktop file associations needed
+
+# Set MIME type associations as well
+handlr set text/plain helix.desktop 2>/dev/null || true
+handlr set text/markdown helix.desktop 2>/dev/null || true
+handlr set image/jpeg imv.desktop 2>/dev/null || true
+handlr set image/png imv.desktop 2>/dev/null || true
+handlr set image/gif imv.desktop 2>/dev/null || true
+handlr set video/mp4 mpv.desktop 2>/dev/null || true
+handlr set video/x-matroska mpv.desktop 2>/dev/null || true
+handlr set audio/mpeg mpv.desktop 2>/dev/null || true
+handlr set application/pdf zathura.desktop 2>/dev/null || true
+handlr set text/html firefox.desktop 2>/dev/null || true
+
+echo "handlr default associations configured!"

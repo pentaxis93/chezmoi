@@ -77,16 +77,13 @@ handle_extension() {
 
         # Markdown
         md|markdown|mkd|mdown)
-            if command -v glow >/dev/null 2>&1; then
-                glow -s dark -w "${PV_WIDTH}" -- "${FILE_PATH}" && exit 0
+            if command -v bat >/dev/null 2>&1; then
+                bat --color=always --style=numbers,changes --paging=never \
+                    --theme="gruvbox-dark" \
+                    -- "${FILE_PATH}" && exit 0
             fi
             if command -v pandoc >/dev/null 2>&1; then
                 pandoc -s -t plain -- "${FILE_PATH}" && exit 0
-            fi
-            if command -v bat >/dev/null 2>&1; then
-                bat --color=always --style=plain --paging=never \
-                    --theme="TwoDark" \
-                    -- "${FILE_PATH}" && exit 0
             fi
             cat "${FILE_PATH}" && exit 0;;
 

@@ -30,4 +30,8 @@ packages:
       - p7zip  # 7-zip archive support (provides 7z command)
       - zathura  # Lightweight PDF/document viewer
       - zathura-pdf-poppler  # PDF support for zathura
-      - imagemagick  # Image manipulation tools (identify, convert)
+      # File handling and viewing tools
+      - handlr  # Modern file handler replacing xdg-open with better defaults
+      - imv  # Wayland-native image viewer with better performance
+      - satty  # Screenshot annotation tool for quick image edits
+      - gimp  # Full-featured image editor for advanced editing
