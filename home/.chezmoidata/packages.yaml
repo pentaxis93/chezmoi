@@ -35,3 +35,5 @@ packages:
       - imv  # Wayland-native image viewer with better performance
       - satty  # Screenshot annotation tool for quick image edits
       - gimp  # Full-featured image editor for advanced editing
+      # Audio control
+      - wiremix  # Modern TUI audio mixer for PipeWire with vi keybindings

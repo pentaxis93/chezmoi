@@ -1,0 +1,160 @@
+{{- $c := .kanagawa.dragon -}}
+# Wiremix Configuration - Modern TUI Audio Mixer for PipeWire
+# Themed with Kanagawa Dragon colors and Helix-native vi keybindings
+
+# Ultra-Zen Philosophy: Audio Control
+# "Sound flows through semantic channels; volume manifests through intention"
+
+# General Settings
+mouse = true
+peaks = "auto"  # Show peak meters automatically based on available space
+char_set = "default"
+theme = "kanagawa"
+tab = "playback"  # Start on playback tab
+fps = 30
+
+# Volume Control Settings
+max_volume_percent = 100.0  # Maximum volume percentage (100%)
+enforce_max_volume = true  # Prevent volume from exceeding 100%
+
+# Helix-Native Vi Keybindings
+# Following our semantic keybinding philosophy from keybindings.yaml
+keybindings = [
+  # Dismiss (quit)
+  { key = { Char = "q" }, action = "Exit" },
+  { key = { Char = "Q" }, action = "Exit" },
+  { key = "Esc", action = "CloseDropdown" },
+
+  # Navigate - hjkl for movement (vertical navigation in mixer)
+  { key = { Char = "h" }, action = "TabLeft" },  # Move to left tab
+  { key = { Char = "j" }, action = "MoveDown" },  # Move down in list
+  { key = { Char = "k" }, action = "MoveUp" },    # Move up in list
+  { key = { Char = "l" }, action = "TabRight" },  # Move to right tab
+
+  # Arrow keys as alternative navigation
+  { key = "Left", action = "TabLeft" },
+  { key = "Down", action = "MoveDown" },
+  { key = "Up", action = "MoveUp" },
+  { key = "Right", action = "TabRight" },
+
+  # Tab navigation
+  { key = "Tab", action = "TabRight" },
+  { key = "BackTab", action = "TabLeft" },
+  { key = { Char = "1" }, action = { SelectTab = 0 } },  # Playback
+  { key = { Char = "2" }, action = { SelectTab = 1 } },  # Recording
+  { key = { Char = "3" }, action = { SelectTab = 2 } },  # Outputs
+  { key = { Char = "4" }, action = { SelectTab = 3 } },  # Inputs
+  { key = { Char = "5" }, action = { SelectTab = 4 } },  # Configuration
+
+  # Volume control (semantic: manipulate)
+  { key = { Char = "+" }, action = { SetRelativeVolume = 0.05 } },  # +5%
+  { key = { Char = "=" }, action = { SetRelativeVolume = 0.05 } },  # Without shift
+  { key = { Char = "-" }, action = { SetRelativeVolume = -0.05 } },  # -5%
+
+  # Fine volume control with shifted hjkl
+  { key = { Char = "H" }, action = { SetRelativeVolume = -0.01 } },  # -1% (Shift+h)
+  { key = { Char = "L" }, action = { SetRelativeVolume = 0.01 } },   # +1% (Shift+l)
+  { key = { Char = "J" }, action = { SetRelativeVolume = -0.05 } },  # -5% (Shift+j)
+  { key = { Char = "K" }, action = { SetRelativeVolume = 0.05 } },   # +5% (Shift+k)
+
+  # Volume shortcuts (0-9 for percentages)
+  { key = { Char = "0" }, action = { SetAbsoluteVolume = 0.0 } },    # Mute (0%)
+  { key = { Char = "!" }, action = { SetAbsoluteVolume = 0.1 } },   # 10% (Shift+1)
+  { key = { Char = "@" }, action = { SetAbsoluteVolume = 0.2 } },   # 20% (Shift+2)
+  { key = { Char = "#" }, action = { SetAbsoluteVolume = 0.3 } },   # 30% (Shift+3)
+  { key = { Char = "$" }, action = { SetAbsoluteVolume = 0.4 } },   # 40% (Shift+4)
+  { key = { Char = "%" }, action = { SetAbsoluteVolume = 0.5 } },   # 50% (Shift+5)
+  { key = { Char = "^" }, action = { SetAbsoluteVolume = 0.6 } },   # 60% (Shift+6)
+  { key = { Char = "&" }, action = { SetAbsoluteVolume = 0.7 } },   # 70% (Shift+7)
+  { key = { Char = "*" }, action = { SetAbsoluteVolume = 0.8 } },   # 80% (Shift+8)
+  { key = { Char = "(" }, action = { SetAbsoluteVolume = 0.9 } },   # 90% (Shift+9)
+  { key = { Char = ")" }, action = { SetAbsoluteVolume = 1.0 } },   # 100% (Shift+0)
+
+  # Actions
+  { key = { Char = "m" }, action = "ToggleMute" },  # Toggle mute
+  { key = { Char = "M" }, action = "ToggleMute" },  # Toggle mute (capital)
+  { key = { Char = "d" }, action = "SetDefault" },  # Set as default device
+  { key = { Char = "c" }, action = "ActivateDropdown" },  # Open configuration dropdown
+  { key = "Enter", action = "ActivateDropdown" },  # Open dropdown/confirm
+  { key = { Char = " " }, action = "ActivateDropdown" },  # Space to activate
+
+  # Help (semantic: discover)
+  { key = { Char = "?" }, action = "Help" },  # Show help
+]
+
+# Kanagawa Dragon Theme
+[themes.kanagawa]
+# Background and borders use our dark palette
+# Active/selected elements use focus color (green)
+# Regular text uses fg_primary
+
+# Default colors for UI elements
+selector = { fg = "#{{ $c.focus }}" }  # Green for active selection
+tab = { fg = "#{{ $c.fg_muted }}" }  # Muted for inactive tabs
+tab_selected = { fg = "#{{ $c.focus }}", add_modifier = "BOLD" }  # Green bold for active tab
+tab_marker = { fg = "#{{ $c.focus }}" }  # Green marker
+
+# List indicators
+list_more = { fg = "#{{ $c.fg_dim }}" }  # Dim for "more items" indicator
+
+# Node titles and targets
+node_title = { fg = "#{{ $c.fg_primary }}" }  # Primary text
+node_target = { fg = "#{{ $c.cyan }}" }  # Cyan for targets
+
+# Default states
+default_device = { fg = "#{{ $c.green }}", add_modifier = "BOLD" }  # Green for default device
+default_stream = { fg = "#{{ $c.green }}" }  # Green for default stream
+
+# Volume bar
+volume = { fg = "#{{ $c.fg_muted }}" }  # Volume label
+volume_empty = { fg = "#{{ $c.bg_light }}" }  # Empty volume bar
+volume_filled = { fg = "#{{ $c.blue }}" }  # Filled volume bar
+
+# Peak meters
+meter_inactive = { fg = "#{{ $c.bg_light }}" }  # Inactive meter
+meter_active = { fg = "#{{ $c.green }}" }  # Active meter
+meter_overload = { fg = "#{{ $c.red }}" }  # Overload/clipping
+meter_center_inactive = { fg = "#{{ $c.fg_dim }}" }  # Center marker inactive
+meter_center_active = { fg = "#{{ $c.yellow }}" }  # Center marker active
+
+# Configuration tab elements
+config_device = { fg = "#{{ $c.fg_primary }}" }  # Device name
+config_profile = { fg = "#{{ $c.cyan }}" }  # Profile name
+
+# Dropdown menus
+dropdown_icon = { fg = "#{{ $c.fg_muted }}" }  # Dropdown arrow
+dropdown_border = { fg = "#{{ $c.border }}" }  # Dropdown border
+dropdown_item = { fg = "#{{ $c.fg_primary }}" }  # Dropdown items
+dropdown_selected = { fg = "#{{ $c.focus }}", add_modifier = "BOLD" }  # Selected dropdown item
+dropdown_more = { fg = "#{{ $c.fg_dim }}" }  # More items indicator
+
+# Help screen
+help_border = { fg = "#{{ $c.border }}" }  # Help border
+help_item = { fg = "#{{ $c.fg_primary }}" }  # Help text
+help_more = { fg = "#{{ $c.fg_dim }}" }  # More help indicator
+
+# Naming templates for clarity
+[names]
+# Stream naming - show application and media name
+stream = [
+  "{node:application.name}: {node:media.name}",  # Shows "Firefox: YouTube" etc.
+  "{node:application.name}",                      # Falls back to just app name
+  "{node:node.nick}",                            # Node nickname if available
+  "{node:node.name}",                            # Final fallback to node name
+]
+
+# Endpoint naming - show device info
+endpoint = [
+  "{node:node.description}",                      # Device description (e.g., "Built-in Audio")
+  "{device:device.nick}",                         # Device nickname if set
+  "{node:node.nick}",                            # Node nickname
+  "{node:node.name}",                            # Node name fallback
+]
+
+# Device naming - show descriptive names
+device = [
+  "{device:device.description}",                  # Full device description
+  "{device:device.product.name}",                 # Product name
+  "{device:device.nick}",                         # Device nickname
+  "{device:device.name}",                         # Device name fallback
+]

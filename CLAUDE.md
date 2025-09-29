@@ -426,6 +426,8 @@ ge                          # Go to end (Helix-native)
 - `home/dot_config/private_weechat/keys.conf.tmpl` - WeeChat vi-style keybindings
 - `home/dot_config/fish/functions/wc*.fish.tmpl` - WeeChat management functions
 - `home/run_once_install-weechat-scripts.sh.tmpl` - Installs xdccq.py for XDCC auto-accept
+- `home/dot_config/wiremix/wiremix.toml.tmpl` - Wiremix TUI configuration with Kanagawa theme
+- `home/dot_config/fish/functions/vol*.fish.tmpl` - Volume control functions (vol, volu, vold, volm, vols)
 - `home/.chezmoitemplates/` - Reusable template fragments
   - `color-hex.tmpl` - Convert color to #hex format (CSS/KDL)
   - `color-quoted.tmpl` - Convert color to "#hex" format (TOML)
@@ -595,6 +597,18 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
 - **Buffer Management**: Alt+h/l for buffer navigation, Alt+1-9 for quick switching
 - **Nick Configuration**: System username ({{ .chezmoi.username }})
 - **Modern Features**: Split panes, better Unicode support, plugin ecosystem
+
+### Wiremix TUI Audio Mixer (`wiremix`)
+- **Kanagawa Theme**: Full color customization from centralized palette
+- **PipeWire Native**: Designed specifically for PipeWire audio system
+- **Helix-Native Keybindings**: Vi navigation with semantic improvements (ge for end, hjkl movement)
+- **Volume Shortcuts**: Shift+0-9 for quick volume percentages (0=mute, 5=50%, 0=100%)
+- **Tab Navigation**: Number keys 1-5 for quick tab switching (Playback, Recording, Outputs, Inputs, Config)
+- **Fish Functions**: `vol` (launch mixer), `volu/vold` (volume up/down), `volm` (mute toggle), `vols` (status)
+- **Waybar Integration**: Click volume widget to launch wiremix in Alacritty
+- **Peak Meters**: Visual audio level monitoring with overload detection
+- **Device Management**: Set defaults, configure routes, manage profiles
+- **Configuration**: `~/.config/wiremix/wiremix.toml` with extensive customization
 
 ### LF Terminal File Manager (`lf`)
 - **Kanagawa Theme**: Consistent colors in borders and prompt from centralized palette
