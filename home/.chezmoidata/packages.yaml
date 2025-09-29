@@ -13,6 +13,8 @@ packages:
       - lf  # Terminal file manager for video browsing (already installed)
       - weechat  # Modern IRC client with better vi-mode and extensibility
       # LF preview and functionality tools
+      - fzf  # Fuzzy finder for directory jumping (required by lf Ctrl+f)
+      - ripgrep  # Fast content search tool (required by lf Ctrl+g)
       - bat  # Syntax-highlighted text previews with git integration
       - chafa  # Convert images to terminal graphics (sixel/symbols)
       - mediainfo  # Display media file technical information
