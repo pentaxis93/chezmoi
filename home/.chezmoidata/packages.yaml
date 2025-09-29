@@ -34,3 +34,5 @@ packages:
       - gimp  # Full-featured image editor for advanced editing
       # Audio control
       - wiremix  # Modern TUI audio mixer for PipeWire with vi keybindings
+      # Shell enhancements
+      - zoxide  # Smart directory navigation with frecency-based jumping

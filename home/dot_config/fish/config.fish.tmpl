@@ -98,6 +98,13 @@ end
 # Editor alias - 'h' for helix (ultrathink keybinding consistency)
 alias h="helix"
 
+# Zoxide - Smart directory navigation with frecency
+# Provides 'z' command for jumping to frequent directories
+# Initialize after vi bindings to avoid conflicts
+if command -v zoxide &>/dev/null
+    zoxide init fish | source
+end
+
 # Dark Mode Configuration - System-wide dark theme preferences
 # Ensures consistent dark theme across GTK and Qt applications
 # Note: Using Adwaita:dark for GTK4 apps (like pavucontrol) since cachyos-nord lacks GTK4 support
