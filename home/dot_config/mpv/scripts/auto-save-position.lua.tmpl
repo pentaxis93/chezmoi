@@ -1,0 +1,27 @@
+-- Auto-save playback position periodically
+-- "The river remembers its path, even when the journey ends abruptly"
+--
+-- This script saves the current playback position every 30 seconds.
+-- This ensures position is preserved even during:
+-- - Window closes
+-- - System reboots
+-- - Process kills
+-- - Any other disorderly exits
+
+local save_interval = 30  -- seconds between auto-saves
+
+-- Create periodic timer that saves position
+mp.add_periodic_timer(save_interval, function()
+    -- Only save if we're actually playing something
+    local path = mp.get_property("path")
+    if path then
+        mp.command("write-watch-later-config")
+    end
+end)
+
+-- Also save on any seek operation (free, no timer needed)
+mp.register_event("seek", function()
+    mp.command("write-watch-later-config")
+end)
+
+mp.msg.info("Auto-save position script loaded (saves every " .. save_interval .. "s)")
