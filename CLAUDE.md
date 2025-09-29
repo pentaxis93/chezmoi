@@ -116,6 +116,9 @@ When configuring new applications and dotfiles, follow these principles for cons
 - **OpenVPN Client** - Secure tunneling daemon for VPN connections
 - **Bitwarden Integration** - Credentials retrieved from vault via templates
 - **Fish Functions** - Semantic wrappers for connection management (`vpc`, `vpd`, `vps`)
+  - Work both as abbreviations (interactive) and functions (scripts)
+  - Abbreviations expand: `vpc` → `vpn-connect`
+  - Functions call: `vpc` → `vpn-connect` directly
 - **Systemd Service** - Optional user-level service for automatic connection
 
 ### Configuration Files
@@ -297,12 +300,12 @@ tui      # Launch tremc interface
 - **Xfer Config**: `home/dot_config/private_weechat/xfer.conf.tmpl` - File transfer and auto-accept settings
 - **Alias Config**: `home/dot_config/private_weechat/alias.conf.tmpl` - Trust management aliases (/t, /tlist, etc.)
 - **Keybindings**: `home/dot_config/private_weechat/keys.conf.tmpl` - Vi-style and Helix-native keys
-- **Fish Functions**: `home/dot_config/fish/functions/wc*.fish.tmpl` - Management commands
+- **Fish Functions**: `home/dot_config/fish/functions/wc*.fish.tmpl` - Management commands (wcc, wcs, wcd)
 - **Script Installer**: `home/run_once_install-weechat-scripts.sh.tmpl` - Auto-installs xdccq.py
 
 ### Usage
 ```bash
-wc                   # Launch WeeChat (weechat-connect)
+wcc                  # Launch WeeChat (weechat-connect)
 wcs                  # Show WeeChat and download status (weechat-status)
 wcd                  # Download management (weechat-downloads)
 wcd list             # List recent downloads
@@ -405,6 +408,9 @@ ge                          # Go to end (Helix-native)
 - `home/dot_config/fish/config.fish.tmpl` - Templated Fish shell configuration
 - `home/dot_config/fish/functions/bw-*.fish.tmpl` - Bitwarden wrapper functions
 - `home/dot_config/fish/functions/vpn-*.fish.tmpl` - VPN management functions
+- `home/dot_config/fish/functions/vpc.fish.tmpl` - VPN connect wrapper (works in scripts)
+- `home/dot_config/fish/functions/vpd.fish.tmpl` - VPN disconnect wrapper (works in scripts)
+- `home/dot_config/fish/functions/vps.fish.tmpl` - VPN status wrapper (works in scripts)
 - `home/dot_config/private_openvpn/` - OpenVPN configuration files
 - `home/dot_config/systemd/user/goosevpn.service.tmpl` - VPN systemd service
 - `home/dot_config/transmission-daemon/settings.json.tmpl` - Transmission daemon configuration
@@ -424,7 +430,7 @@ ge                          # Go to end (Helix-native)
 - `home/dot_config/private_weechat/xfer.conf.tmpl` - WeeChat file transfer settings with auto-accept
 - `home/dot_config/private_weechat/alias.conf.tmpl` - WeeChat aliases for trust management
 - `home/dot_config/private_weechat/keys.conf.tmpl` - WeeChat vi-style keybindings
-- `home/dot_config/fish/functions/wc*.fish.tmpl` - WeeChat management functions
+- `home/dot_config/fish/functions/wc*.fish.tmpl` - WeeChat management functions (wcc, wcs, wcd)
 - `home/run_once_install-weechat-scripts.sh.tmpl` - Installs xdccq.py for XDCC auto-accept
 - `home/dot_config/wiremix/wiremix.toml.tmpl` - Wiremix TUI configuration with Kanagawa theme
 - `home/dot_config/fish/functions/vol*.fish.tmpl` - Volume control functions (vol, volu, vold, volm, vols)
