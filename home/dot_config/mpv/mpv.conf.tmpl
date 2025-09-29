@@ -10,7 +10,7 @@
 save-position-on-quit=yes       # Auto-save position on quit
 resume-playback=yes              # Resume from saved position
 resume-playback-check-mtime=yes # Only resume if file unchanged
-watch-later-options=start        # Save only playback position
+# watch-later-options uses defaults   # Saves position and essential metadata
 
 # ============================================================================
 # WATCH HISTORY
@@ -76,7 +76,7 @@ sub-file-paths-append=../../subs         # Check grandparent's subs folder
 
 # Fuzzy matching for external subtitles
 sub-auto=fuzzy                   # Find subs even if names don't match exactly
-sub-fuzzy-match-threshold=90    # 90% similarity threshold
+# Fuzzy matching enabled by sub-auto=fuzzy above
 
 # Display settings
 sub-visibility=yes               # Show subtitles by default
@@ -101,10 +101,10 @@ sub-align-y=bottom               # Align to bottom
 
 # ASS/SSA subtitle handling
 sub-ass=yes                      # Use ASS subtitle rendering
-sub-ass-vsfilter-blur-compat=no # Better quality rendering
+# Modern rendering (vsfilter-blur-compat deprecated)
 sub-ass-scale-with-window=yes   # Scale with window size
 sub-ass-force-margins=yes        # Respect margins
-sub-ass-force-style='Kerning=yes' # Enable kerning
+sub-ass-style-overrides='Kerning=yes' # Enable kerning
 
 # Secondary subtitles (for dual subtitle display)
 secondary-sid=auto               # Auto-select secondary subtitle
