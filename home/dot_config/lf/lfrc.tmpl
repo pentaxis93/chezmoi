@@ -69,8 +69,7 @@ map U unselect  # Unselect all
 
 # Semantic File Actions (intention-driven)
 map L :open_with  # Choose app from available handlers
-map W $printf "%s" "$fx" | wl-copy  # Copy paths to clipboard (Wayland)
-map Y $printf "%s" "$fx" | xclip -selection clipboard  # Copy paths (X11)
+map W $printf "%s" "$fx" | wl-copy  # Copy paths to clipboard
 
 # Archive Operations
 map az zip  # Create zip
@@ -113,7 +112,7 @@ cmd open ${{ "{{" }}
     case $(file --mime-type -Lb "$f") in
         text/*) $EDITOR "$fx";;
         video/*|audio/*) mpv "$fx" & ;;
-        image/*) nsxiv "$fx" & ;;
+        image/*) imv "$fx" & ;;
         application/pdf|application/postscript) zathura "$fx" & ;;
         application/x-bzip2|application/x-gzip|application/x-tar|application/zip|application/x-7z-compressed|application/x-rar)
             atool -l "$f" | less ;;
@@ -232,15 +231,6 @@ cmd ripgrep_search ${{ "{{" }}
     fi
 {{ "}}" }}
 
-# Dragon drag-and-drop
-cmd dragon %dragon -a -x $fx
-cmd dragon-stay %dragon -a $fx
-cmd dragon-individual %dragon $fx
-
-map dr dragon
-map ds dragon-stay
-map di dragon-individual
-
 # Git integration
 cmd git_branch ${{ "{{" }}
     git branch 2>/dev/null | fzf --reverse --header='Switch branch' | sed 's/^[* ] //' | xargs git checkout
@@ -291,7 +281,6 @@ cmd usage %du -sh "$f" | less
 
 # Quick shortcuts for common tasks
 map ee $$EDITOR "$f"  # Edit in editor
-map sp $nsxiv -t .  # Sxiv thumbnail mode in current dir
 map sv $mpv .  # Play all videos in current dir
 map st !bash  # Open terminal here
 map sT &alacritty --working-directory "$PWD"  # Open new terminal window
