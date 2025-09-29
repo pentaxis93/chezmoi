@@ -246,6 +246,7 @@ V                 # Toggle secondary subtitles (dual subs)
 ### Architecture
 - **Transmission Daemon** - BitTorrent client bound to VPN interface IP
 - **VPN Killswitch** - Transmission stops automatically if VPN disconnects
+- **Magnet Link Handler** - Browser clicks on magnet links auto-add to Transmission
 - **Minimal Seeding** - Ultra-low upload limits (10KB/s, 0.1 ratio, 5min idle)
 - **Security Hardened** - Required encryption, no DHT/PEX/LPD, blocklist enabled
 - **Tremc TUI** - Kanagawa-themed terminal interface with vi keybindings
@@ -253,6 +254,8 @@ V                 # Toggle secondary subtitles (dual subs)
 ### Configuration Files
 - **Daemon Config**: `home/dot_config/transmission-daemon/settings.json.tmpl` - Security-focused settings
 - **VPN Binding**: `home/dot_local/bin/executable_transmission-vpn-bind.tmpl` - Dynamic IP updater
+- **Magnet Handler**: `home/dot_local/bin/executable_transmission-magnet-handler.tmpl` - Browser magnet link handler
+- **Desktop Entry**: `home/dot_local/share/applications/transmission-magnet.desktop.tmpl` - System handler registration
 - **Systemd Service**: `home/dot_config/systemd/user/transmission-daemon.service.tmpl` - VPN-dependent service
 - **Fish Functions**: `home/dot_config/fish/functions/t*.fish.tmpl` - Semantic management commands
 - **Tremc Config**: `home/dot_config/tremc/settings.cfg.tmpl` - Kanagawa theme and vi navigation
@@ -282,6 +285,14 @@ tui      # Launch tremc interface
 - VPN IP dynamically detected and bound on startup
 - Fish conf.d hook monitors VPN status
 - Manual `tstart` includes automatic VPN check
+
+### Browser Magnet Link Integration
+- **Click-to-Add** - Clicking magnet links in browser automatically adds to Transmission
+- **Handler Flow** - Browser → x-scheme-handler/magnet → Desktop Entry → Fish Script → tadd
+- **Handlr Registration** - Magnet links registered with handlr in setup script
+- **Automatic Daemon Start** - Handler auto-starts daemon if not running (via tadd)
+- **VPN Checking** - All magnet additions check VPN status before adding
+- **Desktop Notifications** - Visual feedback on successful/failed additions
 
 ## WeeChat IRC Client
 
@@ -389,6 +400,142 @@ ge                          # Go to end (Helix-native)
 - Auto-joins #ebooks channel
 - Nick from system username ({{ .chezmoi.username }})
 
+## Qutebrowser Web Browser
+
+### Ultra-Zen Philosophy: Keyboard-Driven Navigation
+**"The keyboard becomes the interface; intention becomes action"**
+
+### Architecture
+- **Python Configuration** - Flexible config.py with full programmatic control
+- **Kanagawa Theme** - Complete UI theming from centralized color palette
+- **Helix-Native Keybindings** - Semantic navigation (ge for end, gh/gl for line start/end)
+- **Privacy-Focused** - Ad blocking, tracking protection, dark mode preference
+- **Fish Integration** - Semantic functions for browser management (qb, qbp, qbs)
+- **MPV Integration** - Seamless video playback with external player
+
+### Configuration Files
+- **Main Config**: `home/dot_config/qutebrowser/config.py.tmpl` - Complete browser configuration
+- **Fish Functions**: `home/dot_config/fish/functions/qb*.fish.tmpl` - Management commands (qb, qbp, qbs)
+- **Niri Integration**: Browser launch via semantic keybinding (Mod+B from keybindings.yaml)
+
+### Usage
+```bash
+qb                   # Launch qutebrowser (qutebrowser-launch)
+qbp                  # Launch private browsing window (qutebrowser-private)
+qbs                  # Show browser status and session info (qutebrowser-status)
+Mod+B                # Launch from Niri (semantic browser invoke)
+
+# Within Qutebrowser:
+
+# Navigation (Helix-native)
+ge                   # Go to end (scroll to bottom - NOT G)
+gg                   # Go to start (scroll to top)
+gh                   # Go home (scroll to 0%)
+gl                   # Go line end (scroll to 100%)
+j/k                  # Scroll down/up smoothly
+h/l                  # Scroll left/right
+d/u                  # Half-page down/up (Helix-style)
+
+# Tabs
+J/K                  # Previous/next tab
+gT/gt                # Alternative tab navigation
+gc                   # Close tab
+q                    # Close current tab
+Q                    # Quit browser
+
+# History
+H                    # Back in history
+L                    # Forward in history
+
+# Hints (link following)
+f                    # Follow link in current tab
+F                    # Follow link in background tab
+;y                   # Yank (copy) link URL
+;Y                   # Yank link to primary selection
+
+# Search
+/                    # Search forward
+?                    # Search backward
+n                    # Next search result
+N                    # Previous search result
+
+# Zoom
++                    # Zoom in
+-                    # Zoom out
+=                    # Reset zoom
+
+# Yank operations
+yy                   # Yank current URL
+yt                   # Yank page title
+yd                   # Yank domain
+yp                   # Yank pretty URL
+
+# Custom integrations (comma prefix)
+,m                   # Play current URL with MPV
+,M                   # Play hinted link with MPV
+,r                   # Reload page
+,R                   # Force reload (bypass cache)
+,p                   # Open private window
+,a                   # Reader mode (readability)
+
+# Command mode
+:                    # Enter command mode
+:w                   # Save session
+:wq                  # Save and quit
+:q                   # Close tab
+:qa                  # Quit all
+:h                   # Help
+```
+
+### Features
+- **Full Kanagawa Theme** - Every UI element themed from centralized palette
+  - Mode-aware status bar (normal/insert/command/private)
+  - Themed tabs with pinned tab support
+  - Completion widget with category headers
+  - Hints with high-contrast colors
+  - Download progress indicators
+- **Helix-Native Navigation** - Consistent with editor and other tools
+  - `ge` for end (not G)
+  - `gh/gl` for line start/end
+  - `d/u` for half-page scrolling
+  - Semantic keybinding philosophy throughout
+- **Privacy & Security** - Thoughtful defaults
+  - Ad blocking via EasyList and EasyPrivacy
+  - No 3rd-party cookies
+  - Do Not Track header
+  - Dark mode preference for websites
+  - HTTPS-only when possible
+- **Search Engines** - Quick access with keywords
+  - DuckDuckGo (default) - Privacy-focused
+  - `ddg` - DuckDuckGo explicit
+  - `g` - Google
+  - `gh` - GitHub search
+  - `aw` - Arch Wiki
+  - `aur` - AUR packages
+  - `yt` - YouTube
+  - `wi` - Wikipedia
+- **MPV Integration** - Video playback with external player
+  - `,m` on any page to play current URL
+  - `,M` on hinted link to play specific video
+  - Seamless handoff to MPV with all features
+- **Session Management** - Auto-save sessions
+  - Automatic session saving on quit
+  - Resume tabs on restart
+  - `qbs` command shows session info
+
+### Key Philosophy
+- **Keyboard-First** - Mouse optional for all operations
+- **Vi-Like Navigation** - Familiar patterns for vim users
+- **Helix Improvements** - Semantic enhancements where they improve clarity
+- **Comma Prefix** - Custom commands use comma to avoid conflicts
+- **Mode Awareness** - Status bar colors indicate current mode
+
+### Integration Notes
+- **Niri Launcher** - Mod+B launches browser (semantic invoke.browser)
+- **MPV Handoff** - Videos play in MPV with full controls
+- **Fish Functions** - Three semantic commands (qb/qbp/qbs)
+- **Auto-save Sessions** - Never lose open tabs on crash/restart
+
 ## Best Practices
 
 - **Preserve Git History** - Use `git mv` instead of delete/create when refactoring files
@@ -420,6 +567,8 @@ ge                          # Go to end (Helix-native)
 - `home/dot_config/systemd/user/transmission-daemon.service.tmpl` - Transmission systemd service
 - `home/dot_config/tremc/settings.cfg.tmpl` - Tremc TUI configuration
 - `home/dot_local/bin/executable_transmission-vpn-bind.tmpl` - VPN binding script
+- `home/dot_local/bin/executable_transmission-magnet-handler.tmpl` - Magnet link handler script
+- `home/dot_local/share/applications/transmission-magnet.desktop.tmpl` - Magnet handler desktop entry
 - `home/dot_config/fish/conf.d/10-transmission-vpn.fish.tmpl` - Transmission VPN monitor
 - `home/dot_config/mpv/mpv.conf.tmpl` - MPV main configuration
 - `home/dot_config/mpv/input.conf.tmpl` - MPV Helix-native keybindings
@@ -435,6 +584,10 @@ ge                          # Go to end (Helix-native)
 - `home/dot_config/private_weechat/keys.conf.tmpl` - WeeChat vi-style keybindings
 - `home/dot_config/fish/functions/wc*.fish.tmpl` - WeeChat management functions (wcc, wcs, wcd)
 - `home/run_once_install-weechat-scripts.sh.tmpl` - Installs xdccq.py for XDCC auto-accept
+- `home/dot_config/qutebrowser/config.py.tmpl` - Qutebrowser Python configuration with Kanagawa theme
+- `home/dot_config/fish/functions/qb.fish.tmpl` - Qutebrowser launch function
+- `home/dot_config/fish/functions/qbp.fish.tmpl` - Qutebrowser private window function
+- `home/dot_config/fish/functions/qbs.fish.tmpl` - Qutebrowser status and session info function
 - `home/dot_config/wiremix/wiremix.toml.tmpl` - Wiremix TUI configuration with Kanagawa theme
 - `home/dot_config/fish/functions/vol*.fish.tmpl` - Volume control functions (vol, volu, vold, volm, vols)
 - `home/dot_config/fish/functions/ls.fish.tmpl` - Transparent eza wrapper replacing ls command
