@@ -100,7 +100,8 @@ alias h="helix"
 
 # Dark Mode Configuration - System-wide dark theme preferences
 # Ensures consistent dark theme across GTK and Qt applications
-export GTK_THEME="adw-gtk3-dark"
+# Note: Using Adwaita:dark for GTK4 apps (like pavucontrol) since cachyos-nord lacks GTK4 support
+export GTK_THEME="Adwaita:dark"
 export QT_STYLE_OVERRIDE="adwaita-dark"
 
 # nmtui Configuration - Dynamic Kanagawa color theme from centralized palette

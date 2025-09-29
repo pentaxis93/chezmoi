@@ -10,7 +10,7 @@ echo "Setting system-wide dark mode preferences..."
 if command -v gsettings &> /dev/null; then
     echo "  Configuring GNOME/GTK dark mode..."
     gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' 2>/dev/null || true
-    gsettings set org.gnome.desktop.interface gtk-theme 'adw-gtk3-dark' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark' 2>/dev/null || true
     echo "  ✓ GNOME/GTK dark mode configured"
 else
     echo "  gsettings not available, skipping GNOME configuration"
@@ -18,7 +18,7 @@ fi
 
 # Set GTK environment variables (will be sourced by fish config)
 # These are also set in fish config but we ensure they're exported
-export GTK_THEME=adw-gtk3-dark
+export GTK_THEME=Adwaita:dark
 export QT_STYLE_OVERRIDE=adwaita-dark
 
 echo "✓ Dark mode preferences set successfully"
