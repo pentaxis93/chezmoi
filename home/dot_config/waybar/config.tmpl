@@ -22,6 +22,7 @@
         "pulseaudio",
         "bluetooth",
         "network",
+        "custom/vpn",
         "custom/weather",
         {{- if .is_laptop }}
         "battery",
@@ -47,8 +48,8 @@
     {{- if .is_laptop }}
     "battery": {
         "format": "[bat:{capacity}%]",
-        "format-charging": "[bat:{capacity}%⚡]",
-        "format-plugged": "[bat:{capacity}%🔌]",
+        "format-charging": "[bat:{capacity}%+]",
+        "format-plugged": "[bat:{capacity}%=]",
         "states": {
             "warning": 30,
             "critical": 15
@@ -79,6 +80,7 @@
     },
 
     "network": {
+        "interface": "wlan0",
         "format-wifi": "[wifi:{signalStrength}%]",
         "format-ethernet": "[eth]",
         "format-linked": "[no ip]",
@@ -111,6 +113,13 @@
         "format": "{}",
         "exec": "curl -s 'wttr.in/?format=[%c+%t]' | sed 's/+//' | sed 's/°C/°/'",
         "interval": 3600,
+        "tooltip": false
+    },
+
+    "custom/vpn": {
+        "format": "{}",
+        "exec": "~/.local/bin/waybar-vpn-check",
+        "interval": 5,
         "tooltip": false
     },
 

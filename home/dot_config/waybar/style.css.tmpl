@@ -27,6 +27,7 @@ window#waybar {
 #memory,
 #pulseaudio,
 #custom-weather,
+#custom-vpn,
 #clock {
     padding: 0 8px;
     margin: 0;
@@ -114,6 +115,14 @@ window#waybar.empty #window {
 /* Network - Blue (connectivity) */
 #network {
     color: {{ template "color-hex.tmpl" $c.blue }};
+}
+
+/* VPN - Blue (secure connectivity) - integrates visually with network */
+#custom-vpn {
+    color: {{ template "color-hex.tmpl" $c.blue }};
+    padding-left: 0;
+    padding-right: 8px;
+    margin-left: -6px;
 }
 
 /* Weather - Light blue (atmosphere) */
