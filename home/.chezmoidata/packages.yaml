@@ -5,13 +5,11 @@
 packages:
   cachyos:
     pacman:
-      - npm  # Node.js package manager (nodejs is a dependency)
       - bitwarden-cli  # Password manager CLI for secure secret management
       - openvpn  # Secure tunneling daemon for VPN connections
       - transmission-cli  # BitTorrent client with daemon for VPN-bound torrenting
       - tremc  # Terminal UI for transmission with vi-like keybindings
       - mpv  # Media player with resume, history, and file browser support
-      - mpv-mpris  # MPRIS integration for mpv (media controls)
       - lf  # Terminal file manager for video browsing (already installed)
       - weechat  # Modern IRC client with better vi-mode and extensibility
       # LF preview and functionality tools
@@ -22,11 +20,8 @@ packages:
       - poppler  # PDF rendering library with utilities
       - jq  # Command-line JSON processor for pretty-printing
       - trash-cli  # Command line interface to FreeDesktop.org trash
-      - dragon  # KDE drag-and-drop utility for X or Wayland
-      - xclip  # Command line clipboard for X11
       - wl-clipboard  # Wayland clipboard utilities
       - tree  # Directory tree visualization for folder previews
-      - nsxiv  # Simple X image viewer for viewing from lf
       - p7zip  # 7-zip archive support (provides 7z command)
       - zathura  # Lightweight PDF/document viewer
       - zathura-pdf-poppler  # PDF support for zathura
