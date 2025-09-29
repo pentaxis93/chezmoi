@@ -30,7 +30,7 @@ function tstatus --description "Show transmission daemon and VPN status"
         end
 
         # Show active torrents count
-        set active_count (transmission-remote -n (transmission-auth) -l 2>/dev/null | grep -v "^ID" | grep -v "^Sum:" | wc -l)
+        set active_count (transmission-remote -n (transmission-auth) -l 2>/dev/null | grep -v "^ID" | grep -v "^Sum:" | command wc -l)
         echo "  Active torrents: $active_count"
     else
         set_color red

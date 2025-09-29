@@ -9,6 +9,7 @@ function tstart --description "Start transmission daemon (VPN-bound)"
 
     # Update binding and start daemon
     transmission-vpn-bind
+    systemctl --user start transmission-daemon
 
     # Show status
     sleep 1
