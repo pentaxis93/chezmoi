@@ -43,7 +43,7 @@ binds {
     // Semantic invocations - launch applications
     {{ template "keybind-invoke.tmpl" (dict "action" "terminal" "context" "niri" "keybindings" $kb) }} hotkey-overlay-title="Open Terminal: alacritty" { spawn-sh "alacritty"; }
     {{ template "keybind-invoke.tmpl" (dict "action" "launcher" "context" "niri" "keybindings" $kb) }} hotkey-overlay-title="Open App Launcher: wofi" { spawn-sh "wofi"; }
-    {{ template "keybind-invoke.tmpl" (dict "action" "browser" "context" "niri" "keybindings" $kb) }} hotkey-overlay-title="Open Browser: firefox" { spawn-sh "firefox"; }
+    {{ template "keybind-invoke.tmpl" (dict "action" "browser" "context" "niri" "keybindings" $kb) }} hotkey-overlay-title="Open Browser: qutebrowser" { spawn-sh "qutebrowser"; }
     MOD+ALT+L                           hotkey-overlay-title="Lock Screen: swaylock" { spawn-sh "swaylock"; }
 
     // Please choose your own file manager
