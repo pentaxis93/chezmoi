@@ -1,0 +1,311 @@
+{{- $c := .kanagawa.dragon -}}
+# Qutebrowser Configuration - Ultra-Zen Web Navigation
+# "The keyboard becomes the interface; intention becomes action"
+#
+# Kanagawa Dragon themed with Helix-native keybindings
+# Following our semantic navigation philosophy
+
+# =============================================================================
+# GENERAL SETTINGS
+# =============================================================================
+
+# Load autoconfig.yml (if it exists)
+config.load_autoconfig(False)
+
+# Downloads
+c.downloads.location.directory = '~/Downloads'
+c.downloads.location.prompt = False
+c.downloads.remove_finished = 5000  # Remove from list after 5 seconds
+
+# Content settings
+c.content.autoplay = False
+c.content.blocking.enabled = True
+c.content.blocking.method = 'both'  # Use hosts files and adblock
+c.content.blocking.adblock.lists = [
+    'https://easylist.to/easylist/easylist.txt',
+    'https://easylist.to/easylist/easyprivacy.txt',
+]
+
+# Prefer dark mode
+c.colors.webpage.preferred_color_scheme = 'dark'
+c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.darkmode.policy.images = 'never'
+
+# Privacy & Security
+c.content.cookies.accept = 'no-3rdparty'
+c.content.headers.do_not_track = True
+c.content.webrtc_ip_handling_policy = 'default-public-interface-only'
+
+# Editor
+c.editor.command = ['alacritty', '-e', 'hx', '{file}']
+
+# Tabs
+c.tabs.position = 'top'
+c.tabs.show = 'multiple'
+c.tabs.title.format = '{audio}{current_title}'
+c.tabs.title.format_pinned = '{audio}'
+c.tabs.last_close = 'close'
+c.tabs.new_position.related = 'next'
+
+# URL & Search
+c.url.default_page = 'about:blank'
+c.url.start_pages = ['about:blank']
+
+# =============================================================================
+# SEARCH ENGINES
+# =============================================================================
+
+c.url.searchengines = {
+    'DEFAULT': 'https://duckduckgo.com/?q={}',
+    'ddg': 'https://duckduckgo.com/?q={}',
+    'g': 'https://www.google.com/search?q={}',
+    'gh': 'https://github.com/search?q={}',
+    'aw': 'https://wiki.archlinux.org/index.php?search={}',
+    'aur': 'https://aur.archlinux.org/packages/?K={}',
+    'yt': 'https://www.youtube.com/results?search_query={}',
+    'wi': 'https://en.wikipedia.org/wiki/{}',
+}
+
+# =============================================================================
+# KANAGAWA DRAGON THEME
+# =============================================================================
+# "Each color carries intention; each intention serves the whole"
+
+# Completion widget
+c.colors.completion.fg = '#{{ $c.fg_primary }}'
+c.colors.completion.odd.bg = '#{{ $c.bg_dark }}'
+c.colors.completion.even.bg = '#{{ $c.bg_dim }}'
+c.colors.completion.category.fg = '#{{ $c.bright_cyan }}'  # Focus/active color
+c.colors.completion.category.bg = '#{{ $c.bg_medium }}'
+c.colors.completion.category.border.top = '#{{ $c.bg_medium }}'
+c.colors.completion.category.border.bottom = '#{{ $c.bg_medium }}'
+c.colors.completion.item.selected.fg = '#{{ $c.black }}'
+c.colors.completion.item.selected.bg = '#{{ $c.bright_cyan }}'  # Focus green
+c.colors.completion.item.selected.border.top = '#{{ $c.bright_cyan }}'
+c.colors.completion.item.selected.border.bottom = '#{{ $c.bright_cyan }}'
+c.colors.completion.item.selected.match.fg = '#{{ $c.yellow }}'
+c.colors.completion.match.fg = '#{{ $c.yellow }}'
+c.colors.completion.scrollbar.fg = '#{{ $c.bright_cyan }}'
+c.colors.completion.scrollbar.bg = '#{{ $c.bg_dark }}'
+
+# Context menu
+c.colors.contextmenu.disabled.bg = '#{{ $c.bg_dark }}'
+c.colors.contextmenu.disabled.fg = '#{{ $c.bright_black }}'
+c.colors.contextmenu.menu.bg = '#{{ $c.bg_dark }}'
+c.colors.contextmenu.menu.fg = '#{{ $c.fg_primary }}'
+c.colors.contextmenu.selected.bg = '#{{ $c.bright_cyan }}'
+c.colors.contextmenu.selected.fg = '#{{ $c.black }}'
+
+# Downloads
+c.colors.downloads.bar.bg = '#{{ $c.bg_dark }}'
+c.colors.downloads.start.fg = '#{{ $c.black }}'
+c.colors.downloads.start.bg = '#{{ $c.blue }}'
+c.colors.downloads.stop.fg = '#{{ $c.black }}'
+c.colors.downloads.stop.bg = '#{{ $c.green }}'
+c.colors.downloads.error.fg = '#{{ $c.red }}'
+
+# Hints
+c.colors.hints.fg = '#{{ $c.black }}'
+c.colors.hints.bg = '#{{ $c.yellow }}'
+c.colors.hints.match.fg = '#{{ $c.bright_white }}'
+
+# Keyhint widget
+c.colors.keyhint.fg = '#{{ $c.fg_primary }}'
+c.colors.keyhint.suffix.fg = '#{{ $c.yellow }}'
+c.colors.keyhint.bg = '#{{ $c.bg_dark }}'
+
+# Messages
+c.colors.messages.error.fg = '#{{ $c.red }}'
+c.colors.messages.error.bg = '#{{ $c.bg_dark }}'
+c.colors.messages.error.border = '#{{ $c.red }}'
+c.colors.messages.warning.fg = '#{{ $c.yellow }}'
+c.colors.messages.warning.bg = '#{{ $c.bg_dark }}'
+c.colors.messages.warning.border = '#{{ $c.yellow }}'
+c.colors.messages.info.fg = '#{{ $c.blue }}'
+c.colors.messages.info.bg = '#{{ $c.bg_dark }}'
+c.colors.messages.info.border = '#{{ $c.blue }}'
+
+# Prompts
+c.colors.prompts.fg = '#{{ $c.fg_primary }}'
+c.colors.prompts.bg = '#{{ $c.bg_dark }}'
+c.colors.prompts.border = '#{{ $c.bright_cyan }}'
+c.colors.prompts.selected.bg = '#{{ $c.bg_medium }}'
+c.colors.prompts.selected.fg = '#{{ $c.fg_primary }}'
+
+# Status bar (mode-aware)
+c.colors.statusbar.normal.fg = '#{{ $c.fg_primary }}'
+c.colors.statusbar.normal.bg = '#{{ $c.bg_dark }}'
+c.colors.statusbar.insert.fg = '#{{ $c.black }}'
+c.colors.statusbar.insert.bg = '#{{ $c.green }}'
+c.colors.statusbar.passthrough.fg = '#{{ $c.black }}'
+c.colors.statusbar.passthrough.bg = '#{{ $c.blue }}'
+c.colors.statusbar.private.fg = '#{{ $c.black }}'
+c.colors.statusbar.private.bg = '#{{ $c.magenta }}'
+c.colors.statusbar.command.fg = '#{{ $c.fg_primary }}'
+c.colors.statusbar.command.bg = '#{{ $c.bg_dark }}'
+c.colors.statusbar.command.private.fg = '#{{ $c.black }}'
+c.colors.statusbar.command.private.bg = '#{{ $c.magenta }}'
+c.colors.statusbar.caret.fg = '#{{ $c.black }}'
+c.colors.statusbar.caret.bg = '#{{ $c.yellow }}'
+c.colors.statusbar.caret.selection.fg = '#{{ $c.black }}'
+c.colors.statusbar.caret.selection.bg = '#{{ $c.yellow }}'
+c.colors.statusbar.progress.bg = '#{{ $c.bright_cyan }}'
+c.colors.statusbar.url.fg = '#{{ $c.fg_primary }}'
+c.colors.statusbar.url.error.fg = '#{{ $c.red }}'
+c.colors.statusbar.url.hover.fg = '#{{ $c.bright_cyan }}'
+c.colors.statusbar.url.success.http.fg = '#{{ $c.yellow }}'
+c.colors.statusbar.url.success.https.fg = '#{{ $c.green }}'
+c.colors.statusbar.url.warn.fg = '#{{ $c.yellow }}'
+
+# Tabs
+c.colors.tabs.bar.bg = '#{{ $c.bg_dark }}'
+c.colors.tabs.indicator.start = '#{{ $c.blue }}'
+c.colors.tabs.indicator.stop = '#{{ $c.green }}'
+c.colors.tabs.indicator.error = '#{{ $c.red }}'
+
+# Unselected tabs
+c.colors.tabs.odd.fg = '#{{ $c.fg_muted }}'
+c.colors.tabs.odd.bg = '#{{ $c.bg_dark }}'
+c.colors.tabs.even.fg = '#{{ $c.fg_muted }}'
+c.colors.tabs.even.bg = '#{{ $c.bg_dim }}'
+
+# Selected tab
+c.colors.tabs.selected.odd.fg = '#{{ $c.bright_white }}'
+c.colors.tabs.selected.odd.bg = '#{{ $c.bg_medium }}'
+c.colors.tabs.selected.even.fg = '#{{ $c.bright_white }}'
+c.colors.tabs.selected.even.bg = '#{{ $c.bg_medium }}'
+
+# Pinned tabs
+c.colors.tabs.pinned.odd.fg = '#{{ $c.fg_muted }}'
+c.colors.tabs.pinned.odd.bg = '#{{ $c.bg_dark }}'
+c.colors.tabs.pinned.even.fg = '#{{ $c.fg_muted }}'
+c.colors.tabs.pinned.even.bg = '#{{ $c.bg_dim }}'
+c.colors.tabs.pinned.selected.odd.fg = '#{{ $c.bright_cyan }}'
+c.colors.tabs.pinned.selected.odd.bg = '#{{ $c.bg_medium }}'
+c.colors.tabs.pinned.selected.even.fg = '#{{ $c.bright_cyan }}'
+c.colors.tabs.pinned.selected.even.bg = '#{{ $c.bg_medium }}'
+
+# =============================================================================
+# HELIX-NATIVE KEYBINDINGS
+# =============================================================================
+# "Each key carries semantic intention; muscle memory flows universally"
+
+# Clear default bindings we're replacing
+config.unbind('G', mode='normal')  # We use 'ge' instead (Helix-native)
+
+# Navigation (Helix-native philosophy)
+config.bind('ge', 'scroll-page 0 1', mode='normal')  # Go to end (not G)
+config.bind('gg', 'scroll-page 0 0', mode='normal')  # Go to start
+config.bind('gh', 'scroll-to-perc 0', mode='normal')  # Go home (line start concept)
+config.bind('gl', 'scroll-to-perc 100', mode='normal')  # Go line end concept
+
+# Smooth scrolling (j/k for small movements)
+config.bind('j', 'scroll down', mode='normal')
+config.bind('k', 'scroll up', mode='normal')
+config.bind('h', 'scroll left', mode='normal')
+config.bind('l', 'scroll right', mode='normal')
+
+# Half-page scrolling (d/u like Helix)
+config.bind('d', 'scroll-page 0 0.5', mode='normal')
+config.bind('u', 'scroll-page 0 -0.5', mode='normal')
+
+# Tab navigation (J/K for prev/next)
+config.bind('J', 'tab-prev', mode='normal')
+config.bind('K', 'tab-next', mode='normal')
+config.bind('gT', 'tab-prev', mode='normal')  # Alternative
+config.bind('gt', 'tab-next', mode='normal')  # Alternative
+
+# Tab manipulation
+config.bind('gn', 'tab-next', mode='normal')
+config.bind('gp', 'tab-prev', mode='normal')
+config.bind('gc', 'tab-close', mode='normal')
+config.bind('gf', 'tab-focus', mode='normal')
+config.bind('gm', 'tab-move', mode='normal')
+
+# History navigation
+config.bind('H', 'back', mode='normal')
+config.bind('L', 'forward', mode='normal')
+
+# Hints (link following)
+config.bind('f', 'hint links', mode='normal')
+config.bind('F', 'hint links tab-bg', mode='normal')
+config.bind(';y', 'hint links yank', mode='normal')
+config.bind(';Y', 'hint links yank-primary', mode='normal')
+
+# Search
+config.bind('/', 'set-cmd-text /', mode='normal')
+config.bind('?', 'set-cmd-text ?', mode='normal')
+config.bind('n', 'search-next', mode='normal')
+config.bind('N', 'search-prev', mode='normal')
+
+# Zoom
+config.bind('+', 'zoom-in', mode='normal')
+config.bind('-', 'zoom-out', mode='normal')
+config.bind('=', 'zoom', mode='normal')
+
+# Quit/Close
+config.bind('q', 'tab-close', mode='normal')
+config.bind('Q', 'quit', mode='normal')
+
+# =============================================================================
+# CUSTOM INTEGRATIONS
+# =============================================================================
+# "Tools flow together; each enhances the whole"
+
+# MPV integration (play video with mpv)
+config.bind(',m', 'spawn mpv {url}', mode='normal')
+config.bind(',M', 'hint links spawn mpv {hint-url}', mode='normal')
+
+# Yank URL/Title
+config.bind('yy', 'yank', mode='normal')
+config.bind('yt', 'yank title', mode='normal')
+config.bind('yd', 'yank domain', mode='normal')
+config.bind('yp', 'yank pretty-url', mode='normal')
+
+# Quick commands (comma prefix for custom actions)
+config.bind(',r', 'reload', mode='normal')
+config.bind(',R', 'reload --force', mode='normal')
+config.bind(',p', 'open -p', mode='normal')  # Private window
+
+# Reader mode
+config.bind(',a', 'readability', mode='normal')
+
+# =============================================================================
+# FONTS
+# =============================================================================
+
+c.fonts.default_family = 'monospace'
+c.fonts.default_size = '10pt'
+c.fonts.completion.entry = '10pt monospace'
+c.fonts.completion.category = 'bold 10pt monospace'
+c.fonts.statusbar = '10pt monospace'
+c.fonts.tabs.selected = '10pt monospace'
+c.fonts.tabs.unselected = '10pt monospace'
+c.fonts.hints = 'bold 12pt monospace'
+c.fonts.keyhint = '10pt monospace'
+c.fonts.messages.error = '10pt monospace'
+c.fonts.messages.info = '10pt monospace'
+c.fonts.messages.warning = '10pt monospace'
+c.fonts.prompts = '10pt monospace'
+c.fonts.web.family.standard = 'sans-serif'
+c.fonts.web.family.serif = 'serif'
+c.fonts.web.family.sans_serif = 'sans-serif'
+c.fonts.web.family.fixed = 'monospace'
+
+# =============================================================================
+# ALIASES
+# =============================================================================
+
+c.aliases = {
+    'w': 'session-save',
+    'wq': 'quit --save',
+    'q': 'tab-close',
+    'qa': 'quit',
+    'h': 'help',
+}
+
+# =============================================================================
+# AUTO-SAVE SESSION
+# =============================================================================
+
+c.auto_save.session = True
