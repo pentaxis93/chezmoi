@@ -36,3 +36,6 @@ packages:
       - wiremix  # Modern TUI audio mixer for PipeWire with vi keybindings
       # Shell enhancements
       - zoxide  # Smart directory navigation with frecency-based jumping
+      # Development tools
+      - github-cli  # GitHub CLI for PR/issue/repo management
+      - lazygit  # TUI for git with vi keybindings and reverse video selections

@@ -438,6 +438,7 @@ ge                          # Go to end (Helix-native)
 - `home/dot_config/wiremix/wiremix.toml.tmpl` - Wiremix TUI configuration with Kanagawa theme
 - `home/dot_config/fish/functions/vol*.fish.tmpl` - Volume control functions (vol, volu, vold, volm, vols)
 - `home/dot_config/fish/functions/ls.fish.tmpl` - Transparent eza wrapper replacing ls command
+- `home/dot_config/lazygit/config.yml` - Lazygit TUI with reverse video selections and Kanagawa theme
 - `home/.chezmoitemplates/` - Reusable template fragments
   - `color-hex.tmpl` - Convert color to #hex format (CSS/KDL)
   - `color-quoted.tmpl` - Convert color to "#hex" format (TOML)
@@ -661,6 +662,36 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
   - `home/dot_config/fish/functions/lfcd.fish.tmpl` - Directory change function
   - `home/dot_config/handlr/handlr.toml.tmpl` - Handlr config with wofi selector
   - `home/run_once_setup-handlr-defaults.sh.tmpl` - Handlr default associations setup
+
+### Lazygit - Git TUI (`lazygit`)
+- **Reverse Video Philosophy**: Selections use terminal fg/bg swap for perfect contrast
+- **Kanagawa Theme**: Active borders use semantic focus green (color2)
+- **Vi Navigation**: Full vi keybindings for all operations
+- **Visual Branch Management**: Interactive rebasing, cherry-picking, branch switching
+- **Semantic Colors**:
+  - Active borders: Green (focus/ready)
+  - Search borders: Cyan (discovery)
+  - Options text: Blue (information)
+  - Selections: Reverse video (Master's wisdom)
+- **Fish Integration**: `lg` abbreviation launches lazygit
+- **Configuration**: `home/dot_config/lazygit/config.yml` - Custom theme following our philosophy
+- **Usage**:
+  - `lg` - Launch lazygit in current git repository
+  - hjkl navigation throughout
+  - Space to stage/unstage files
+  - c to commit, P to push/pull
+  - b to checkout branches
+
+### GitHub CLI (`github-cli`)
+- **Official GitHub Integration**: Manage PRs, issues, and repos from terminal
+- **Authentication**: Use `gh auth login` on new machines (not managed by dotfiles)
+- **Common Commands**:
+  - `gh pr create` - Create pull request
+  - `gh pr list` - List pull requests
+  - `gh issue list` - List issues
+  - `gh repo view` - View repository info
+- **Philosophy**: Let users authenticate fresh rather than managing credentials
+- **Not Managed**: No configuration files tracked (authentication handled per-machine)
 
 ### Shell Enhancements
 
