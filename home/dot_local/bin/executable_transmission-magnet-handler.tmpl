@@ -1,0 +1,31 @@
+#!/usr/bin/env fish
+# Ultra-Zen Philosophy: "A click becomes an intention; intention becomes action"
+#
+# Magnet Link Handler for Transmission
+# Called by desktop environment when magnet:// URLs are clicked
+# Leverages existing tadd function for consistency
+
+set -l magnet_url "$argv[1]"
+
+if test -z "$magnet_url"
+    echo "Usage: transmission-magnet-handler <magnet-url>"
+    exit 1
+end
+
+# Validate magnet URL format
+if not string match -q "magnet:?*" -- "$magnet_url"
+    echo "Error: Invalid magnet URL format"
+    exit 1
+end
+
+# Use existing tadd function for all the beautiful VPN checking and daemon management
+tadd "$magnet_url"
+
+# Show notification if notify-send is available
+if command -q notify-send
+    if test $status -eq 0
+        notify-send "Transmission" "Magnet link added to queue" -i transmission
+    else
+        notify-send "Transmission" "Failed to add magnet link" -i dialog-error
+    end
+end

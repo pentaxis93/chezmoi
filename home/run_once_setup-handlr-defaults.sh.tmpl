@@ -104,4 +104,7 @@ handlr set audio/mpeg mpv.desktop 2>/dev/null || true
 handlr set application/pdf zathura.desktop 2>/dev/null || true
 handlr set text/html firefox.desktop 2>/dev/null || true
 
+# Protocol handlers
+handlr set x-scheme-handler/magnet transmission-magnet.desktop 2>/dev/null || true
+
 echo "handlr default associations configured!"
