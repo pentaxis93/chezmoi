@@ -64,10 +64,11 @@ function bw-generate --description "Generate secure password with semantic optio
             # Copy to clipboard
             if type -q wl-copy
                 echo -n $password | wl-copy
-            else if type -q xclip
-                echo -n $password | xclip -selection clipboard
+                echo "{{ template "color-hex.tmpl" .kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .kanagawa.dragon.white }} Generated password copied to clipboard"
+            else
+                echo "{{ template "color-hex.tmpl" .kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .kanagawa.dragon.white }} No clipboard manager found (install wl-clipboard)"
+                return 1
             end
-            echo "{{ template "color-hex.tmpl" .kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .kanagawa.dragon.white }} Generated password copied to clipboard"
         else
             # Display password
             echo "{{ template "color-hex.tmpl" .kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .kanagawa.dragon.white }} Generated password:"

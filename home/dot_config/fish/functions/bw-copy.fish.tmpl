@@ -33,13 +33,11 @@ function bw-copy --description "Copy password to clipboard with fuzzy search"
     # Get password and copy to clipboard
     set -l password (bw get password $item_id 2>/dev/null)
     if test -n "$password"
-        # Use wl-copy for Wayland or xclip for X11
+        # Use wl-copy for Wayland clipboard
         if type -q wl-copy
             echo -n $password | wl-copy
-        else if type -q xclip
-            echo -n $password | xclip -selection clipboard
         else
-            echo "{{ template "color-hex.tmpl" .kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .kanagawa.dragon.white }} No clipboard manager found (install wl-clipboard or xclip)"
+            echo "{{ template "color-hex.tmpl" .kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .kanagawa.dragon.white }} No clipboard manager found (install wl-clipboard)"
             return 1
         end
 
