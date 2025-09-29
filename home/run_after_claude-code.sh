@@ -16,12 +16,15 @@ else
 fi
 
 # Configure global settings
-claude config set -g verbose true
-claude config set -g autoUpdates true
-claude config set -g theme dark
-claude config set -g preferredNotifChannel terminal_bell
+# Note: Claude CLI doesn't have a 'config set' command
+# Settings are managed through ~/.claude/settings.json or command-line flags
+# These lines were using invalid syntax and have been removed
+# claude config set -g verbose true
+# claude config set -g autoUpdates true
+# claude config set -g theme dark
+# claude config set -g preferredNotifChannel terminal_bell
 
-echo "✓ Claude Code settings configured"
+echo "✓ Claude Code installation verified"
 
 # Configure context7 MCP server for enhanced capabilities
 # npm/npx installed by run_once_before_nodejs.sh
