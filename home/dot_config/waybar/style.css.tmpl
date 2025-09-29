@@ -106,11 +106,6 @@ window#waybar.empty #window {
     color: {{ template "color-hex.tmpl" $c.green }};
 }
 
-#pulseaudio.muted {
-    color: {{ template "color-hex.tmpl" $c.bg_lighter }};
-    text-decoration: line-through;
-}
-
 /* Bluetooth - Cyan (wireless) */
 #bluetooth {
     color: {{ template "color-hex.tmpl" $c.bright_cyan }};
@@ -129,12 +124,6 @@ window#waybar.empty #window {
 /* Battery - Blue-violet (energy) */
 #battery {
     color: {{ template "color-hex.tmpl" $c.bright_magenta }};
-}
-#battery.warning {
-    color: {{ template "color-hex.tmpl" $c.yellow }};
-}
-#battery.critical {
-    color: {{ template "color-hex.tmpl" $c.red }};
 }
 
 /* Clock - Violet (time's mystery) */
