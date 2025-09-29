@@ -177,7 +177,8 @@ systemctl --user enable goosevpn  # Auto-connect on boot
 **"Each viewing journey begins with intention, pauses with memory, resumes with continuity"**
 
 ### Architecture
-- **MPV Core** - Feature-rich media player with resume and history tracking
+- **MPV Core** - Feature-rich media player with reliable position resuming
+- **Auto-Save Script** - Periodic position saving (every 30s) ensures no loss on crashes/reboots
 - **LF File Browser** - Integrated lf terminal browser for file selection (press 'b')
 - **Kanagawa Theme** - Consistent theming across OSD, subtitles, and lf browser
 - **Helix-Native Keys** - Vi navigation with semantic improvements (ge for end)
@@ -186,6 +187,7 @@ systemctl --user enable goosevpn  # Auto-connect on boot
 ### Configuration Files
 - **Main Config**: `home/dot_config/mpv/mpv.conf.tmpl` - Core settings and theming
 - **Keybindings**: `home/dot_config/mpv/input.conf.tmpl` - Helix-native navigation
+- **Auto-Save Script**: `home/dot_config/mpv/scripts/auto-save-position.lua.tmpl` - Periodic position saving
 - **LF Browser Script**: `home/dot_config/mpv/scripts/lf-browser.lua.tmpl` - LF integration script
 - **LF Wrapper**: `home/dot_local/bin/executable_mpv.tmpl` - Terminal browser for pre-selection
 - **Fish Functions**: `home/dot_config/fish/functions/mp*.fish.tmpl` - Semantic commands
@@ -216,8 +218,8 @@ V                 # Toggle secondary subtitles (dual subs)
 ```
 
 ### Features
-- **Resume Playback** - Automatically saves and restores position
-- **Watch History** - Tracks all viewed media in `~/.local/state/mpv/`
+- **Reliable Position Resuming** - Auto-saves every 30s + on quit/seek (survives crashes/reboots)
+- **Saved Positions** - Stored in `~/.local/state/mpv/watch_later/` as hash-named files
 - **Smart Directories** - Starts in ~/Videos, falls back to ~/Downloads
 - **LF Integration** - Press 'b' to browse files with lf, context-sensitive 'l' key
 - **Screenshot Organization** - Saves to `~/Pictures/mpv/` with timestamps
@@ -421,6 +423,7 @@ ge                          # Go to end (Helix-native)
 - `home/dot_config/fish/conf.d/10-transmission-vpn.fish.tmpl` - Transmission VPN monitor
 - `home/dot_config/mpv/mpv.conf.tmpl` - MPV main configuration
 - `home/dot_config/mpv/input.conf.tmpl` - MPV Helix-native keybindings
+- `home/dot_config/mpv/scripts/auto-save-position.lua.tmpl` - Periodic position auto-save script
 - `home/dot_config/mpv/scripts/lf-browser.lua.tmpl` - LF browser integration script
 - `home/dot_local/bin/executable_mpv.tmpl` - MPV wrapper for LF pre-selection
 - `home/dot_config/fish/functions/mp*.fish.tmpl` - MPV management functions
@@ -587,8 +590,8 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
 - **Kanagawa Theme**: OSD, subtitles, and lf browser themed from centralized palette
 - **Helix-Native Keybindings**: Vi navigation throughout (hjkl, ge for end, b for browse)
 - **LF File Browser**: Press `b` during playback to launch lf browser with context-sensitive 'l' key
-- **Resume Playback**: Automatic position saving and resuming
-- **Watch History**: Tracks viewing in `~/.local/state/mpv/watch_history.jsonl`
+- **Reliable Position Resume**: Auto-saves every 30s + on quit/seek (100% reliable, even on crashes)
+- **Position Storage**: `~/.local/state/mpv/watch_later/` contains hash-named bookmark files
 - **Advanced Subtitles**: Auto-detection, fuzzy matching, dual display, full control
 - **Fish Functions**: `mp` (play), `mpb` (browse), `mps` (status), `mpc` (clear), `mpsub` (subtitle management)
 - **Screenshots**: Saved to `~/Pictures/mpv/` with video name and timestamp
