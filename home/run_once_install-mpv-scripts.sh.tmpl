@@ -1,14 +1,12 @@
 #!/usr/bin/env bash
-# Install MPV scripts (file browser plugin)
-# This script runs once on chezmoi apply to set up the mpv-file-browser
+# Setup MPV directories and ensure lf integration
+# This script runs once on chezmoi apply to set up MPV directories
 
 set -euo pipefail
 
 # Configuration
 MPV_CONFIG_DIR="$HOME/.config/mpv"
 SCRIPTS_DIR="$MPV_CONFIG_DIR/scripts"
-FILE_BROWSER_DIR="$SCRIPTS_DIR/file-browser"
-FILE_BROWSER_REPO="https://github.com/CogentRedTester/mpv-file-browser.git"
 
 # Color output helpers
 info() { echo "[INFO] $*"; }
@@ -22,37 +20,18 @@ if ! command -v mpv &>/dev/null; then
     exit 0
 fi
 
-info "Setting up mpv-file-browser plugin..."
+info "Setting up mpv directories..."
 
-# Create scripts directory
+# Create scripts directory (lf-browser.lua will be placed here by chezmoi)
 if [[ ! -d "$SCRIPTS_DIR" ]]; then
     mkdir -p "$SCRIPTS_DIR"
     info "Created mpv scripts directory"
-fi
-
-# Install or update mpv-file-browser
-if [[ -d "$FILE_BROWSER_DIR" ]]; then
-    info "mpv-file-browser already installed, updating..."
-    cd "$FILE_BROWSER_DIR"
-    if git pull --quiet; then
-        success "mpv-file-browser updated"
-    else
-        warning "Failed to update mpv-file-browser (continuing...)"
-    fi
-else
-    info "Installing mpv-file-browser..."
-    if git clone --quiet "$FILE_BROWSER_REPO" "$FILE_BROWSER_DIR"; then
-        success "mpv-file-browser installed"
-    else
-        error "Failed to install mpv-file-browser"
-        exit 1
-    fi
 fi
 
 # Create state directories for mpv
 mkdir -p ~/.local/state/mpv/watch_later
 mkdir -p ~/Pictures/mpv
 
-success "MPV scripts setup complete!"
-info "File browser accessible with 'b' key in mpv"
-info "Use 'mp' to play media, 'mpb' to browse, 'mps' for status"
+success "MPV setup complete!"
+info "LF file browser accessible with 'b' key in mpv"
+info "Use 'mp' to play media with lf browser, 'mps' for status"

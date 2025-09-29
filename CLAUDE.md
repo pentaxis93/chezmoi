@@ -168,26 +168,25 @@ systemctl --user enable goosevpn  # Auto-connect on boot
 - Foundation for future enhancements (encryption, systemd-creds)
 - Works around Claude Code's broken deny permissions
 
-## MPV Media Player with File Browser
+## MPV Media Player with LF File Browser
 
 ### Ultra-Zen Philosophy: Mindful Media Consumption
 **"Each viewing journey begins with intention, pauses with memory, resumes with continuity"**
 
 ### Architecture
 - **MPV Core** - Feature-rich media player with resume and history tracking
-- **Dual File Browsers** - Built-in plugin and LF terminal browser for flexible selection
-- **Kanagawa Theme** - Consistent theming across OSD, subtitles, and file browser
+- **LF File Browser** - Integrated lf terminal browser for file selection (press 'b')
+- **Kanagawa Theme** - Consistent theming across OSD, subtitles, and lf browser
 - **Helix-Native Keys** - Vi navigation with semantic improvements (ge for end)
 - **Fish Integration** - Semantic functions for media management (mp, mpb, mps, mpc)
 
 ### Configuration Files
 - **Main Config**: `home/dot_config/mpv/mpv.conf.tmpl` - Core settings and theming
 - **Keybindings**: `home/dot_config/mpv/input.conf.tmpl` - Helix-native navigation
-- **File Browser Theme**: `home/dot_config/mpv/script-opts/file_browser.conf.tmpl` - Kanagawa colors
-- **Browser Keys**: `home/dot_config/mpv/script-opts/file-browser-keybinds.json.tmpl` - Vi navigation
-- **LF Wrapper**: `home/dot_local/bin/executable_mpv.tmpl` - Terminal browser integration
+- **LF Browser Script**: `home/dot_config/mpv/scripts/lf-browser.lua.tmpl` - LF integration script
+- **LF Wrapper**: `home/dot_local/bin/executable_mpv.tmpl` - Terminal browser for pre-selection
 - **Fish Functions**: `home/dot_config/fish/functions/mp*.fish.tmpl` - Semantic commands
-- **Plugin Installer**: `home/run_once_install-mpv-scripts.sh.tmpl` - Auto-install file browser
+- **Setup Script**: `home/run_once_install-mpv-scripts.sh.tmpl` - Directory setup script
 
 ### Usage
 ```bash
@@ -199,7 +198,7 @@ mpc               # Clear history and positions
 mpsub <cmd>       # Subtitle management (find/organize/rename/check)
 
 # Within MPV:
-b                 # Open built-in file browser
+b                 # Open lf file browser with context-sensitive 'l' key
 hjkl              # Navigate (vi-style)
 ge                # Go to end (Helix-native)
 q                 # Quit and save position
@@ -217,7 +216,7 @@ V                 # Toggle secondary subtitles (dual subs)
 - **Resume Playback** - Automatically saves and restores position
 - **Watch History** - Tracks all viewed media in `~/.local/state/mpv/`
 - **Smart Directories** - Starts in ~/Videos, falls back to ~/Downloads
-- **Dual Browse Modes** - Plugin for in-player browsing, LF for pre-selection
+- **LF Integration** - Press 'b' to browse files with lf, context-sensitive 'l' key
 - **Screenshot Organization** - Saves to `~/Pictures/mpv/` with timestamps
 - **Advanced Subtitle Support**:
   - Automatic detection in multiple directories (., subs/, .., ../subs)
@@ -228,8 +227,9 @@ V                 # Toggle secondary subtitles (dual subs)
   - `mpsub` tool for organizing and renaming subtitle files
 
 ### Navigation Philosophy
-- **In Player**: Press `b` to browse without leaving mpv
-- **Pre-Selection**: Launch `mp` without args for LF browser
+- **In Player**: Press `b` to launch lf browser in terminal
+- **Pre-Selection**: Launch `mp` without args for lf browser
+- **Context-Sensitive**: 'l' key enters directories or selects media files
 - **Helix-Native**: `ge` for end, consistent with editor navigation
 - **Semantic Functions**: `mp` (media-play), `mpb` (media-play-browse)
 
@@ -415,11 +415,10 @@ ge                          # Go to end (Helix-native)
 - `home/dot_config/fish/conf.d/10-transmission-vpn.fish.tmpl` - Transmission VPN monitor
 - `home/dot_config/mpv/mpv.conf.tmpl` - MPV main configuration
 - `home/dot_config/mpv/input.conf.tmpl` - MPV Helix-native keybindings
-- `home/dot_config/mpv/script-opts/file_browser.conf.tmpl` - File browser theme config
-- `home/dot_config/mpv/script-opts/file-browser-keybinds.json.tmpl` - File browser vi keys
-- `home/dot_local/bin/executable_mpv.tmpl` - MPV wrapper for LF integration
+- `home/dot_config/mpv/scripts/lf-browser.lua.tmpl` - LF browser integration script
+- `home/dot_local/bin/executable_mpv.tmpl` - MPV wrapper for LF pre-selection
 - `home/dot_config/fish/functions/mp*.fish.tmpl` - MPV management functions
-- `home/run_once_install-mpv-scripts.sh.tmpl` - MPV plugin installation script
+- `home/run_once_install-mpv-scripts.sh.tmpl` - MPV directory setup script
 - `home/dot_config/private_weechat/weechat.conf.tmpl` - WeeChat main configuration
 - `home/dot_config/private_weechat/irc.conf.tmpl` - WeeChat IRC server configuration
 - `home/dot_config/private_weechat/xfer.conf.tmpl` - WeeChat file transfer settings with auto-accept
@@ -577,11 +576,9 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
 - **Confirmation Dialogs**: Protects against accidental removal/deletion
 
 ### MPV Media Player (`mpv`)
-- **Kanagawa Theme**: OSD, subtitles, and file browser themed from centralized palette
+- **Kanagawa Theme**: OSD, subtitles, and lf browser themed from centralized palette
 - **Helix-Native Keybindings**: Vi navigation throughout (hjkl, ge for end, b for browse)
-- **Dual File Browsers**:
-  - Built-in mpv-file-browser plugin (press `b` during playback)
-  - LF terminal browser (launch `mp` without arguments)
+- **LF File Browser**: Press `b` during playback to launch lf browser with context-sensitive 'l' key
 - **Resume Playback**: Automatic position saving and resuming
 - **Watch History**: Tracks viewing in `~/.local/state/mpv/watch_history.jsonl`
 - **Advanced Subtitles**: Auto-detection, fuzzy matching, dual display, full control
@@ -630,7 +627,7 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
   - `lc` abbreviation for lfcd
 - **Icons**: Comprehensive Nerd Font icons for all file types
 - **Quick Jumps**: Bookmarks to common directories (gc for ~/.config, gv for ~/Videos, etc.)
-- **MPV Integration**: Already used as video file selector
+- **MPV Integration**: Used as video file selector when 'b' is pressed
 - **Git Operations**: Branch switching, log viewing, status checking
 - **Configuration Files**:
   - `home/dot_config/lf/lfrc.tmpl` - Main configuration with keybindings
