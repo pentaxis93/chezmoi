@@ -641,8 +641,7 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
   - Bulk rename with $EDITOR (B key)
   - Archive operations (create/extract)
   - Trash integration with trash-cli (T key)
-  - Dragon drag-and-drop support (dr key)
-  - Clipboard operations (W/Y for Wayland/X11)
+  - Clipboard operations (W for Wayland clipboard)
   - Ripgrep file search (Ctrl+g)
 - **Fish Integration**:
   - `lfcd` function for directory changing on exit
