@@ -437,6 +437,7 @@ ge                          # Go to end (Helix-native)
 - `home/run_once_install-weechat-scripts.sh.tmpl` - Installs xdccq.py for XDCC auto-accept
 - `home/dot_config/wiremix/wiremix.toml.tmpl` - Wiremix TUI configuration with Kanagawa theme
 - `home/dot_config/fish/functions/vol*.fish.tmpl` - Volume control functions (vol, volu, vold, volm, vols)
+- `home/dot_config/fish/functions/ls.fish.tmpl` - Transparent eza wrapper replacing ls command
 - `home/.chezmoitemplates/` - Reusable template fragments
   - `color-hex.tmpl` - Convert color to #hex format (CSS/KDL)
   - `color-quoted.tmpl` - Convert color to "#hex" format (TOML)
@@ -622,6 +623,7 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
 ### LF Terminal File Manager (`lf`)
 - **Kanagawa Theme**: Consistent colors in borders and prompt from centralized palette
 - **Helix-Native Keybindings**: Vi navigation with semantic improvements (ge for end, gh/gl for line start/end)
+- **Required Dependencies**: fzf (Ctrl+f fuzzy directory jump), ripgrep (Ctrl+g content search)
 - **Handlr Integration**: Modern file handler replacing xdg-open with wofi selector
 - **Simplified File Actions**: Two-key system for maximum simplicity
   - `l` - Open with default app (instant)
@@ -660,6 +662,31 @@ Just as colors became semantic purposes, keybindings are semantic **intentions**
   - `home/dot_config/handlr/handlr.toml.tmpl` - Handlr config with wofi selector
   - `home/run_once_setup-handlr-defaults.sh.tmpl` - Handlr default associations setup
 
+### Shell Enhancements
+
+#### eza - Modern ls Replacement
+- **Transparent Integration**: `ls` command transparently replaced with eza
+- **Enhanced Features**: Icons, colors, git status integration
+- **Zero Learning Curve**: All standard ls options pass through unchanged
+- **Implementation**: Fish function wrapper at `home/dot_config/fish/functions/ls.fish.tmpl`
+- **Benefits**:
+  - Nerd Font icons for file types
+  - Automatic directory grouping
+  - Git-aware file listings
+  - Better color coding and formatting
+
+#### zoxide - Smart Directory Navigation
+- **Frecency-Based Jumping**: Learn frequently and recently used directories
+- **Commands**:
+  - `z <keyword>` - Jump to best match for keyword
+  - `zi <keyword>` - Interactive selection with fzf
+- **Integration**: Initialized in Fish config, works alongside lfcd
+- **Philosophy**: Complements visual navigation (lfcd/Ctrl+O) with quick frecency-based jumps
+- **Use Cases**:
+  - **Quick jumps**: `z dots` → `~/.local/share/chezmoi`
+  - **Partial matches**: `z conf` → `~/.config` (learns your patterns)
+  - **Recent directories**: Just visited ~/Videos/movies? `z mov` gets you back
+- **Configuration**: Auto-initialized in `home/dot_config/fish/config.fish.tmpl`
 
 ### Claude Code Output Styles
 - **Zen Engineer**: Technically precise yet contemplative engineering guidance
