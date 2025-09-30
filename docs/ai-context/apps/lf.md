@@ -2,7 +2,10 @@
 
 ## Architecture
 - **Kanagawa Theme** - Consistent colors in borders and prompt from centralized palette
-- **Helix-Native Keybindings** - Vi navigation with semantic improvements (ge for end, gh/gl for line start/end)
+- **Semantic Keybindings** - Core bindings use semantic templates from keybindings.yaml
+  - 13 template-based bindings: navigation (h/j/k/l, gg/ge, gh/gl), selection (x/V/A), search (/?)
+  - Helix-native: ge for end, gh/gl for line start/end
+  - All bindings categorized by semantic intent (navigate, select, discover, transform)
 - **Required Dependencies** - fzf (Ctrl+f fuzzy directory jump), ripgrep (Ctrl+g content search)
 - **Handlr Integration** - Modern file handler replacing xdg-open with wofi selector
 

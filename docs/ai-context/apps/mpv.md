@@ -8,7 +8,11 @@
 - **Auto-Save Script** - Periodic position saving (every 30s) ensures no loss on crashes/reboots
 - **LF File Browser** - Integrated lf terminal browser for file selection (press 'b')
 - **Kanagawa Theme** - Consistent theming across OSD, subtitles, and lf browser
-- **Helix-Native Keys** - Vi navigation with semantic improvements (ge for end)
+- **Semantic Keybindings** - Comprehensive semantic keybinding system
+  - 23 template-based bindings: navigation (seek, chapters), manipulation (Ctrl modifiers), transform (f/i/v), preserve (s), discover (/?), select (SPACE), dismiss (q/ESC)
+  - 80+ bindings with semantic comments categorized by intent
+  - Helix-native: ge for end, gh/gl for start/end, w/b for chapters
+  - All 100+ bindings organized by semantic categories
 - **Fish Integration** - Semantic functions for media management (mp, mpb, mps, mpc)
 
 ## Configuration Files

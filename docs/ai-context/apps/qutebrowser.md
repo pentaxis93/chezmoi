@@ -6,7 +6,10 @@
 ## Architecture
 - **Python Configuration** - Flexible config.py with full programmatic control
 - **Kanagawa Theme** - Complete UI theming from centralized color palette
-- **Helix-Native Keybindings** - Semantic navigation (ge for end, gh/gl for line start/end)
+- **Semantic Keybindings** - Core bindings use semantic templates from keybindings.yaml
+  - 12 template-based bindings: navigation (h/j/k/l, gg/ge, gh/gl), search (/?), dismiss (q/Q)
+  - Helix-native: ge for end, gh/gl for line start/end, d/u for half-page
+  - All core bindings generated from semantic definitions
 - **Privacy-Focused** - Ad blocking, tracking protection, dark mode preference
 - **Fish Integration** - Semantic functions for browser management (qb, qbp, qbs)
 - **MPV Integration** - Seamless video playback with external player
