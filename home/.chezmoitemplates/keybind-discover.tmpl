@@ -1,0 +1,75 @@
+{{- /*
+Ultra-Zen Semantic Discovery Template
+Maps discovery intentions (search/find/help) to context-appropriate keys
+
+Usage:
+  {{ template "keybind-discover.tmpl" dict "action" "search_forward" "context" "helix" "keybindings" $kb }}
+  {{ template "keybind-discover.tmpl" dict "action" "help" "context" "niri" "keybindings" $kb }}
+
+Parameters:
+  action: Semantic action (search_forward, search_backward, find_char, till_char, help)
+  context: Application context
+  keybindings: The keybindings data structure
+*/ -}}
+{{- $action := .action -}}
+{{- $context := .context -}}
+{{- $kb := .keybindings -}}
+
+{{- /* Get base keys from semantic definitions */ -}}
+{{- $baseKey := "" -}}
+{{- if eq $action "search_forward" -}}
+    {{- $baseKey = $kb.semantic.discover.search_forward | default "/" -}}
+{{- else if eq $action "search_backward" -}}
+    {{- $baseKey = $kb.semantic.discover.search_backward | default "?" -}}
+{{- else if eq $action "find_char" -}}
+    {{- $baseKey = $kb.semantic.discover.find_char | default "f" -}}
+{{- else if eq $action "till_char" -}}
+    {{- $baseKey = $kb.semantic.discover.till_char | default "t" -}}
+{{- else if eq $action "help" -}}
+    {{- $baseKey = $kb.semantic.discover.help | default "?" -}}
+{{- end -}}
+
+{{- /* Apply context-specific modifiers */ -}}
+{{- if eq $context "helix" -}}
+    {{- /* Helix uses / for search, ? for backwards */ -}}
+    {{- $baseKey -}}
+{{- else if eq $context "qutebrowser" -}}
+    {{- /* Qutebrowser uses / and ? for search */ -}}
+    {{- if eq $action "help" -}}
+        :help
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "mpv" -}}
+    {{- /* MPV may use custom search bindings */ -}}
+    {{- if eq $action "help" -}}
+        ?
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "lf" -}}
+    {{- /* LF uses / for filter, ? for help */ -}}
+    {{- $baseKey -}}
+{{- else if eq $context "fish" -}}
+    {{- /* Fish uses / and ? for history search */ -}}
+    {{- $baseKey -}}
+{{- else if eq $context "alacritty" -}}
+    {{- /* Alacritty vi mode search */ -}}
+    {{- if eq $action "search_forward" -}}
+        Slash
+    {{- else if eq $action "search_backward" -}}
+        Slash  {{- /* With Shift modifier */ -}}
+    {{- else -}}
+        {{- upper $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "niri" -}}
+    {{- /* Niri hotkey overlay for help */ -}}
+    {{- if eq $action "help" -}}
+        MOD+SHIFT+ESCAPE
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else -}}
+    {{- /* Default: return base key */ -}}
+    {{- $baseKey -}}
+{{- end -}}

@@ -1,0 +1,59 @@
+{{- /*
+Ultra-Zen Semantic Preservation Template
+Maps preservation intentions (save/write) to context-appropriate keys
+
+Usage:
+  {{ template "keybind-preserve.tmpl" dict "action" "current" "context" "helix" "keybindings" $kb }}
+  {{ template "keybind-preserve.tmpl" dict "action" "all" "context" "editor" "keybindings" $kb }}
+
+Parameters:
+  action: Semantic action (current, all)
+  context: Application context (helix, editor, niri, qutebrowser)
+  keybindings: The keybindings data structure
+  modifier: (optional) Override modifier pattern
+*/ -}}
+{{- $action := .action -}}
+{{- $context := .context -}}
+{{- $modifier := "" -}}
+{{- if hasKey . "modifier" -}}
+    {{- $modifier = .modifier -}}
+{{- end -}}
+{{- $kb := .keybindings -}}
+
+{{- /* Get base keys from semantic definitions */ -}}
+{{- $baseKey := "" -}}
+{{- if eq $action "current" -}}
+    {{- $baseKey = $kb.semantic.preserve.current | default "w" -}}
+{{- else if eq $action "all" -}}
+    {{- $baseKey = $kb.semantic.preserve.all | default "W" -}}
+{{- end -}}
+
+{{- /* Apply context-specific modifiers */ -}}
+{{- if eq $context "helix" -}}
+    {{- /* Helix uses SPACE leader for commands */ -}}
+    {{- if eq $action "current" -}}
+        SPACE+{{ lower $baseKey }}
+    {{- else if eq $action "all" -}}
+        SPACE+{{ lower $baseKey }}
+    {{- end -}}
+{{- else if eq $context "qutebrowser" -}}
+    {{- /* Qutebrowser uses colon commands */ -}}
+    {{- if eq $action "current" -}}
+        :w
+    {{- else if eq $action "all" -}}
+        :wa
+    {{- end -}}
+{{- else if eq $context "editor" -}}
+    {{- /* Generic editor context (vi-style) */ -}}
+    {{- if $modifier -}}
+        {{- $modifier }}+{{ $baseKey }}
+    {{- else -}}
+        :{{ $baseKey }}
+    {{- end -}}
+{{- else if eq $context "niri" -}}
+    {{- /* Niri session saving */ -}}
+    MOD+{{ upper $baseKey }}
+{{- else -}}
+    {{- /* Default: return base key */ -}}
+    {{- $baseKey -}}
+{{- end -}}

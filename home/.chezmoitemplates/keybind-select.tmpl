@@ -1,0 +1,78 @@
+{{- /*
+Ultra-Zen Semantic Selection Template
+Maps selection intentions to context-appropriate keys
+
+Usage:
+  {{ template "keybind-select.tmpl" dict "action" "all" "context" "helix" "keybindings" $kb }}
+  {{ template "keybind-select.tmpl" dict "action" "extend" "context" "editor" "keybindings" $kb }}
+
+Parameters:
+  action: Semantic action (all, extend, toggle)
+  context: Application context
+  keybindings: The keybindings data structure
+*/ -}}
+{{- $action := .action -}}
+{{- $context := .context -}}
+{{- $kb := .keybindings -}}
+
+{{- /* Get base keys from semantic definitions */ -}}
+{{- $baseKey := "" -}}
+{{- if eq $action "all" -}}
+    {{- $baseKey = $kb.semantic.select.all | default "a" -}}
+{{- else if eq $action "extend" -}}
+    {{- $baseKey = $kb.semantic.select.extend | default "SHIFT" -}}
+{{- else if eq $action "toggle" -}}
+    {{- $baseKey = $kb.semantic.select.toggle | default "SPACE" -}}
+{{- end -}}
+
+{{- /* Apply context-specific modifiers */ -}}
+{{- if eq $context "helix" -}}
+    {{- /* Helix uses % for select all, x for extend line, SPACE for toggle */ -}}
+    {{- if eq $action "all" -}}
+        %
+    {{- else if eq $action "extend" -}}
+        x
+    {{- else if eq $action "toggle" -}}
+        SPACE
+    {{- end -}}
+{{- else if eq $context "editor" -}}
+    {{- /* Generic vi-style editor */ -}}
+    {{- if eq $action "all" -}}
+        ggVG  {{- /* gg to start, V for line visual, G to end */ -}}
+    {{- else if eq $action "extend" -}}
+        v
+    {{- else if eq $action "toggle" -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "fish" -}}
+    {{- /* Fish vi mode selection */ -}}
+    {{- if eq $action "all" -}}
+        {{- /* Not applicable in shell */ -}}
+    {{- else if eq $action "extend" -}}
+        x  {{- /* Helix-style extend */ -}}
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "qutebrowser" -}}
+    {{- /* Qutebrowser hint-based selection */ -}}
+    {{- if eq $action "extend" -}}
+        v  {{- /* Enter caret mode */ -}}
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "lf" -}}
+    {{- /* LF file selection */ -}}
+    {{- if eq $action "all" -}}
+        :invert  {{- /* Invert selection */ -}}
+    {{- else if eq $action "toggle" -}}
+        {{- $baseKey -}}
+    {{- else -}}
+        {{- $baseKey -}}
+    {{- end -}}
+{{- else if eq $context "mpv" -}}
+    {{- /* MPV playlist selection (if applicable) */ -}}
+    {{- $baseKey -}}
+{{- else -}}
+    {{- /* Default: return base key */ -}}
+    {{- $baseKey -}}
+{{- end -}}

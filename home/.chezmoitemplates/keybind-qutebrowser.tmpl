@@ -1,0 +1,80 @@
+{{- /*
+Ultra-Zen Qutebrowser Keybinding Template
+Generates qutebrowser config.bind() statements from semantic definitions
+
+Usage:
+  {{ template "keybind-qutebrowser.tmpl" dict "category" "navigate" "action" "prev" "command" "scroll left" "keybindings" $kb }}
+  {{ template "keybind-qutebrowser.tmpl" dict "category" "dismiss" "action" "current" "command" "tab-close" "mode" "normal" "keybindings" $kb }}
+
+Parameters:
+  category: Semantic category (navigate, manipulate, invoke, dismiss, transform, preserve, discover, select)
+  action: Specific action within category (prev, next, file_end, etc.)
+  command: Qutebrowser command to execute
+  mode: (optional) Qutebrowser mode, defaults to "normal"
+  keybindings: The keybindings data structure
+  custom_key: (optional) Override the semantic key with custom binding
+
+Example Output:
+  config.bind('h', 'scroll left', mode='normal')
+*/ -}}
+{{- $category := .category -}}
+{{- $action := .action -}}
+{{- $command := .command -}}
+{{- $mode := .mode | default "normal" -}}
+{{- $kb := .keybindings -}}
+{{- $customKey := "" -}}
+{{- if hasKey . "custom_key" -}}
+    {{- $customKey = .custom_key -}}
+{{- end -}}
+
+{{- /* Get semantic key based on category and action */ -}}
+{{- $key := "" -}}
+
+{{- if $customKey -}}
+    {{- $key = $customKey -}}
+{{- else if eq $category "navigate" -}}
+    {{- if eq $action "prev" -}}
+        {{- $key = $kb.semantic.navigate.prev | default "h" -}}
+    {{- else if eq $action "next" -}}
+        {{- $key = $kb.semantic.navigate.next | default "l" -}}
+    {{- else if eq $action "up" -}}
+        {{- $key = $kb.semantic.navigate.up | default "k" -}}
+    {{- else if eq $action "down" -}}
+        {{- $key = $kb.semantic.navigate.down | default "j" -}}
+    {{- else if eq $action "line_start" -}}
+        {{- $key = $kb.semantic.navigate.line_start | default "gh" -}}
+    {{- else if eq $action "line_end" -}}
+        {{- $key = $kb.semantic.navigate.line_end | default "gl" -}}
+    {{- else if eq $action "file_start" -}}
+        {{- $key = $kb.semantic.navigate.file_start | default "gg" -}}
+    {{- else if eq $action "file_end" -}}
+        {{- $key = $kb.semantic.navigate.file_end | default "ge" -}}
+    {{- end -}}
+{{- else if eq $category "dismiss" -}}
+    {{- if eq $action "current" -}}
+        {{- $key = $kb.semantic.dismiss.current | default "q" -}}
+    {{- else if eq $action "force" -}}
+        {{- $key = $kb.semantic.dismiss.force | default "Q" -}}
+    {{- end -}}
+{{- else if eq $category "preserve" -}}
+    {{- if eq $action "current" -}}
+        {{- $key = ":w" -}}
+    {{- else if eq $action "all" -}}
+        {{- $key = ":wa" -}}
+    {{- end -}}
+{{- else if eq $category "discover" -}}
+    {{- if eq $action "search_forward" -}}
+        {{- $key = $kb.semantic.discover.search_forward | default "/" -}}
+    {{- else if eq $action "search_backward" -}}
+        {{- $key = $kb.semantic.discover.search_backward | default "?" -}}
+    {{- else if eq $action "help" -}}
+        {{- $key = "?" -}}
+    {{- end -}}
+{{- else if eq $category "transform" -}}
+    {{- if eq $action "fullscreen" -}}
+        {{- $key = $kb.semantic.transform.fullscreen | default "f" -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* Output the config.bind() statement */ -}}
+config.bind('{{ $key }}', '{{ $command }}', mode='{{ $mode }}')

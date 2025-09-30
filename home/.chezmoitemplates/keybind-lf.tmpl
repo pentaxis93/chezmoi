@@ -1,0 +1,78 @@
+{{- /*
+Ultra-Zen LF Keybinding Template
+Generates LF lfrc keybindings from semantic definitions
+
+Usage:
+  {{ template "keybind-lf.tmpl" dict "category" "navigate" "action" "prev" "command" "updir" "comment" "Go up directory" "keybindings" $kb }}
+  {{ template "keybind-lf.tmpl" dict "category" "select" "action" "toggle" "command" "toggle" "keybindings" $kb }}
+
+Parameters:
+  category: Semantic category (navigate, manipulate, invoke, dismiss, transform, preserve, discover, select)
+  action: Specific action within category
+  command: LF command to execute
+  comment: (optional) Comment describing the binding
+  keybindings: The keybindings data structure
+  custom_key: (optional) Override semantic key
+
+Example Output:
+  map h updir  # Navigate prev: Go up directory
+*/ -}}
+{{- $category := .category -}}
+{{- $action := .action -}}
+{{- $command := .command -}}
+{{- $comment := .comment | default "" -}}
+{{- $kb := .keybindings -}}
+{{- $customKey := "" -}}
+{{- if hasKey . "custom_key" -}}
+    {{- $customKey = .custom_key -}}
+{{- end -}}
+
+{{- /* Get semantic key based on category and action */ -}}
+{{- $key := "" -}}
+
+{{- if $customKey -}}
+    {{- $key = $customKey -}}
+{{- else if eq $category "navigate" -}}
+    {{- if eq $action "prev" -}}
+        {{- $key = $kb.semantic.navigate.prev | default "h" -}}
+    {{- else if eq $action "next" -}}
+        {{- $key = $kb.semantic.navigate.next | default "l" -}}
+    {{- else if eq $action "up" -}}
+        {{- $key = $kb.semantic.navigate.up | default "k" -}}
+    {{- else if eq $action "down" -}}
+        {{- $key = $kb.semantic.navigate.down | default "j" -}}
+    {{- else if eq $action "file_start" -}}
+        {{- $key = $kb.semantic.navigate.file_start | default "gg" -}}
+    {{- else if eq $action "file_end" -}}
+        {{- $key = $kb.semantic.navigate.file_end | default "ge" -}}
+    {{- end -}}
+{{- else if eq $category "dismiss" -}}
+    {{- if eq $action "current" -}}
+        {{- $key = $kb.semantic.dismiss.current | default "q" -}}
+    {{- else if eq $action "cancel" -}}
+        {{- $key = $kb.semantic.dismiss.cancel | default "ESC" -}}
+    {{- end -}}
+{{- else if eq $category "transform" -}}
+    {{- if eq $action "mode_select" -}}
+        {{- $key = "V" -}}
+    {{- else if eq $action "mode_extend" -}}
+        {{- $key = $kb.semantic.transform.mode_extend | default "x" -}}
+    {{- end -}}
+{{- else if eq $category "discover" -}}
+    {{- if eq $action "search_forward" -}}
+        {{- $key = $kb.semantic.discover.search_forward | default "/" -}}
+    {{- else if eq $action "search_backward" -}}
+        {{- $key = $kb.semantic.discover.search_backward | default "?" -}}
+    {{- else if eq $action "find_char" -}}
+        {{- $key = $kb.semantic.discover.find_char | default "f" -}}
+    {{- end -}}
+{{- else if eq $category "select" -}}
+    {{- if eq $action "toggle" -}}
+        {{- $key = "x" -}}  {{- /* LF uses x for toggle */ -}}
+    {{- else if eq $action "all" -}}
+        {{- $key = "A" -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* Output the binding */ -}}
+map {{ $key }} {{ $command }}{{ if $comment }}  # {{ $comment }}{{ end }}

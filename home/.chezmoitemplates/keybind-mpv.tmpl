@@ -1,0 +1,111 @@
+{{- /*
+Ultra-Zen MPV Keybinding Template
+Generates MPV input.conf keybindings from semantic definitions
+
+Usage:
+  {{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "prev" "command" "seek -5" "comment" "5 seconds back" "keybindings" $kb }}
+  {{ template "keybind-mpv.tmpl" dict "category" "dismiss" "action" "current" "command" "quit-watch-later" "keybindings" $kb }}
+
+Parameters:
+  category: Semantic category (navigate, manipulate, invoke, dismiss, transform, preserve, discover, select)
+  action: Specific action within category
+  command: MPV command to execute
+  comment: (optional) Comment describing the binding
+  keybindings: The keybindings data structure
+  custom_key: (optional) Override semantic key
+  modifier: (optional) Modifier keys (Ctrl, Shift, Alt)
+
+Example Output:
+  h     seek -5                    # Navigate prev: 5 seconds back
+*/ -}}
+{{- $category := .category -}}
+{{- $action := .action -}}
+{{- $command := .command -}}
+{{- $comment := .comment | default "" -}}
+{{- $kb := .keybindings -}}
+{{- $customKey := "" -}}
+{{- $modifier := "" -}}
+{{- if hasKey . "custom_key" -}}
+    {{- $customKey = .custom_key -}}
+{{- end -}}
+{{- if hasKey . "modifier" -}}
+    {{- $modifier = .modifier -}}
+{{- end -}}
+
+{{- /* Get semantic key based on category and action */ -}}
+{{- $key := "" -}}
+
+{{- if $customKey -}}
+    {{- $key = $customKey -}}
+{{- else if eq $category "navigate" -}}
+    {{- if eq $action "prev" -}}
+        {{- $key = $kb.semantic.navigate.prev | default "h" -}}
+    {{- else if eq $action "next" -}}
+        {{- $key = $kb.semantic.navigate.next | default "l" -}}
+    {{- else if eq $action "up" -}}
+        {{- $key = $kb.semantic.navigate.up | default "k" -}}
+    {{- else if eq $action "down" -}}
+        {{- $key = $kb.semantic.navigate.down | default "j" -}}
+    {{- else if eq $action "line_start" -}}
+        {{- $key = $kb.semantic.navigate.line_start | default "gh" -}}
+    {{- else if eq $action "line_end" -}}
+        {{- $key = $kb.semantic.navigate.line_end | default "gl" -}}
+    {{- else if eq $action "file_start" -}}
+        {{- $key = $kb.semantic.navigate.file_start | default "gg" -}}
+    {{- else if eq $action "file_end" -}}
+        {{- $key = $kb.semantic.navigate.file_end | default "ge" -}}
+    {{- else if eq $action "word_next" -}}
+        {{- $key = $kb.semantic.navigate.word_next | default "w" -}}
+    {{- else if eq $action "word_prev" -}}
+        {{- $key = $kb.semantic.navigate.word_prev | default "b" -}}
+    {{- end -}}
+{{- else if eq $category "manipulate" -}}
+    {{- if eq $action "move_prev" -}}
+        {{- $key = $kb.semantic.navigate.prev | default "h" -}}
+    {{- else if eq $action "move_next" -}}
+        {{- $key = $kb.semantic.navigate.next | default "l" -}}
+    {{- else if eq $action "move_up" -}}
+        {{- $key = $kb.semantic.navigate.up | default "k" -}}
+    {{- else if eq $action "move_down" -}}
+        {{- $key = $kb.semantic.navigate.down | default "j" -}}
+    {{- end -}}
+{{- else if eq $category "dismiss" -}}
+    {{- if eq $action "current" -}}
+        {{- $key = $kb.semantic.dismiss.current | default "q" -}}
+    {{- else if eq $action "cancel" -}}
+        {{- $key = $kb.semantic.dismiss.cancel | default "ESC" -}}
+    {{- end -}}
+{{- else if eq $category "transform" -}}
+    {{- if eq $action "fullscreen" -}}
+        {{- $key = $kb.semantic.transform.fullscreen | default "f" -}}
+    {{- else if eq $action "mode_insert" -}}
+        {{- $key = $kb.semantic.transform.mode_insert | default "i" -}}
+    {{- else if eq $action "mode_select" -}}
+        {{- $key = $kb.semantic.transform.mode_select | default "v" -}}
+    {{- end -}}
+{{- else if eq $category "preserve" -}}
+    {{- if eq $action "current" -}}
+        {{- $key = "s" -}}
+    {{- end -}}
+{{- else if eq $category "discover" -}}
+    {{- if eq $action "search_forward" -}}
+        {{- $key = $kb.semantic.discover.search_forward | default "/" -}}
+    {{- else if eq $action "help" -}}
+        {{- $key = $kb.semantic.discover.help | default "?" -}}
+    {{- end -}}
+{{- else if eq $category "select" -}}
+    {{- if eq $action "toggle" -}}
+        {{- $key = $kb.semantic.select.toggle | default "SPACE" -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* Apply modifier if specified */ -}}
+{{- if $modifier -}}
+    {{- $key = printf "%s+%s" $modifier $key -}}
+{{- end -}}
+
+{{- /* Pad key for alignment (6 chars) */ -}}
+{{- $paddedKey := printf "%-6s" $key -}}
+
+{{- /* Output the binding */ -}}
+{{ $paddedKey }}{{ $command }}{{ if $comment }}                    # {{ $comment }}{{ end }}
