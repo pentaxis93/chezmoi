@@ -1,4 +1,5 @@
-{{- $c := .kanagawa.dragon -}}
+{{- $theme := .themes.kanagawa.dragon -}}
+{{- $s := .semantic -}}
 {{- $kb := .keybindings -}}
 // Niri configuration for CachyOS
 // For documentation and full reference, see: https://github.com/YaLTeR/niri/wiki
@@ -206,8 +207,8 @@ binds {
 
         focus-ring {
             width 2
-            active-color {{ template "color-quoted.tmpl" $c.focus }}
-            inactive-color {{ template "color-quoted.tmpl" $c.selection }}
+            active-color {{ template "color-quoted.tmpl" (index $theme $s.border.focus) }}
+            inactive-color {{ template "color-quoted.tmpl" (index $theme $s.border.default) }}
         }
 
         tab-indicator {
@@ -215,15 +216,15 @@ binds {
             width 4 // Width of the indicator bar
             gap 4 // Tighter gap from window edge
             position "left" // Show on left side of window
-            active-color {{ template "color-quoted.tmpl" $c.focus }}
-            inactive-color {{ template "color-quoted.tmpl" $c.selection }}
+            active-color {{ template "color-quoted.tmpl" (index $theme $s.border.focus) }}
+            inactive-color {{ template "color-quoted.tmpl" (index $theme $s.border.default) }}
         }
 
         shadow {
             softness 30
             spread 5
             offset x=0 y=5
-            color {{ template "color-quoted.tmpl" $c.shadow }}
+            color {{ template "color-quoted.tmpl" (index $theme "shadow") }}
         }
 
         struts {}
