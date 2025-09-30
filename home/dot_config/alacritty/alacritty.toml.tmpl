@@ -1,4 +1,5 @@
-{{- $c := .themes.kanagawa.dragon -}}
+{{- $theme := .themes.kanagawa.dragon -}}
+{{- $s := .semantic -}}
 [env]
 TERM = "xterm-256color"
 WINIT_X11_SCALE_FACTOR = "1"
@@ -26,28 +27,28 @@ multiplier = 3
 draw_bold_text_with_bright_colors = true
 
 [colors.primary]
-background = {{ template "color-quoted.tmpl" $c.bg_dark }}
-foreground = {{ template "color-quoted.tmpl" $c.fg_primary }}
+background = {{ template "color-quoted.tmpl" (index $theme $s.surface.primary) }}
+foreground = {{ template "color-quoted.tmpl" (index $theme $s.text.primary) }}
 
 [colors.normal]
-black = {{ template "color-quoted.tmpl" $c.black }}
-red = {{ template "color-quoted.tmpl" $c.red }}
-green = {{ template "color-quoted.tmpl" $c.green }}
-yellow = {{ template "color-quoted.tmpl" $c.yellow }}
-blue = {{ template "color-quoted.tmpl" $c.blue }}
-magenta = {{ template "color-quoted.tmpl" $c.magenta }}
-cyan = {{ template "color-quoted.tmpl" $c.cyan }}
-white = {{ template "color-quoted.tmpl" $c.white }}
+black = {{ template "color-quoted.tmpl" $theme.black }}
+red = {{ template "color-quoted.tmpl" $theme.red }}
+green = {{ template "color-quoted.tmpl" $theme.green }}
+yellow = {{ template "color-quoted.tmpl" $theme.yellow }}
+blue = {{ template "color-quoted.tmpl" $theme.blue }}
+magenta = {{ template "color-quoted.tmpl" $theme.magenta }}
+cyan = {{ template "color-quoted.tmpl" $theme.cyan }}
+white = {{ template "color-quoted.tmpl" $theme.white }}
 
 [colors.bright]
-black = {{ template "color-quoted.tmpl" $c.bright_black }}
-red = {{ template "color-quoted.tmpl" $c.bright_red }}
-green = {{ template "color-quoted.tmpl" $c.bright_green }}
-yellow = {{ template "color-quoted.tmpl" $c.bright_yellow }}
-blue = {{ template "color-quoted.tmpl" $c.bright_blue }}
-magenta = {{ template "color-quoted.tmpl" $c.bright_magenta }}
-cyan = {{ template "color-quoted.tmpl" $c.bright_cyan }}
-white = {{ template "color-quoted.tmpl" $c.bright_white }}
+black = {{ template "color-quoted.tmpl" $theme.bright_black }}
+red = {{ template "color-quoted.tmpl" $theme.bright_red }}
+green = {{ template "color-quoted.tmpl" $theme.bright_green }}
+yellow = {{ template "color-quoted.tmpl" $theme.bright_yellow }}
+blue = {{ template "color-quoted.tmpl" $theme.bright_blue }}
+magenta = {{ template "color-quoted.tmpl" $theme.bright_magenta }}
+cyan = {{ template "color-quoted.tmpl" $theme.bright_cyan }}
+white = {{ template "color-quoted.tmpl" $theme.bright_white }}
 
 [font]
 size = 20
@@ -69,21 +70,21 @@ family = "monospace"
 style = "Bold Italic"
 
 [colors.selection]
-background = {{ template "color-quoted.tmpl" $c.selection }}
-foreground = {{ template "color-quoted.tmpl" $c.fg_default }}
+background = {{ template "color-quoted.tmpl" (index $theme $s.selection.background) }}
+foreground = {{ template "color-quoted.tmpl" (index $theme $s.selection.foreground) }}
 
 # Vi mode colors - Semantic visual feedback
 [colors.vi_mode_cursor]
-background = {{ template "color-quoted.tmpl" $c.focus }}  # Focus green for vi mode
-foreground = {{ template "color-quoted.tmpl" $c.bg_dark }}
+background = {{ template "color-quoted.tmpl" (index $theme $s.interactive.focus) }}  # Focus for vi mode
+foreground = {{ template "color-quoted.tmpl" (index $theme $s.surface.primary) }}
 
 [[colors.indexed_colors]]
 index = 16
-color = {{ template "color-quoted.tmpl" $c.indexed_16 }}
+color = {{ template "color-quoted.tmpl" $theme.indexed_16 }}
 
 [[colors.indexed_colors]]
 index = 17
-color = {{ template "color-quoted.tmpl" $c.indexed_17 }}
+color = {{ template "color-quoted.tmpl" $theme.indexed_17 }}
 
 [selection]
 semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
