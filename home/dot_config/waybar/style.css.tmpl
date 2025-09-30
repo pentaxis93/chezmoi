@@ -35,17 +35,29 @@ window#waybar {
     color: {{ template "color-hex.tmpl" $c.fg_primary }};
 }
 
-/* Workspace buttons */
+/* Unified Spectrum: Red → Blue (Pure Warm to Pure Cool)
+   The entire bar is one continuous spectrum from warmest (left) to coolest (right)
+   Position 0: All workspaces + window title (warmest)
+   Positions 1-10: Status modules (progressively cooler)
+
+   This design dissolves the workspace count constraint - all workspaces share
+   the warmest color, and the spectrum flows uninterrupted across the bar. */
+{{- $modules := list "left-side" "disk" "cpu" "memory" "backlight" "pulseaudio" "bluetooth" "network" "custom-weather" "battery" "clock" -}}
+{{- $script := joinPath .chezmoi.sourceDir ".." "scripts" "generate-spectrum.py" -}}
+{{- $output := output "python3" $script (index $c "red") (index $c "blue") (toString (len $modules)) -}}
+{{- $spectrum := $output | trim | splitList "\n" -}}
+
+/* Position 0: Unified left side (all workspaces + window title) */
 #workspaces button {
     padding: 0 8px;
     margin: 0;
     background-color: transparent;
-    color: {{ template "color-hex.tmpl" $c.focus }};
+    color: #{{ index $spectrum 0 }};
     font-weight: 500;
 }
 
 #workspaces button.active {
-    color: {{ template "color-hex.tmpl" $c.focus }};
+    color: #{{ index $spectrum 0 }};
     background-color: {{ template "color-hex.tmpl" $c.ui_active_workspace }};
     font-weight: 600;
 }
@@ -72,7 +84,7 @@ window#waybar {
 
 /* Active window title */
 #window {
-    color: {{ template "color-hex.tmpl" $c.focus }};
+    color: #{{ index $spectrum 0 }};
     font-weight: 400;
 }
 
@@ -80,23 +92,48 @@ window#waybar.empty #window {
     color: {{ template "color-hex.tmpl" $c.bg_lighter }};
 }
 
-/* Spectrum Progression: Red → Violet
-   Algorithmic generation ensures perfect spacing regardless of module count */
-{{- $modules := list "disk" "cpu" "memory" "backlight" "pulseaudio" "bluetooth" "network" "custom-weather" "battery" "clock" -}}
-{{- $script := joinPath .chezmoi.sourceDir ".." "scripts" "generate-spectrum.py" -}}
-{{- $output := output "python3" $script (index $c "red") (index $c "magenta") (toString (len $modules)) -}}
-{{- $spectrum := $output | trim | splitList "\n" -}}
+/* Positions 1-10: Status modules - Perceptually uniform spectrum (LAB interpolation) */
+#disk {
+    color: #{{ index $spectrum 1 }};
+}
 
-/* Status modules - Perceptually uniform spectrum (LAB interpolation) */
-{{- range $i, $module := $modules }}
-#{{ $module }} {
-    color: #{{ index $spectrum $i }};
-{{- if eq $module "clock" }}
+#cpu {
+    color: #{{ index $spectrum 2 }};
+}
+
+#memory {
+    color: #{{ index $spectrum 3 }};
+}
+
+#backlight {
+    color: #{{ index $spectrum 4 }};
+}
+
+#pulseaudio {
+    color: #{{ index $spectrum 5 }};
+}
+
+#bluetooth {
+    color: #{{ index $spectrum 6 }};
+}
+
+#network {
+    color: #{{ index $spectrum 7 }};
+}
+
+#custom-weather {
+    color: #{{ index $spectrum 8 }};
+}
+
+#battery {
+    color: #{{ index $spectrum 9 }};
+}
+
+#clock {
+    color: #{{ index $spectrum 10 }};
     font-weight: 600;
     padding-right: 12px;
-{{- end }}
 }
-{{ end }}
 /* VPN - Blue (secure connectivity) - integrates visually with network */
 #custom-vpn {
     color: {{ template "color-hex.tmpl" $c.blue }};
