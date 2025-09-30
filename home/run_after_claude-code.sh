@@ -11,8 +11,13 @@ if command -v claude &> /dev/null; then
     # Auto-update is handled by the autoUpdates setting below
 else
     echo "Installing Claude Code (native)..."
-    curl -fsSL https://claude.ai/install.sh | bash
-    echo "✓ Claude Code installed"
+    if curl -fsSL https://claude.ai/install.sh | bash; then
+        echo "✓ Claude Code installed"
+    else
+        echo "✗ Failed to install Claude Code"
+        echo "Please install manually from https://docs.claude.com/en/docs/claude-code/installation"
+        exit 1
+    fi
 fi
 
 # Configure global settings

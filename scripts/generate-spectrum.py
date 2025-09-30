@@ -15,6 +15,7 @@ Output:
   One hex color per line (without #)
 """
 
+import re
 import sys
 from colour import Color
 
@@ -47,6 +48,21 @@ def generate_spectrum(start_hex: str, end_hex: str, count: int) -> list[str]:
     return [color.hex_l[1:] for color in spectrum]
 
 
+def validate_hex_color(hex_str: str) -> bool:
+    """
+    Validate hex color format.
+
+    Args:
+        hex_str: Hex color string (with or without #)
+
+    Returns:
+        True if valid hex color, False otherwise
+    """
+    # Allow optional # prefix, then exactly 6 hex digits
+    pattern = r'^#?[0-9a-fA-F]{6}$'
+    return bool(re.match(pattern, hex_str))
+
+
 def main():
     """Command-line interface."""
     if len(sys.argv) < 4:
@@ -57,6 +73,13 @@ def main():
         start_hex = sys.argv[1]
         end_hex = sys.argv[2]
         count = int(sys.argv[3])
+
+        # Validate hex color format
+        if not validate_hex_color(start_hex):
+            raise ValueError(f"Invalid hex color format for start color: '{start_hex}'. Expected format: RRGGBB or #RRGGBB")
+
+        if not validate_hex_color(end_hex):
+            raise ValueError(f"Invalid hex color format for end color: '{end_hex}'. Expected format: RRGGBB or #RRGGBB")
 
         # Validate count
         if count < 1:

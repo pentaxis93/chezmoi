@@ -16,8 +16,16 @@ if [ -n "$VPN_IP" ]; then
     if [ -f "$CONFIG_FILE" ]; then
         echo "Updating bind address to $VPN_IP..."
         sed -i "s/\"bind-address-ipv4\": \"[^\"]*\"/\"bind-address-ipv4\": \"$VPN_IP\"/" "$CONFIG_FILE"
-        echo "✓ Transmission will be bound to VPN IP: $VPN_IP"
-        exit 0
+
+        # Validate the update succeeded
+        if grep -q "\"bind-address-ipv4\": \"$VPN_IP\"" "$CONFIG_FILE"; then
+            echo "✓ Transmission will be bound to VPN IP: $VPN_IP"
+            exit 0
+        else
+            echo "✗ Failed to update bind address in config"
+            echo "Please check $CONFIG_FILE manually"
+            exit 1
+        fi
     else
         echo "⚠ Config file not found: $CONFIG_FILE"
         echo "Run 'chezmoi apply' first to create configuration"
