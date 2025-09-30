@@ -1,924 +1,144 @@
-# Chezmoi Dotfiles
+# Chezmoi Dotfiles - AI Instructions
 
 > Simplicity is the ultimate sophistication
 
 **Project**: Chezmoi-managed dotfiles following YAGNI principles
-**Source**: `~/.local/share/chezmoi`
-**Target**: `~` (home directory)
+**Source**: `~/.local/share/chezmoi` → **Target**: `~` (home directory)
 
-## Architecture Guidelines
+## Quick Reference
 
-- **CachyOS Support Only** - Package management scripts target CachyOS exclusively
-- **Declarative Packages** - System packages defined in `home/.chezmoidata/packages.yaml`
+@docs/ai-context/chezmoi-commands.md
+@docs/ai-context/project-structure.md
 
-## Package Installation
+---
 
-- **Declarative Only** - All packages must be added to `home/.chezmoidata/packages.yaml`
-- **No Direct Installation** - Never use `pacman`, `yay`, or other package managers directly
-- **User Applies Changes** - Only the user should run `chezmoi apply` to install packages
-- **Workflow**:
-  1. Edit `home/.chezmoidata/packages.yaml` to add/remove packages
-  2. Inform user that packages have been added to the manifest
-  3. User runs `chezmoi apply` to trigger installation
+## CRITICAL DIRECTIVES
 
-## Commands
+### Package Management (IMPORTANT)
+
+**NEVER** use `pacman`, `yay`, or other package managers directly.
+**ALWAYS** edit `home/.chezmoidata/packages.yaml` declaratively.
+**User runs** `chezmoi apply` to install packages.
+
+**Workflow**:
+1. Edit `home/.chezmoidata/packages.yaml` to add/remove packages
+2. Inform user that packages have been added to the manifest
+3. User runs `chezmoi apply` to trigger installation
+
+### Security Rules (IMPORTANT)
+
+**NEVER** commit secrets to git repository.
+**ALWAYS** use `private_` prefix for sensitive files (600 permissions).
+**Secrets flow** through Bitwarden templates only (`@bitwarden-*.tmpl`).
+
+See: @docs/ai-context/apps/bitwarden.md
+
+### Core Workflow (IMPORTANT)
 
 ```bash
-chezmoi apply              # Apply changes to home
-chezmoi diff               # Preview changes
-chezmoi add <file>         # Track new config
-chezmoi edit <file>        # Edit source file
-chezmoi cd                 # Enter source directory
-chezmoi status             # Check current state
-chezmoi data               # View template variables
+1. chezmoi edit <file>
+2. chezmoi diff
+3. chezmoi apply -v
+4. Update documentation (CRITICAL!)
 ```
 
-## File Patterns
+**Documentation Synchronization**: After any code change, update all relevant docs including `CLAUDE.md`, `README.md`, and subdirectory READMEs. Documentation updates and code updates are **integral parts of the same action** - never complete a task without updating affected documentation.
 
-- `dot_<name>` → `.name`
-- `dot_<name>.tmpl` → `.name` (templated)
-- `private_<name>` → 0600 permissions
-- `executable_<name>` → executable scripts
-- `run_<name>` → scripts executed on apply
+---
 
-## Working Principles
+## ARCHITECTURE PRINCIPLES
+
+### YAGNI Philosophy
+**Each configuration option must justify its existence.**
+- Prefer defaults when they align with our principles
+- Choose simplicity over complexity when outcomes are equivalent
+- Delete before adding
+
+### Helix-Native Keybindings Everywhere
+- Use `ge` for end (not `G`) - "go end" is semantically clearer
+- Use `gh/gl` for line start/end - "go home/line" is intuitive
+- Prioritize semantic clarity over vim tradition
+- Apply consistently across all applications that support vi-mode
+
+See: @docs/ai-context/systems/keybindings.md
+
+### Semantic Actions Over Physical Keys
+Keybindings represent **intentions**, not keys:
+- `navigate.prev` = context-appropriate leftward movement
+- Same intention manifests appropriately per application
+- Maintain consistency through `home/.chezmoidata/keybindings.yaml`
+- If conflicts arise, **discuss with human immediately**
+
+### Centralized Color System
+**Single source of truth**: `home/.chezmoidata/colors.yaml`
+- Terminal colors are semantic purposes, not hues
+- `color0` = background, `color7` = foreground, `color14` = focus
+- Use template fragments: `color-hex.tmpl`, `color-quoted.tmpl`, etc.
+- **NEVER** hardcode colors outside the centralized system
+
+See: @docs/ai-context/systems/colors.md
+
+### Reverse Video Selections Philosophy
+*"Do not paint the water to make the fish visible. Let the fish and water exchange places."*
+
+Selections use **reverse video** (fg/bg swap), not colored backgrounds:
+- Perfect contrast always guaranteed
+- No configuration complexity
+- Universal solution for all TUI apps
+
+---
+
+## THINGS NOT TO DO
+
+**DON'T** create duplicate configs outside chezmoi source directory.
+**DON'T** hardcode colors (use color templates from `colors.yaml`).
+**DON'T** break git history (use `git mv` for refactoring, not delete+create).
+**DON'T** skip documentation updates after code changes (CRITICAL).
+**DON'T** install packages directly (use declarative `packages.yaml`).
+**DON'T** commit secrets (use Bitwarden templates).
+
+---
+
+## APPLICATION CONFIGURATIONS
+
+### Core Applications
+- @docs/ai-context/apps/mpv.md - Media player with LF browser integration
+- @docs/ai-context/apps/qutebrowser.md - Keyboard-driven web browser
+- @docs/ai-context/apps/weechat.md - IRC client with XDCC support
+- @docs/ai-context/apps/transmission.md - BitTorrent with VPN killswitch
+- @docs/ai-context/apps/lf.md - Terminal file manager
+- @docs/ai-context/apps/lazygit.md - Git TUI with reverse video
+
+### System Tools
+- @docs/ai-context/apps/vpn.md - OpenVPN with Bitwarden secrets
+- @docs/ai-context/apps/wiremix.md - PipeWire audio mixer TUI
+- @docs/ai-context/apps/shell-enhancements.md - eza, zoxide, Fish shell
+
+---
+
+## SYSTEM ARCHITECTURES
+
+- @docs/ai-context/systems/colors.md - Semantic color system & reverse video
+- @docs/ai-context/systems/keybindings.md - Semantic keybinding architecture
+- @docs/ai-context/systems/spectrum.md - Algorithmic color spectrum generation
+
+---
+
+## REFERENCE FILES
+
+- @docs/ai-context/critical-files.md - Key files and their purposes
+- @docs/ai-context/best-practices.md - Development guidelines
+
+---
+
+## WORKING PRINCIPLES
 
 1. **Template only when necessary** - machine-specific or secrets
 2. **Security first** - never commit secrets, use `private_` prefix
 3. **Preview before apply** - `chezmoi diff` then `chezmoi apply -v`
-
-## Configuration Guidelines
-
-When configuring new applications and dotfiles, follow these principles for consistency and elegance:
-
-1. **Unified Color Theme** - Apply consistent color theme across all applications to create visual harmony
-2. **Helix-Native Keybindings** - Configure Helix-native vi keybindings in every tool that supports them for universal editing muscle memory
-   - Follow Helix's semantic improvements (e.g., `ge` for end, not `G`)
-   - Prioritize semantic clarity over vim tradition
-3. **Semantic Keybinding System** - All keybindings represent intentions, not physical keys
-   - Define semantic actions that manifest contextually
-   - Maintain consistency through `keybindings.yaml`
-   - If conflicts arise, discuss resolution with human immediately
-4. **Comprehensive Documentation** - Document everything that can and should be documented
-   - In-document comments for complex configs
-   - Inline documentation for non-obvious settings
-   - Always choose the most discoverable documentation method
-5. **Zen Elegance** - Pursue best-in-class functionality while maintaining YAGNI mindfulness
-   - Each configuration option must justify its inclusion
-   - Prefer defaults when they align with our principles
-   - Choose simplicity over complexity when outcomes are equivalent
-
-## Secrets Management with Bitwarden
-
-### Ultra-Zen Philosophy: Secure Intentions
-**"Secrets flow from vault to configuration through semantic templates"**
-
-### Architecture
-- **Bitwarden CLI** (`bw`) - Password manager for secure secret storage
-- **Chezmoi Templates** - Reference secrets without storing plaintext
-- **Fish Functions** - Semantic wrapper functions for vault operations
-- **Auto-lock Security** - Vault locks automatically on terminal exit
-
-### Configuration
-- **Vault Config**: `home/dot_config/chezmoi/chezmoi.toml.tmpl` enables auto-unlock
-- **Template Helpers**: `home/.chezmoitemplates/bitwarden-*.tmpl` provide reusable secret retrieval
-- **Fish Integration**: Custom functions with semantic abbreviations (`bwu`, `bwc`, `bwg`)
-
-### Usage Patterns
-```go-template
-# SSH Private Key
-{{ template "bitwarden-note.tmpl" "ssh-private-key" }}
-
-# Password Field
-{{ template "bitwarden-password.tmpl" "github-pat" }}
-
-# Custom Fields
-{{ (bitwardenFields "item" "api-keys").api_key.value }}
-```
-
-### Security Guarantees
-- Vault remains encrypted at rest (`~/.config/Bitwarden CLI/data.json`)
-- Session keys are ephemeral (environment variable only)
-- No secrets in git repository (only template references)
-- Auto-lock on terminal exit prevents session persistence
-
-### Example Files
-- `home/private_dot_ssh/private_id_rsa.tmpl.example` - SSH key management
-- `home/private_dot_aws/credentials.tmpl.example` - AWS credentials
-- `home/dot_config/env.tmpl.example` - Environment variables with secrets
-
-## VPN Configuration with OpenVPN
-
-### Ultra-Zen Philosophy: Secure Tunneling
-**"The path to the network flows through the vault, authenticated and encrypted"**
-
-### Architecture
-- **OpenVPN Client** - Secure tunneling daemon for VPN connections
-- **Bitwarden Integration** - Credentials retrieved from vault via templates
-- **Fish Functions** - Semantic wrappers for connection management (`vpc`, `vpd`, `vps`)
-  - Work both as abbreviations (interactive) and functions (scripts)
-  - Abbreviations expand: `vpc` → `vpn-connect`
-  - Functions call: `vpc` → `vpn-connect` directly
-- **Systemd Service** - Optional user-level service for automatic connection
-
-### Configuration Files
-- **VPN Config**: `home/dot_config/private_openvpn/goosevpn.conf.tmpl` - Main OpenVPN configuration
-- **Auth File**: `home/dot_local/state/private_secrets/openvpn/goosevpn-auth.tmpl` - Credentials from Bitwarden
-- **Service**: `home/dot_config/systemd/user/goosevpn.service.tmpl` - Systemd service (optional)
-- **Auto-loading**: `home/dot_config/fish/conf.d/00-secrets.fish.tmpl` - Loads secrets into environment
-
-### Usage
-```bash
-vpc  # Connect to VPN (vpn-connect)
-vpd  # Disconnect from VPN (vpn-disconnect)
-vps  # Check VPN status (vpn-status)
-
-# Or use systemd (after enabling)
-systemctl --user start goosevpn
-systemctl --user enable goosevpn  # Auto-connect on boot
-```
-
-### Security Features
-- All config files use `private_` prefix (600 permissions)
-- `auth-nocache` prevents password caching in memory
-- Credentials only exist when Bitwarden is unlocked
-- Secrets stored in `~/.local/state/secrets/` outside project directories
-- Environment variables auto-loaded by Fish for script access
-
-## Secure Secrets Architecture
-
-### Ultra-Zen Philosophy: Isolated Secrets
-**"Secrets dwell in their own realm, beyond the reach of wandering eyes"**
-
-### Architecture
-- **Secrets Directory**: `~/.local/state/secrets/` - All secrets outside project paths
-- **Auto-loading**: Fish conf.d loads secrets into environment on shell startup
-- **Environment Variables**: Secrets available as `GOOSE_VPN_USER`, `GOOSE_VPN_PASS`, etc.
-
-### Directory Structure
-```
-~/.local/state/secrets/
-├── openvpn/          # VPN credentials
-│   └── goosevpn-auth
-├── env/              # Environment variable files
-│   └── vpn-config    # VPN configuration vars
-└── ssh/              # Future: SSH keys
-```
-
-### Security Benefits
-- Secrets isolated from project directories and Git repositories
-- Single location for all sensitive data
-- Foundation for future enhancements (encryption, systemd-creds)
-- Works around Claude Code's broken deny permissions
-
-## MPV Media Player with LF File Browser
-
-### Ultra-Zen Philosophy: Mindful Media Consumption
-**"Each viewing journey begins with intention, pauses with memory, resumes with continuity"**
-
-### Architecture
-- **MPV Core** - Feature-rich media player with reliable position resuming
-- **Auto-Save Script** - Periodic position saving (every 30s) ensures no loss on crashes/reboots
-- **LF File Browser** - Integrated lf terminal browser for file selection (press 'b')
-- **Kanagawa Theme** - Consistent theming across OSD, subtitles, and lf browser
-- **Helix-Native Keys** - Vi navigation with semantic improvements (ge for end)
-- **Fish Integration** - Semantic functions for media management (mp, mpb, mps, mpc)
-
-### Configuration Files
-- **Main Config**: `home/dot_config/mpv/mpv.conf.tmpl` - Core settings and theming
-- **Keybindings**: `home/dot_config/mpv/input.conf.tmpl` - Helix-native navigation
-- **Auto-Save Script**: `home/dot_config/mpv/scripts/auto-save-position.lua.tmpl` - Periodic position saving
-- **LF Browser Script**: `home/dot_config/mpv/scripts/lf-browser.lua.tmpl` - LF integration script
-- **LF Wrapper**: `home/dot_local/bin/executable_mpv.tmpl` - Terminal browser for pre-selection
-- **Fish Functions**: `home/dot_config/fish/functions/mp*.fish.tmpl` - Semantic commands
-- **Setup Script**: `home/run_once_install-mpv-scripts.sh.tmpl` - Directory setup script
-
-### Usage
-```bash
-mp                # Launch with LF file browser
-mp video.mp4      # Play specific file
-mpb               # Force browse mode
-mps               # Show watch history and saved positions
-mpc               # Clear history and positions
-mpsub <cmd>       # Subtitle management (find/organize/rename/check)
-
-# Within MPV:
-b                 # Open lf file browser with context-sensitive 'l' key
-hjkl              # Navigate (vi-style)
-ge                # Go to end (Helix-native)
-q                 # Quit and save position
-
-# Subtitle controls:
-v                 # Toggle subtitle visibility
-s/S               # Cycle through available subtitles
-z/x               # Adjust subtitle timing (-/+ 0.1s)
-Alt+j/k           # Move subtitles up/down
-Alt++/-           # Increase/decrease subtitle size
-V                 # Toggle secondary subtitles (dual subs)
-```
-
-### Features
-- **Reliable Position Resuming** - Auto-saves every 30s + on quit/seek (survives crashes/reboots)
-- **Saved Positions** - Stored in `~/.local/state/mpv/watch_later/` as hash-named files
-- **Smart Directories** - Starts in ~/Videos, falls back to ~/Downloads
-- **LF Integration** - Press 'b' to browse files with lf, context-sensitive 'l' key
-- **Screenshot Organization** - Saves to `~/Pictures/mpv/` with timestamps
-- **Advanced Subtitle Support**:
-  - Automatic detection in multiple directories (., subs/, .., ../subs)
-  - Fuzzy matching (90% threshold) for misnamed subtitles
-  - Dual subtitle display capability
-  - Kanagawa-themed styling with readable borders
-  - Comprehensive timing and positioning controls
-  - `mpsub` tool for organizing and renaming subtitle files
-
-### Navigation Philosophy
-- **In Player**: Press `b` to launch lf browser in terminal
-- **Pre-Selection**: Launch `mp` without args for lf browser
-- **Context-Sensitive**: 'l' key enters directories or selects media files
-- **Helix-Native**: `ge` for end, consistent with editor navigation
-- **Semantic Functions**: `mp` (media-play), `mpb` (media-play-browse)
-
-## Transmission BitTorrent with VPN Killswitch
-
-### Ultra-Zen Philosophy: Secure Torrenting
-**"The river flows only through the secure tunnel; when the tunnel closes, the river stops"**
-
-### Architecture
-- **Transmission Daemon** - BitTorrent client bound to VPN interface IP
-- **VPN Killswitch** - Transmission stops automatically if VPN disconnects
-- **Magnet Link Handler** - Browser clicks on magnet links auto-add to Transmission
-- **Minimal Seeding** - Ultra-low upload limits (10KB/s, 0.1 ratio, 5min idle)
-- **Security Hardened** - Required encryption, no DHT/PEX/LPD, blocklist enabled
-- **Tremc TUI** - Kanagawa-themed terminal interface with vi keybindings
-
-### Configuration Files
-- **Daemon Config**: `home/dot_config/transmission-daemon/settings.json.tmpl` - Security-focused settings
-- **VPN Binding**: `home/dot_local/bin/executable_transmission-vpn-bind.tmpl` - Dynamic IP updater
-- **Magnet Handler**: `home/dot_local/bin/executable_transmission-magnet-handler.tmpl` - Browser magnet link handler
-- **Desktop Entry**: `home/dot_local/share/applications/transmission-magnet.desktop.tmpl` - System handler registration
-- **Systemd Service**: `home/dot_config/systemd/user/transmission-daemon.service.tmpl` - VPN-dependent service
-- **Fish Functions**: `home/dot_config/fish/functions/t*.fish.tmpl` - Semantic management commands
-- **Tremc Config**: `home/dot_config/tremc/settings.cfg.tmpl` - Kanagawa theme and vi navigation
-
-### Usage
-```bash
-tstart   # Start transmission (checks VPN, updates binding)
-tstop    # Stop transmission daemon
-tstatus  # Show daemon and VPN binding status
-tadd     # Add torrent file or magnet link
-tlist    # List active torrents
-tremove  # Remove torrent by ID
-tui      # Launch tremc interface
-```
-
-### Security Features
-- **Bind to VPN IP** - Only works when VPN is connected (bind-address-ipv4)
-- **Auto-stop on VPN disconnect** - Killswitch via systemd BindsTo
-- **Minimal upload** - 10KB/s limit, 0.1 ratio, 5-minute idle timeout
-- **Full encryption** - Peer connections require encryption
-- **No discovery** - DHT, PEX, LPD all disabled for privacy
-- **Random ports** - New peer port on each start
-- **Download to ~/Videos** - Organized media storage
-
-### VPN Integration
-- Transmission service depends on goosevpn.service
-- VPN IP dynamically detected and bound on startup
-- Fish conf.d hook monitors VPN status
-- Manual `tstart` includes automatic VPN check
-
-### Browser Magnet Link Integration
-- **Click-to-Add** - Clicking magnet links in browser automatically adds to Transmission
-- **Handler Flow** - Browser → x-scheme-handler/magnet → Desktop Entry → Fish Script → tadd
-- **Handlr Registration** - Magnet links registered with handlr in setup script
-- **Automatic Daemon Start** - Handler auto-starts daemon if not running (via tadd)
-- **VPN Checking** - All magnet additions check VPN status before adding
-- **Desktop Notifications** - Visual feedback on successful/failed additions
-
-## WeeChat IRC Client
-
-### Ultra-Zen Philosophy: Modern IRC Evolution
-**"The river of communication flows through a more mindful channel; downloads arrive with greater wisdom"**
-
-### Architecture
-- **WeeChat Client** - Modern, extensible IRC client with superior vi-mode support
-- **IRC Highway** - Pre-configured server connection with auto-join #ebooks
-- **DCC Auto-Accept** - Enhanced file acceptance (10MB limit) to ~/Downloads
-- **Kanagawa Theme** - Full Kanagawa Dragon colors from centralized palette
-- **Vi-Mode Navigation** - Comprehensive vi and Helix-native keybindings
-- **Fish Integration** - Semantic functions for WeeChat management (wc, wcs, wcd)
-
-### Configuration Files
-- **Main Config**: `home/dot_config/private_weechat/weechat.conf.tmpl` - Core settings and DCC configuration
-- **IRC Config**: `home/dot_config/private_weechat/irc.conf.tmpl` - Server settings and channels
-- **Xfer Config**: `home/dot_config/private_weechat/xfer.conf.tmpl` - File transfer and auto-accept settings
-- **Alias Config**: `home/dot_config/private_weechat/alias.conf.tmpl` - Trust management aliases (/t, /tlist, etc.)
-- **Keybindings**: `home/dot_config/private_weechat/keys.conf.tmpl` - Vi-style and Helix-native keys
-- **Fish Functions**: `home/dot_config/fish/functions/wc*.fish.tmpl` - Management commands (wcc, wcs, wcd)
-- **Script Installer**: `home/run_once_install-weechat-scripts.sh.tmpl` - Auto-installs xdccq.py
-
-### Usage
-```bash
-wcc                  # Launch WeeChat (weechat-connect)
-wcs                  # Show WeeChat and download status (weechat-status)
-wcd                  # Download management (weechat-downloads)
-wcd list             # List recent downloads
-wcd clean            # Clean old downloads (>30 days)
-wcd open             # Open downloads directory
-
-# Within WeeChat:
-/msg bot xdcc send #123     # Request file from XDCC bot
-
-# xdccq.py script commands (auto-installed):
-/xdccq add <bot> <packs>    # Queue downloads (e.g., /xdccq add SearchOok 1-5,10,15)
-/xdccq list                 # Show all queued packs
-/xdccq list <bot>           # Show queued packs for specific bot
-/xdccq clear <bot>          # Clear specific bot's queue
-/xdccq clearall             # Clear all queues
-
-/dcc                        # Open DCC buffer (Alt+d)
-/help                       # Show help (?)
-/quit                       # Exit WeeChat
-Alt+1-9                     # Switch to buffer 1-9
-Alt+h/l                     # Previous/next buffer
-Alt+j/k                     # Window down/up
-ge                          # Go to end (Helix-native)
-/                           # Search
-```
-
-### Key Improvements over irssi
-- **Better Vi-Mode** - Native vi-mode with comprehensive bindings
-- **Modern UI** - Split panes, better colors, more customizable
-- **Script Support** - Python/Perl/Ruby plugin ecosystem
-- **Better DCC** - Enhanced file transfer display and management
-- **Unicode Support** - Superior emoji and special character handling
-- **Extensibility** - Large ecosystem of scripts and plugins
-- **xdccq.py Script** - Automatically manages auto_accept_nicks for XDCC bots
-
-### Security Features
-- **Auto-Accept Management** - xdccq.py dynamically adds bot names to auto_accept_nicks
-- **Download Directory** - All files go to ~/Downloads with .part suffix
-- **Auto-Resume** - Intelligent partial download continuation
-- **Auto-Rename** - Prevents overwriting existing files
-- **CRC Checking** - Optional CRC32 verification for transfers
-
-### XDCC Auto-Accept System
-
-**Managing Bot Trust List:**
-
-**1. Identify Bot Names:**
-- When a transfer is waiting, check the xfer buffer (Alt+x or `/buffer xfer.list`)
-- Bot name appears after `***` (e.g., `*** Search`)
-- Or look in #ebooks for bots responding to `@search` or `!list` commands
-
-**2. Add Bots Using Simple Aliases:**
-```bash
-/t Search           # Trust "Search" bot (super quick!)
-/trust Search       # Same as /t but more explicit
-/tlist              # Show current trust list
-/untrust Search     # Remove a bot from trust list
-/tclear             # Clear entire trust list (use carefully!)
-```
-- Only need to add each bot once - setting persists across restarts
-- Future transfers from trusted bots auto-accept immediately
-
-**3. xdccq.py Script (for queuing):**
-```bash
-/xdccq add <bot> <packs>     # Queue downloads AND auto-add bot to trust list
-/xdccq list                  # Show queued downloads
-/xdccq clear <bot>           # Clear bot's queue
-```
-- When you use `/xdccq add`, it automatically adds the bot to auto_accept_nicks
-- Great for queuing multiple packs: `/xdccq add SearchOok 1-5,10,15`
-
-**Mnemonic: "X-Duck Queue"** 🦆
-- Think of XDCC downloads like ducks in a row
-- **X**tra **D**ownloads? **C**leverly **C**ueue **Q**uickly!
-
-### IRC Highway Configuration
-- Server: irc.irchighway.net:6667
-- Auto-connects on startup
-- Auto-joins #ebooks channel
-- Nick from system username ({{ .chezmoi.username }})
-
-## Qutebrowser Web Browser
-
-### Ultra-Zen Philosophy: Keyboard-Driven Navigation
-**"The keyboard becomes the interface; intention becomes action"**
-
-### Architecture
-- **Python Configuration** - Flexible config.py with full programmatic control
-- **Kanagawa Theme** - Complete UI theming from centralized color palette
-- **Helix-Native Keybindings** - Semantic navigation (ge for end, gh/gl for line start/end)
-- **Privacy-Focused** - Ad blocking, tracking protection, dark mode preference
-- **Fish Integration** - Semantic functions for browser management (qb, qbp, qbs)
-- **MPV Integration** - Seamless video playback with external player
-
-### Configuration Files
-- **Main Config**: `home/dot_config/qutebrowser/config.py.tmpl` - Complete browser configuration
-- **Fish Functions**: `home/dot_config/fish/functions/qb*.fish.tmpl` - Management commands (qb, qbp, qbs)
-- **Niri Integration**: Browser launch via semantic keybinding (Mod+B from keybindings.yaml)
-
-### Usage
-```bash
-qb                   # Launch qutebrowser (qutebrowser-launch)
-qbp                  # Launch private browsing window (qutebrowser-private)
-qbs                  # Show browser status and session info (qutebrowser-status)
-Mod+B                # Launch from Niri (semantic browser invoke)
-
-# Within Qutebrowser:
-
-# Navigation (Helix-native)
-ge                   # Go to end (scroll to bottom - NOT G)
-gg                   # Go to start (scroll to top)
-gh                   # Go home (scroll to 0%)
-gl                   # Go line end (scroll to 100%)
-j/k                  # Scroll down/up smoothly
-h/l                  # Scroll left/right
-d/u                  # Half-page down/up (Helix-style)
-
-# Tabs
-J/K                  # Previous/next tab
-gT/gt                # Alternative tab navigation
-gc                   # Close tab
-q                    # Close current tab
-Q                    # Quit browser
-
-# History
-H                    # Back in history
-L                    # Forward in history
-
-# Hints (link following)
-f                    # Follow link in current tab
-F                    # Follow link in background tab
-;y                   # Yank (copy) link URL
-;Y                   # Yank link to primary selection
-
-# Search
-/                    # Search forward
-?                    # Search backward
-n                    # Next search result
-N                    # Previous search result
-
-# Zoom
-+                    # Zoom in
--                    # Zoom out
-=                    # Reset zoom
-
-# Yank operations
-yy                   # Yank current URL
-yt                   # Yank page title
-yd                   # Yank domain
-yp                   # Yank pretty URL
-
-# Custom integrations (comma prefix)
-,m                   # Play current URL with MPV
-,M                   # Play hinted link with MPV
-,r                   # Reload page
-,R                   # Force reload (bypass cache)
-,p                   # Open private window
-,a                   # Reader mode (readability)
-
-# Command mode
-:                    # Enter command mode
-:w                   # Save session
-:wq                  # Save and quit
-:q                   # Close tab
-:qa                  # Quit all
-:h                   # Help
-```
-
-### Features
-- **Full Kanagawa Theme** - Every UI element themed from centralized palette
-  - Mode-aware status bar (normal/insert/command/private)
-  - Themed tabs with pinned tab support
-  - Completion widget with category headers
-  - Hints with high-contrast colors
-  - Download progress indicators
-- **Helix-Native Navigation** - Consistent with editor and other tools
-  - `ge` for end (not G)
-  - `gh/gl` for line start/end
-  - `d/u` for half-page scrolling
-  - Semantic keybinding philosophy throughout
-- **Privacy & Security** - Thoughtful defaults
-  - Ad blocking via EasyList and EasyPrivacy
-  - No 3rd-party cookies
-  - Do Not Track header
-  - Dark mode preference for websites
-  - HTTPS-only when possible
-- **Search Engines** - Quick access with keywords
-  - DuckDuckGo (default) - Privacy-focused
-  - `ddg` - DuckDuckGo explicit
-  - `g` - Google
-  - `gh` - GitHub search
-  - `aw` - Arch Wiki
-  - `aur` - AUR packages
-  - `yt` - YouTube
-  - `wi` - Wikipedia
-- **MPV Integration** - Video playback with external player
-  - `,m` on any page to play current URL
-  - `,M` on hinted link to play specific video
-  - Seamless handoff to MPV with all features
-- **Session Management** - Auto-save sessions
-  - Automatic session saving on quit
-  - Resume tabs on restart
-  - `qbs` command shows session info
-
-### Key Philosophy
-- **Keyboard-First** - Mouse optional for all operations
-- **Vi-Like Navigation** - Familiar patterns for vim users
-- **Helix Improvements** - Semantic enhancements where they improve clarity
-- **Comma Prefix** - Custom commands use comma to avoid conflicts
-- **Mode Awareness** - Status bar colors indicate current mode
-
-### Integration Notes
-- **Niri Launcher** - Mod+B launches browser (semantic invoke.browser)
-- **MPV Handoff** - Videos play in MPV with full controls
-- **Fish Functions** - Three semantic commands (qb/qbp/qbs)
-- **Auto-save Sessions** - Never lose open tabs on crash/restart
-
-## Best Practices
-
-- **Preserve Git History** - Use `git mv` instead of delete/create when refactoring files
-- **Documentation Synchronization** - After any code change, scan and update all relevant project documentation including:
-  - `CLAUDE.md` - Update guidelines when workflows or patterns change
-  - `README.md` - Update main documentation for new features or changes
-  - Subdirectory `README.md` files (e.g., `scripts/README.md`) - Keep local documentation current
-  - **Important**: Documentation updates and code updates are integral parts of the same action - never complete a task without updating affected documentation
-
-## Critical Files
-
-- `.chezmoiroot` - sets `home/` as the source directory root
-- `.chezmoiignore` - prevent unwanted management
-- `home/.chezmoidata/packages.yaml` - declarative package definitions
-- `home/.chezmoidata/colors.yaml` - centralized Kanagawa Dragon color palette
-- `home/.chezmoidata/keybindings.yaml` - semantic keybinding definitions
-- `home/dot_gitconfig.tmpl` - templated Git identity
-- `home/dot_config/chezmoi/chezmoi.toml.tmpl` - Chezmoi configuration with Bitwarden integration
-- `home/dot_config/fish/config.fish.tmpl` - Templated Fish shell configuration
-- `home/dot_config/fish/functions/bw-*.fish.tmpl` - Bitwarden wrapper functions
-- `home/dot_config/fish/functions/vpn-*.fish.tmpl` - VPN management functions
-- `home/dot_config/fish/functions/vpc.fish.tmpl` - VPN connect wrapper (works in scripts)
-- `home/dot_config/fish/functions/vpd.fish.tmpl` - VPN disconnect wrapper (works in scripts)
-- `home/dot_config/fish/functions/vps.fish.tmpl` - VPN status wrapper (works in scripts)
-- `home/dot_config/private_openvpn/` - OpenVPN configuration files
-- `home/dot_config/systemd/user/goosevpn.service.tmpl` - VPN systemd service
-- `home/dot_config/transmission-daemon/settings.json.tmpl` - Transmission daemon configuration
-- `home/dot_config/fish/functions/t*.fish.tmpl` - Transmission management functions
-- `home/dot_config/systemd/user/transmission-daemon.service.tmpl` - Transmission systemd service
-- `home/dot_config/tremc/settings.cfg.tmpl` - Tremc TUI configuration
-- `home/dot_local/bin/executable_transmission-vpn-bind.tmpl` - VPN binding script
-- `home/dot_local/bin/executable_transmission-magnet-handler.tmpl` - Magnet link handler script
-- `home/dot_local/share/applications/transmission-magnet.desktop.tmpl` - Magnet handler desktop entry
-- `home/dot_config/fish/conf.d/10-transmission-vpn.fish.tmpl` - Transmission VPN monitor
-- `home/dot_config/mpv/mpv.conf.tmpl` - MPV main configuration
-- `home/dot_config/mpv/input.conf.tmpl` - MPV Helix-native keybindings
-- `home/dot_config/mpv/scripts/auto-save-position.lua.tmpl` - Periodic position auto-save script
-- `home/dot_config/mpv/scripts/lf-browser.lua.tmpl` - LF browser integration script
-- `home/dot_local/bin/executable_mpv.tmpl` - MPV wrapper for LF pre-selection
-- `home/dot_config/fish/functions/mp*.fish.tmpl` - MPV management functions
-- `home/run_once_install-mpv-scripts.sh.tmpl` - MPV directory setup script
-- `home/dot_config/private_weechat/weechat.conf.tmpl` - WeeChat main configuration
-- `home/dot_config/private_weechat/irc.conf.tmpl` - WeeChat IRC server configuration
-- `home/dot_config/private_weechat/xfer.conf.tmpl` - WeeChat file transfer settings with auto-accept
-- `home/dot_config/private_weechat/alias.conf.tmpl` - WeeChat aliases for trust management
-- `home/dot_config/private_weechat/keys.conf.tmpl` - WeeChat vi-style keybindings
-- `home/dot_config/fish/functions/wc*.fish.tmpl` - WeeChat management functions (wcc, wcs, wcd)
-- `home/run_once_install-weechat-scripts.sh.tmpl` - Installs xdccq.py for XDCC auto-accept
-- `home/dot_config/qutebrowser/config.py.tmpl` - Qutebrowser Python configuration with Kanagawa theme
-- `home/dot_config/fish/functions/qb.fish.tmpl` - Qutebrowser launch function
-- `home/dot_config/fish/functions/qbp.fish.tmpl` - Qutebrowser private window function
-- `home/dot_config/fish/functions/qbs.fish.tmpl` - Qutebrowser status and session info function
-- `home/dot_config/wiremix/wiremix.toml.tmpl` - Wiremix TUI configuration with Kanagawa theme
-- `home/dot_config/fish/functions/vol*.fish.tmpl` - Volume control functions (vol, volu, vold, volm, vols)
-- `home/dot_config/fish/functions/ls.fish.tmpl` - Transparent eza wrapper replacing ls command
-- `home/dot_config/lazygit/config.yml` - Lazygit TUI with reverse video selections and Kanagawa theme
-- `home/.chezmoitemplates/` - Reusable template fragments
-  - `color-hex.tmpl` - Convert color to #hex format (CSS/KDL)
-  - `color-quoted.tmpl` - Convert color to "#hex" format (TOML)
-  - `color-rgb.tmpl` - Convert hex to rgb() format
-  - `color-rgba.tmpl` - Convert hex to rgba() with alpha
-  - `color-index.tmpl` - Map color names to terminal indices
-  - `newt-colors-kanagawa.tmpl` - Legacy NEWT_COLORS (deprecated)
-  - `newt-colors-dynamic.tmpl` - Dynamic NEWT_COLORS from colors.yaml
-  - `bitwarden-item.tmpl` - Retrieve complete Bitwarden item
-  - `bitwarden-password.tmpl` - Extract password field from item
-  - `bitwarden-username.tmpl` - Extract username field from item
-  - `bitwarden-note.tmpl` - Extract secure note content
-
-## Color Template System
-
-### Architecture
-- **Single Source of Truth**: All Kanagawa Dragon colors defined in `home/.chezmoidata/colors.yaml`
-- **Format Converters**: Template fragments handle format conversions for different config syntaxes
-- **Templated Configs**: Waybar CSS, Alacritty TOML, and Niri KDL use centralized colors
-- **Ultra-Zen Terminal Colors**: Terminal colors (0-15) map to actual theme colors, not traditional ANSI
-
-### Usage
-```go-template
-{{- $c := .kanagawa.dragon -}}
-color: {{ template "color-hex.tmpl" $c.green }}     # CSS: #8a9a7b
-color = {{ template "color-quoted.tmpl" $c.red }}   # TOML: "#c4746e"
-```
-
-### Ultra-Zen Philosophy: Semantic Terminal Colors & Reverse Video
-
-**"Do not define colors; define intentions. Let the intention manifest as color."**
-
-Terminal colors are semantic purposes, not hues:
-- `color0` (background) = `#181616` - Our actual background, not darkest black
-- `color7` (foreground) = `#c5c9c5` - Our actual foreground, not brightest white
-- `color8` (inactive) = `#625e5a` - Comments/disabled, not just "bright black"
-- `color14` (focus) = `#8a9a7b` - Focus/active indicator (our green), NOT selection bg
-- `color11` (warning_bright) = `#c4b28a` - Actual yellow for warnings/emphasis
-
-**The Master's Wisdom on Selection:**
-*"Do not paint the water to make the fish visible. Let the fish and water exchange places."*
-
-Selections use **reverse video**, not colored backgrounds. This ensures:
-- Perfect contrast always (fg/bg swap)
-- No configuration complexity
-- Universal solution for all TUI apps
-
-Each terminal color slot has a PURPOSE:
-- **0-7**: Primary semantic roles (background, error, success, warning, etc.)
-- **8-15**: Enhanced semantic roles (inactive, urgent, focus, emphasis, etc.)
-- Apps express themselves through intentions, not raw colors
-
-### Benefits
-- **Perfect Unity**: nmtui background = Waybar background = Alacritty background (#181616)
-- **Perfect Contrast**: Lazygit selections use reverse video - always readable
-- **Semantic Consistency**: color14 is focus/active (green), not selection background
-- **Maintainability**: Change theme by updating single file
-- **Extensibility**: Easy to add new apps with consistent theming
-- **Semantic Truth**: Colors represent intentions, not traditional ANSI meanings
-
-### Spectrum Color System
-
-**Purpose**: Algorithmic generation of perceptually-uniform color progressions for aesthetic purposes.
-
-**Key Insight**: Separates **spectral** (aesthetic) from **semantic** (meaning) colors.
-- **Semantic colors**: error=red, success=green (meaning matters)
-- **Spectral colors**: rainbow progressions (position in spectrum matters)
-
-**Architecture**:
-- **Python Script**: `scripts/generate-spectrum.py` - LAB interpolation via `colour` package
-- **Dependency**: `python-colour` (installed via pacman)
-- **Method**: Perceptually-uniform LAB color space interpolation
-- **Implementation**: Waybar status modules (10 colors: red → violet)
-
-**Usage Example** (Waybar):
-```css
-{{- $modules := list "disk" "cpu" "memory" "backlight" "pulseaudio" "bluetooth" "network" "custom-weather" "battery" "clock" -}}
-{{- $script := joinPath .chezmoi.sourceDir ".." "scripts" "generate-spectrum.py" -}}
-{{- $output := output "python3" $script (index $c "red") (index $c "magenta") (toString (len $modules)) -}}
-{{- $spectrum := $output | trim | splitList "\n" -}}
-
-{{- range $i, $module := $modules }}
-#{{ $module }} { color: #{{ index $spectrum $i }}; }
-{{- end }}
-```
-
-**Benefits**:
-- **Automatic Adjustment**: Add/remove modules → spectrum rebalances perfectly
-- **Perceptually Uniform**: Colors appear evenly-spaced to human eye
-- **Zero Maintenance**: No manual color picking ever again
-- **Flexibility**: Change endpoints (red→violet, warm, cool, etc.)
-
-**See**: `docs/semantic-color-architecture.md` for complete documentation.
-
-## Semantic Keybinding System
-
-### Ultra-Zen Philosophy: Semantic Actions
-
-**"Do not define keybindings; define intentions. Let the intention manifest as the appropriate key."**
-
-Just as colors became semantic purposes, keybindings are semantic **intentions** that manifest contextually:
-
-```yaml
-# Instead of: MOD+H = move left
-# We define: navigate.prev = context-appropriate leftward movement
-```
-
-### Architecture
-- **Single Source of Truth**: All semantic actions defined in `home/.chezmoidata/keybindings.yaml`
-- **Helix-Native**: Follow Helix's thoughtful semantic improvements as our foundation
-- **Context Manifestation**: Same intention manifests appropriately per application
-- **Vi Mode Everywhere**: Fish shell, Alacritty terminal, and Helix editor all use vi modes
-
-### Core Semantic Categories
-- **Navigate**: Move focus without changing state (hjkl universally)
-- **Manipulate**: Move/modify objects (MOD+CTRL+hjkl for windows)
-- **Invoke**: Create/summon/launch (MOD+key for apps)
-- **Transform**: Toggle states/modes (f for fullscreen, i/v/ESC for modes)
-- **Preserve**: Save state (SPACE+W for write)
-- **Dismiss**: Close/quit (q/Q universally)
-- **Discover**: Search/help (/ for search, ? for help)
-
-### Helix-Native Navigation
-- `ge` instead of `G`: "Go end" is semantically clearer
-- `gh/gl` for line start/end: "Go home/line" is intuitive
-- `x` for extend: Direct selection without mode change
-- `g` prefix groups all "go to" operations
-
-### Benefits
-- **Muscle Memory Unity**: Same semantic action = same key pattern everywhere
-- **No Conflicts**: Semantic layer prevents accidental overlaps
-- **Self-Documenting**: Intentions explain themselves
-- **Extensibility**: New apps inherit semantic patterns automatically
-
-### Documentation
-- **Reference**: See `home/KEYBINDINGS.md` for complete semantic mappings
-- **Definition**: `home/.chezmoidata/keybindings.yaml` contains all semantic actions
-
-## Application Configurations
-
-### Color-Templated Applications
-- **Waybar** (`style.css.tmpl`) - Full spectrum color usage for module theming
-- **Alacritty** (`alacritty.toml.tmpl`) - Terminal base colors (0-15 + extended)
-- **Niri** (`config.kdl.tmpl`) - Focus ring and selection colors
-- **nmtui** (via `fish/config.fish.tmpl`) - NEWT UI components with semantic mappings
-
-### Vi-Mode Enabled Applications
-- **Fish Shell** (`config.fish.tmpl`) - Vi mode with Helix-native keybindings
-  - Mode indicators: `[N]` green, `[I]` blue, `[V]` yellow
-  - Cursor changes per mode: block/line/underscore
-  - Custom bindings: `ge` for end, `gh/gl` for line navigation
-- **Alacritty Terminal** (`alacritty.toml.tmpl`) - Vi mode with visual feedback
-  - Toggle: `CTRL+SHIFT+SPACE`
-  - Green block cursor in vi mode
-  - Supports Helix-native navigation
-- **Helix Editor** (`config.toml`) - Native modal editing
-  - SPACE leader for commands
-  - Full Helix semantic navigation
-
-### NetworkManager TUI (nmtui)
-- **Color Scheme**: Kanagawa theme from centralized palette
-- **Template Architecture**: NEWT_COLORS dynamically generated from `colors.yaml`
-- **Theme Mapping**: Semantic color names mapped to terminal indices (color0-color15)
-- **Integration**: NEWT component mappings defined in `colors.yaml` under `newt:` section
-- **Fish Integration**: Custom wrapper function provides navigation reference
-- **Waybar Integration**: Click wifi widget to launch nmtui in Alacritty
-- **Limitations**: No vim keybinding support; limited to 16 terminal colors (not RGB)
-
-### Transmission BitTorrent (`transmission-daemon`)
-- **VPN Binding**: Bound to VPN interface IP (killswitch if VPN disconnects)
-- **Security Hardened**: Required encryption, minimal seeding, no peer discovery
-- **Download Location**: `~/Videos` with incomplete files in `.incomplete` subdirectory
-- **Fish Functions**: `tstart`, `tstop`, `tstatus`, `tadd`, `tlist`, `tremove`
-- **Systemd Integration**: Depends on goosevpn.service, auto-stops if VPN fails
-- **Dynamic IP Binding**: `transmission-vpn-bind` script updates bind address
-
-### Tremc TUI (`tremc`)
-- **Kanagawa Theme**: Full color customization from centralized palette
-- **Vi Keybindings**: Helix-native navigation (hjkl, ge for end)
-- **Launch Command**: `tui` function auto-starts daemon if needed
-- **Profile Support**: Pre-configured filters for active/downloading/seeding
-- **Confirmation Dialogs**: Protects against accidental removal/deletion
-
-### MPV Media Player (`mpv`)
-- **Kanagawa Theme**: OSD, subtitles, and lf browser themed from centralized palette
-- **Helix-Native Keybindings**: Vi navigation throughout (hjkl, ge for end, b for browse)
-- **LF File Browser**: Press `b` during playback to launch lf browser with context-sensitive 'l' key
-- **Reliable Position Resume**: Auto-saves every 30s + on quit/seek (100% reliable, even on crashes)
-- **Position Storage**: `~/.local/state/mpv/watch_later/` contains hash-named bookmark files
-- **Advanced Subtitles**: Auto-detection, fuzzy matching, dual display, full control
-- **Fish Functions**: `mp` (play), `mpb` (browse), `mps` (status), `mpc` (clear), `mpsub` (subtitle management)
-- **Screenshots**: Saved to `~/Pictures/mpv/` with video name and timestamp
-
-### WeeChat IRC Client (`weechat`)
-- **Kanagawa Theme**: Full color customization from centralized palette
-- **IRC Highway**: Auto-connects to server, auto-joins #ebooks channel
-- **DCC Downloads**: Enhanced auto-accept (10MB limit) to ~/Downloads with .part suffix
-- **Trust Aliases**: `/t BotName` to quickly trust bots, `/tlist` to view, `/untrust` to remove
-- **Vi-Mode Navigation**: Comprehensive vi and Helix-native keybindings
-- **Fish Functions**: `wc` (launch), `wcs` (status), `wcd` (downloads management)
-- **Buffer Management**: Alt+h/l for buffer navigation, Alt+1-9 for quick switching
-- **Nick Configuration**: System username ({{ .chezmoi.username }})
-- **Modern Features**: Split panes, better Unicode support, plugin ecosystem
-
-### Wiremix TUI Audio Mixer (`wiremix`)
-- **Kanagawa Theme**: Full color customization from centralized palette
-- **PipeWire Native**: Designed specifically for PipeWire audio system
-- **Helix-Native Keybindings**: Vi navigation with semantic improvements (ge for end, hjkl movement)
-- **Volume Shortcuts**: Shift+0-9 for quick volume percentages (0=mute, 5=50%, 0=100%)
-- **Tab Navigation**: Number keys 1-5 for quick tab switching (Playback, Recording, Outputs, Inputs, Config)
-- **Fish Functions**: `vol` (launch mixer), `volu/vold` (volume up/down), `volm` (mute toggle), `vols` (status)
-- **Waybar Integration**: Click volume widget to launch wiremix in Alacritty
-- **Peak Meters**: Visual audio level monitoring with overload detection
-- **Device Management**: Set defaults, configure routes, manage profiles
-- **Configuration**: `~/.config/wiremix/wiremix.toml` with extensive customization
-
-### LF Terminal File Manager (`lf`)
-- **Kanagawa Theme**: Consistent colors in borders and prompt from centralized palette
-- **Helix-Native Keybindings**: Vi navigation with semantic improvements (ge for end, gh/gl for line start/end)
-- **Required Dependencies**: fzf (Ctrl+f fuzzy directory jump), ripgrep (Ctrl+g content search)
-- **Handlr Integration**: Modern file handler replacing xdg-open with wofi selector
-- **Simplified File Actions**: Two-key system for maximum simplicity
-  - `l` - Open with default app (instant)
-  - `L` - Choose app from available handlers (wofi menu)
-  - `ee` - Quick edit in Helix
-  - Preview pane handles viewing automatically
-- **Rich File Previews**:
-  - Text files with syntax highlighting (bat)
-  - Images as ASCII art or sixels (chafa)
-  - Videos with thumbnails and metadata (mediainfo/ffmpeg)
-  - Archives showing contents (atool)
-  - PDFs as text or images (poppler)
-  - JSON pretty-printed (jq)
-  - Directories as tree structure
-- **Advanced Commands**:
-  - FZF integration for fuzzy finding (Ctrl+f)
-  - Bulk rename with $EDITOR (B key)
-  - Archive operations (create/extract)
-  - Trash integration with trash-cli (T key)
-  - Clipboard operations (W for Wayland clipboard)
-  - Ripgrep file search (Ctrl+g)
-- **Fish Integration**:
-  - `lfcd` function for directory changing on exit
-  - Ctrl+O keybinding for quick access
-  - `lc` abbreviation for lfcd
-- **Icons**: Comprehensive Nerd Font icons for all file types
-- **Quick Jumps**: Bookmarks to common directories (gc for ~/.config, gv for ~/Videos, etc.)
-- **MPV Integration**: Used as video file selector when 'b' is pressed
-- **Git Operations**: Branch switching, log viewing, status checking
-- **Configuration Files**:
-  - `home/dot_config/lf/lfrc.tmpl` - Main configuration with keybindings
-  - `home/dot_config/lf/executable_preview.tmpl` - File preview script
-  - `home/dot_config/lf/executable_cleaner.tmpl` - Preview cleanup script
-  - `home/dot_config/lf/icons.tmpl` - File type icons mapping
-  - `home/dot_config/fish/functions/lfcd.fish.tmpl` - Directory change function
-  - `home/dot_config/handlr/handlr.toml.tmpl` - Handlr config with wofi selector
-  - `home/run_once_setup-handlr-defaults.sh.tmpl` - Handlr default associations setup
-
-### Lazygit - Git TUI (`lazygit`)
-- **Reverse Video Philosophy**: Selections use terminal fg/bg swap for perfect contrast
-- **Kanagawa Theme**: Active borders use semantic focus green (color2)
-- **Vi Navigation**: Full vi keybindings for all operations
-- **Visual Branch Management**: Interactive rebasing, cherry-picking, branch switching
-- **Semantic Colors**:
-  - Active borders: Green (focus/ready)
-  - Search borders: Cyan (discovery)
-  - Options text: Blue (information)
-  - Selections: Reverse video (Master's wisdom)
-- **Fish Integration**: `lg` abbreviation launches lazygit
-- **Configuration**: `home/dot_config/lazygit/config.yml` - Custom theme following our philosophy
-- **Usage**:
-  - `lg` - Launch lazygit in current git repository
-  - hjkl navigation throughout
-  - Space to stage/unstage files
-  - c to commit, P to push/pull
-  - b to checkout branches
-
-### GitHub CLI (`github-cli`)
-- **Official GitHub Integration**: Manage PRs, issues, and repos from terminal
-- **Authentication**: Use `gh auth login` on new machines (not managed by dotfiles)
-- **Common Commands**:
-  - `gh pr create` - Create pull request
-  - `gh pr list` - List pull requests
-  - `gh issue list` - List issues
-  - `gh repo view` - View repository info
-- **Philosophy**: Let users authenticate fresh rather than managing credentials
-- **Not Managed**: No configuration files tracked (authentication handled per-machine)
-
-### Shell Enhancements
-
-#### eza - Modern ls Replacement
-- **Transparent Integration**: `ls` command transparently replaced with eza
-- **Enhanced Features**: Icons, colors, git status integration
-- **Zero Learning Curve**: All standard ls options pass through unchanged
-- **Implementation**: Fish function wrapper at `home/dot_config/fish/functions/ls.fish.tmpl`
-- **Benefits**:
-  - Nerd Font icons for file types
-  - Automatic directory grouping
-  - Git-aware file listings
-  - Better color coding and formatting
-
-#### zoxide - Smart Directory Navigation
-- **Frecency-Based Jumping**: Learn frequently and recently used directories
-- **Commands**:
-  - `z <keyword>` - Jump to best match for keyword
-  - `zi <keyword>` - Interactive selection with fzf
-- **Integration**: Initialized in Fish config, works alongside lfcd
-- **Philosophy**: Complements visual navigation (lfcd/Ctrl+O) with quick frecency-based jumps
-- **Use Cases**:
-  - **Quick jumps**: `z dots` → `~/.local/share/chezmoi`
-  - **Partial matches**: `z conf` → `~/.config` (learns your patterns)
-  - **Recent directories**: Just visited ~/Videos/movies? `z mov` gets you back
-- **Configuration**: Auto-initialized in `home/dot_config/fish/config.fish.tmpl`
-
-### Claude Code Output Styles
-- **Zen Engineer**: Technically precise yet contemplative engineering guidance
-  - Zen Moment callouts with ASCII decoration and markdown emphasis
-  - Adaptive depth philosophy - surface simplicity revealing deeper patterns
-  - Helix-native keybindings philosophy carried into prose
-  - Location: `home/dot_claude/output-styles/zen-engineer.md`
-
-## Workflow
-
-1. `chezmoi edit ~/.config/app`
-2. `chezmoi diff`
-3. `chezmoi apply -v`
-4. Update relevant documentation (CLAUDE.md, README.md, subdirectory READMEs)
+4. **Document everything** - in-document comments, inline docs, discoverable methods
+5. **Git history matters** - use `git mv`, not delete+create
+6. **YAGNI mindfulness** - justify every configuration option
 
 ---
 
