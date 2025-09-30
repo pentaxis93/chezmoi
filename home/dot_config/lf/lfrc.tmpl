@@ -33,6 +33,7 @@ set mouse false
 # Clear default bindings that conflict
 map g
 map d
+map a
 
 # Basic Navigation (Helix-native) - Semantic keybindings
 {{ template "keybind-lf.tmpl" dict "category" "navigate" "action" "prev" "command" "updir" "comment" "Go up directory" "keybindings" $kb }}
@@ -60,7 +61,7 @@ map r reload
 map <enter> shell  # Execute shell command
 
 # Quick Actions
-map a push %touch<space>  # Add file
+map af push %touch<space>  # Add file
 map A push %mkdir<space>  # Add directory
 map R rename  # Rename current file
 map B bulkrename  # Bulk rename selected files
@@ -356,7 +357,7 @@ Files:
   Enter    - Shell command
   l        - Open with default app
   L        - Choose app from available handlers
-  a/A      - Add file/directory
+  af/A     - Add file/directory
   R        - Rename file
   B        - Bulk rename
   D        - Delete (confirm)
@@ -364,8 +365,8 @@ Files:
   ee       - Quick edit in Helix
 
 Archives:
-  az/at/ag - Create zip/tar/tar.gz
-  au       - Extract archive
+  az/at/ag/ab - Create zip/tar/tar.gz/tar.bz2
+  au          - Extract archive
 
 Search:
   /        - Search forward
