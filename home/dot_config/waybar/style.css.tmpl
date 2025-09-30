@@ -80,66 +80,29 @@ window#waybar.empty #window {
     color: {{ template "color-hex.tmpl" $c.bg_lighter }};
 }
 
-/* Spectrum progression: Red → Orange → Yellow → Green → Cyan → Blue → Violet */
+/* Spectrum Progression: Red → Violet
+   Algorithmic generation ensures perfect spacing regardless of module count */
+{{- $modules := list "disk" "cpu" "memory" "backlight" "pulseaudio" "bluetooth" "network" "custom-weather" "battery" "clock" -}}
+{{- $script := joinPath .chezmoi.sourceDir ".." "scripts" "generate-spectrum.py" -}}
+{{- $output := output "python3" $script (index $c "red") (index $c "magenta") (toString (len $modules)) -}}
+{{- $spectrum := $output | trim | splitList "\n" -}}
 
-/* Disk - Red (root resources) */
-#disk {
-    color: {{ template "color-hex.tmpl" $c.red }};
+/* Status modules - Perceptually uniform spectrum (LAB interpolation) */
+{{- range $i, $module := $modules }}
+#{{ $module }} {
+    color: #{{ index $spectrum $i }};
+{{- if eq $module "clock" }}
+    font-weight: 600;
+    padding-right: 12px;
+{{- end }}
 }
-
-/* CPU - Orange (processing heat) */
-#cpu {
-    color: {{ template "color-hex.tmpl" $c.orange }};
-}
-
-/* Memory - Yellow (storage) */
-#memory {
-    color: {{ template "color-hex.tmpl" $c.yellow }};
-}
-
-/* Backlight - Yellow-green (illumination) */
-#backlight {
-    color: #87a96b;  /* Custom blend */
-}
-
-/* Pulseaudio - Green (sound waves) */
-#pulseaudio {
-    color: {{ template "color-hex.tmpl" $c.green }};
-}
-
-/* Bluetooth - Cyan (wireless) */
-#bluetooth {
-    color: {{ template "color-hex.tmpl" $c.bright_cyan }};
-}
-
-/* Network - Blue (connectivity) */
-#network {
-    color: {{ template "color-hex.tmpl" $c.blue }};
-}
-
+{{ end }}
 /* VPN - Blue (secure connectivity) - integrates visually with network */
 #custom-vpn {
     color: {{ template "color-hex.tmpl" $c.blue }};
     padding-left: 0;
     padding-right: 8px;
     margin-left: -6px;
-}
-
-/* Weather - Light blue (atmosphere) */
-#custom-weather {
-    color: #7e9cd8;  /* Custom weather blue */
-}
-
-/* Battery - Blue-violet (energy) */
-#battery {
-    color: {{ template "color-hex.tmpl" $c.bright_magenta }};
-}
-
-/* Clock - Violet (time's mystery) */
-#clock {
-    color: {{ template "color-hex.tmpl" $c.magenta }};
-    font-weight: 600;
-    padding-right: 12px;
 }
 
 /* Consistent hover effects for interactive modules */
