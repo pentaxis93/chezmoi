@@ -27,7 +27,6 @@ If you need AI-specific context and instructions, see `../ai-context/` instead. 
 
 ## Technical Documentation
 
-For implementation details and audits:
-- **Keybindings**: See `../../keybinding-usage-audit.md`
-- **Colors**: See `../../color-usage-audit.md`
-- **Implementation**: See `../../home/.chezmoidata/*.yaml`
+For implementation details:
+- **Implementation**: See `../../home/.chezmoidata/*.yaml` (colors.yaml, keybindings.yaml)
+- **AI Context**: See `../ai-context/systems/` for technical system documentation

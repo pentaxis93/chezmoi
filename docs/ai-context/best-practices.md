@@ -16,18 +16,29 @@
 
 When configuring new applications and dotfiles, follow these principles for consistency and elegance:
 
-1. **Unified Color Theme** - Apply consistent color theme across all applications to create visual harmony
-2. **Helix-Native Keybindings** - Configure Helix-native vi keybindings in every tool that supports them for universal editing muscle memory
+1. **Semantic Color System (MANDATORY)** - ALL new configs must use semantic color templates
+   - NEVER hardcode hex colors
+   - ALWAYS use `{{ template "color-hex.tmpl" (index $theme $s.semantic.category) }}`
+   - Define semantic meaning first, let theme provide color
+   - See @docs/ai-context/systems/colors.md
+
+2. **Semantic Keybinding System (MANDATORY)** - ALL new configs must use keybinding templates for core actions
+   - NEVER hardcode semantic keybindings (navigate, discover, dismiss, transform, preserve, select, manipulate)
+   - ALWAYS use `{{ template "keybind-<app>.tmpl" dict ... }}`
+   - Create app-specific template if needed (follow existing patterns)
+   - Hardcode ONLY application-specific non-semantic bindings
+   - See @docs/ai-context/systems/keybindings.md
+
+3. **Helix-Native Navigation** - Configure Helix-native vi keybindings in every tool that supports them
    - Follow Helix's semantic improvements (e.g., `ge` for end, not `G`)
    - Prioritize semantic clarity over vim tradition
-3. **Semantic Keybinding System** - All keybindings represent intentions, not physical keys
-   - Define semantic actions that manifest contextually
-   - Maintain consistency through `keybindings.yaml`
-   - If conflicts arise, discuss resolution with human immediately
+   - Use `gh/gl` for line start/end
+
 4. **Comprehensive Documentation** - Document everything that can and should be documented
    - In-document comments for complex configs
    - Inline documentation for non-obvious settings
    - Always choose the most discoverable documentation method
+
 5. **Zen Elegance** - Pursue best-in-class functionality while maintaining YAGNI mindfulness
    - Each configuration option must justify its inclusion
    - Prefer defaults when they align with our principles

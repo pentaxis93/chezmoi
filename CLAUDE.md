@@ -44,6 +44,25 @@ See: @docs/ai-context/apps/bitwarden.md
 
 **Documentation Synchronization**: After any code change, update all relevant docs including `CLAUDE.md`, `README.md`, and subdirectory READMEs. Documentation updates and code updates are **integral parts of the same action** - never complete a task without updating affected documentation.
 
+### New Configuration Mandate (CRITICAL)
+
+When creating ANY new application configuration, you MUST use the semantic systems:
+
+**Semantic Colors (MANDATORY)**:
+- **NEVER** hardcode hex colors in new configs
+- **ALWAYS** use `{{ template "color-hex.tmpl" (index $theme $s.semantic.category) }}`
+- Define semantic meaning first, let theme provide color
+- See @docs/ai-context/systems/colors.md for complete system
+
+**Semantic Keybindings (MANDATORY)**:
+- **NEVER** hardcode keybindings for core semantic actions (navigate, discover, dismiss, transform, preserve, select, manipulate)
+- **ALWAYS** use `{{ template "keybind-<app>.tmpl" dict ... }}` for semantic actions
+- Create app-specific template if needed (follow existing patterns)
+- Hardcode ONLY application-specific non-semantic bindings
+- See @docs/ai-context/systems/keybindings.md for complete system
+
+**Non-Negotiable**: These systems are architectural foundations. Deviation requires explicit user approval.
+
 ---
 
 ## ARCHITECTURE PRINCIPLES
@@ -62,19 +81,22 @@ See: @docs/ai-context/apps/bitwarden.md
 
 See: @docs/ai-context/systems/keybindings.md
 
-### Semantic Actions Over Physical Keys
+### Semantic Keybindings System (MANDATORY)
 Keybindings represent **intentions**, not keys:
+- **ALL new configs MUST use semantic keybinding templates** for core actions
 - `navigate.prev` = context-appropriate leftward movement
 - Same intention manifests appropriately per application
 - Maintain consistency through `home/.chezmoidata/keybindings.yaml`
+- Use `{{ template "keybind-<app>.tmpl" dict ... }}` for semantic bindings
 - If conflicts arise, **discuss with human immediately**
 
-### Centralized Color System
+### Centralized Color System (MANDATORY)
 **Single source of truth**: `home/.chezmoidata/colors.yaml`
+- **ALL new configs MUST use semantic color templates** - no exceptions
 - Terminal colors are semantic purposes, not hues
 - `color0` = background, `color7` = foreground, `color14` = focus
 - Use template fragments: `color-hex.tmpl`, `color-quoted.tmpl`, etc.
-- **NEVER** hardcode colors outside the centralized system
+- **NEVER** hardcode colors - this is an architectural requirement
 
 See: @docs/ai-context/systems/colors.md
 
@@ -91,7 +113,8 @@ Selections use **reverse video** (fg/bg swap), not colored backgrounds:
 ## THINGS NOT TO DO
 
 **DON'T** create duplicate configs outside chezmoi source directory.
-**DON'T** hardcode colors (use color templates from `colors.yaml`).
+**DON'T** hardcode colors - MUST use semantic color templates from `colors.yaml`.
+**DON'T** hardcode semantic keybindings - MUST use keybind templates from `keybindings.yaml`.
 **DON'T** break git history (use `git mv` for refactoring, not delete+create).
 **DON'T** skip documentation updates after code changes (CRITICAL).
 **DON'T** install packages directly (use declarative `packages.yaml`).
