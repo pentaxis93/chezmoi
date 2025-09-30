@@ -104,8 +104,8 @@ Example Output:
     {{- $key = printf "%s+%s" $modifier $key -}}
 {{- end -}}
 
-{{- /* Pad key for alignment (6 chars) */ -}}
-{{- $paddedKey := printf "%-6s" $key -}}
+{{- /* Pad key for alignment (10 chars to accommodate modifiers) */ -}}
+{{- $paddedKey := printf "%-10s" $key -}}
 
 {{- /* Output the binding */ -}}
-{{ $paddedKey }}{{ $command }}{{ if $comment }}                    # {{ $comment }}{{ end }}
+{{ $paddedKey }}{{ $command }}{{ if $comment }}              # {{ $comment }}{{ end }}

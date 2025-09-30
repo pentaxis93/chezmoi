@@ -1,152 +1,163 @@
 # MPV Input Configuration - Helix-Native Vi Keybindings
 # "Do not define keybindings; define intentions"
+{{- $kb := .keybindings }}
 
 # ============================================================================
 # NAVIGATION - Move through video without changing state
 # ============================================================================
-# Helix-native: hjkl for movement
+# Helix-native: hjkl for movement - Semantic keybindings
 
-h     seek -5                    # Navigate prev: 5 seconds back
-l     seek  5                    # Navigate next: 5 seconds forward
-j     seek -60                   # Navigate down: 1 minute back
-k     seek  60                   # Navigate up: 1 minute forward
+{{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "prev" "command" "seek -5" "comment" "Navigate prev: 5 seconds back" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "next" "command" "seek  5" "comment" "Navigate next: 5 seconds forward" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "down" "command" "seek -60" "comment" "Navigate down: 1 minute back" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "up" "command" "seek  60" "comment" "Navigate up: 1 minute forward" "keybindings" $kb }}
 
-H     seek -10                   # Shift+h: 10 seconds back
-L     seek  10                   # Shift+l: 10 seconds forward
-J     playlist-prev              # Shift+j: Previous in playlist
-K     playlist-next              # Shift+k: Next in playlist
+H     seek -10                   # Semantic navigate: 10 seconds back (large step)
+L     seek  10                   # Semantic navigate: 10 seconds forward (large step)
+J     playlist-prev              # Semantic navigate: Previous in playlist
+K     playlist-next              # Semantic navigate: Next in playlist
 
-# Line/File navigation (Helix semantic)
-gh    seek 0 absolute-percent   # Go home: Start of video
-gl    seek 100 absolute-percent # Go line end: End of video
-gg    seek 0 absolute            # Go to beginning
-ge    seek 100 absolute-percent # Go end (Helix, not G)
+# Line/File navigation (Helix semantic) - Semantic keybindings
+{{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "line_start" "command" "seek 0 absolute-percent" "comment" "Go home: Start of video" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "line_end" "command" "seek 100 absolute-percent" "comment" "Go line end: End of video" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "file_start" "command" "seek 0 absolute" "comment" "Go to beginning" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "file_end" "command" "seek 100 absolute-percent" "comment" "Go end (Helix, not G)" "keybindings" $kb }}
 
-# Word-like navigation (chapters)
-w     add chapter 1              # Word next: Next chapter
-b     add chapter -1             # Word prev: Previous chapter
+# Word-like navigation (chapters) - Semantic keybindings
+{{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "word_next" "command" "add chapter 1" "comment" "Word next: Next chapter" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "navigate" "action" "word_prev" "command" "add chapter -1" "comment" "Word prev: Previous chapter" "keybindings" $kb }}
 
 # ============================================================================
 # MANIPULATION - Modify playback parameters
 # ============================================================================
+# Semantic keybindings with Ctrl modifier
 
-Ctrl+h    add speed -0.1         # Slow down
-Ctrl+l    add speed 0.1          # Speed up
-Ctrl+j    add volume -2          # Volume down
-Ctrl+k    add volume 2           # Volume up
+{{ template "keybind-mpv.tmpl" dict "category" "manipulate" "action" "move_prev" "command" "add speed -0.1" "comment" "Manipulate: Slow down" "modifier" "Ctrl" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "manipulate" "action" "move_next" "command" "add speed 0.1" "comment" "Manipulate: Speed up" "modifier" "Ctrl" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "manipulate" "action" "move_down" "command" "add volume -2" "comment" "Manipulate: Volume down" "modifier" "Ctrl" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "manipulate" "action" "move_up" "command" "add volume 2" "comment" "Manipulate: Volume up" "modifier" "Ctrl" "keybindings" $kb }}
 
-# Fine control
-+     add volume 2               # Increase volume
--     add volume -2              # Decrease volume
-=     set speed 1.0              # Reset speed
-0     set volume 100             # Reset volume
+# Fine control - Semantic manipulate: Direct adjustments
++     add volume 2               # Semantic manipulate: Increase volume
+-     add volume -2              # Semantic manipulate: Decrease volume
+=     set speed 1.0              # Semantic manipulate: Reset speed
+0     set volume 100             # Semantic manipulate: Reset volume
 
 # ============================================================================
 # TRANSFORMATION - Toggle states/modes
 # ============================================================================
+# Semantic keybindings
 
-f     cycle fullscreen           # Transform: Toggle fullscreen
-i     show-text "${filename}"    # Info mode: Show filename
-v     cycle sub-visibility       # Visual: Toggle subtitles
-m     cycle mute                 # Mute toggle
-t     cycle ontop                # Top: Always on top
-p     show-progress              # Progress bar
+{{ template "keybind-mpv.tmpl" dict "category" "transform" "action" "fullscreen" "command" "cycle fullscreen" "comment" "Transform: Toggle fullscreen" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "transform" "action" "mode_insert" "command" "show-text \"${filename}\"" "comment" "Info mode: Show filename" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "transform" "action" "mode_select" "command" "cycle sub-visibility" "comment" "Visual: Toggle subtitles" "keybindings" $kb }}
+m     cycle mute                 # Semantic transform: Mute toggle
+t     cycle ontop                # Semantic transform: Always on top
+p     show-progress              # Semantic transform: Progress bar
 
 # ============================================================================
 # PRESERVATION - Save state
 # ============================================================================
+# Semantic keybindings
 
-s     screenshot                 # Save screenshot
-S     screenshot video           # Save without subtitles
-Ctrl+s write-watch-later-config # Save position manually
+{{ template "keybind-mpv.tmpl" dict "category" "preserve" "action" "current" "command" "screenshot" "comment" "Save screenshot" "keybindings" $kb }}
+S     screenshot video           # Semantic preserve: Save without subtitles
+Ctrl+s write-watch-later-config # Semantic preserve: Save position manually
 
 # ============================================================================
 # DISCOVERY - Search/browse content
 # ============================================================================
+# Semantic keybindings
 
-/     script-binding console/enable       # Search forward (console)
-?     script-binding stats/display-stats  # Help: Show statistics
-b     script-binding open-lf              # Browse: Open lf file browser
-B     script-binding open-lf              # Browse: Open lf file browser (same as b)
-Tab   script-binding stats/display-stats-toggle # Stats toggle
+{{ template "keybind-mpv.tmpl" dict "category" "discover" "action" "search_forward" "command" "script-binding console/enable" "comment" "Search forward (console)" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "discover" "action" "help" "command" "script-binding stats/display-stats" "comment" "Help: Show statistics" "keybindings" $kb }}
+b     script-binding open-lf              # Semantic discover: Browse - Open lf file browser
+B     script-binding open-lf              # Semantic discover: Browse - Open lf file browser (same as b)
+Tab   script-binding stats/display-stats-toggle # Semantic discover: Stats toggle
 
 # ============================================================================
 # SELECTION - Choose/activate
 # ============================================================================
+# Semantic keybindings
 
-SPACE cycle pause                # Toggle selection: Play/Pause
-Enter cycle pause                # Alternative pause toggle
-a     cycle audio                # Audio track selection
+{{ template "keybind-mpv.tmpl" dict "category" "select" "action" "toggle" "command" "cycle pause" "comment" "Toggle selection: Play/Pause" "keybindings" $kb }}
+Enter cycle pause                # Semantic select: Alternative pause toggle
+a     cycle audio                # Semantic select: Audio track selection
 
 # ============================================================================
 # SUBTITLE CONTROL - Comprehensive subtitle management
 # ============================================================================
+# Application-specific bindings with semantic comments
 
-# Primary subtitles
-v     cycle sub-visibility       # Toggle subtitle visibility
-V     cycle secondary-sub-visibility # Toggle secondary subtitles
-s     cycle sub                  # Cycle through available subtitles
-S     cycle sub down             # Cycle backwards through subtitles
-Alt+s cycle secondary-sid        # Cycle secondary subtitle track
+# Primary subtitles - Semantic transform and select
+v     cycle sub-visibility       # Semantic transform: Toggle subtitle visibility (v for visual)
+V     cycle secondary-sub-visibility # Semantic transform: Toggle secondary subtitles
+s     cycle sub                  # Semantic select: Cycle through available subtitles
+S     cycle sub down             # Semantic select: Cycle backwards through subtitles
+Alt+s cycle secondary-sid        # Semantic select: Cycle secondary subtitle track
 
-# Subtitle timing
-z     add sub-delay -0.1         # Shift subtitles earlier
-x     add sub-delay +0.1         # Shift subtitles later
-Z     set sub-delay 0            # Reset subtitle delay
+# Subtitle timing - Semantic manipulate: Timing adjustments
+z     add sub-delay -0.1         # Semantic manipulate: Shift subtitles earlier
+x     add sub-delay +0.1         # Semantic manipulate: Shift subtitles later
+Z     set sub-delay 0            # Semantic manipulate: Reset subtitle delay
 
-# Subtitle positioning
-Alt+j add sub-pos +1             # Move subtitles down
-Alt+k add sub-pos -1             # Move subtitles up
-Alt+r set sub-pos 95             # Reset subtitle position
+# Subtitle positioning - Semantic manipulate: Position adjustments
+Alt+j add sub-pos +1             # Semantic manipulate: Move subtitles down
+Alt+k add sub-pos -1             # Semantic manipulate: Move subtitles up
+Alt+r set sub-pos 95             # Semantic manipulate: Reset subtitle position
 
-# Subtitle sizing
-Alt++ add sub-scale +0.1         # Increase subtitle size
-Alt+- add sub-scale -0.1         # Decrease subtitle size
-Alt+0 set sub-scale 1.0          # Reset subtitle size
+# Subtitle sizing - Semantic manipulate: Size adjustments
+Alt++ add sub-scale +0.1         # Semantic manipulate: Increase subtitle size
+Alt+- add sub-scale -0.1         # Semantic manipulate: Decrease subtitle size
+Alt+0 set sub-scale 1.0          # Semantic manipulate: Reset subtitle size
 
-# Subtitle styling
-Alt+b cycle-values sub-bold "yes" "no"     # Toggle bold
-Alt+i cycle-values sub-italic "yes" "no"   # Toggle italic
-Alt+u cycle-values sub-border-size "0" "1" "2" "3" "4" # Cycle border size
+# Subtitle styling - Semantic transform: Style toggles
+Alt+b cycle-values sub-bold "yes" "no"     # Semantic transform: Toggle bold
+Alt+i cycle-values sub-italic "yes" "no"   # Semantic transform: Toggle italic
+Alt+u cycle-values sub-border-size "0" "1" "2" "3" "4" # Semantic transform: Cycle border size
 
-# Load external subtitles
-Alt+f script-message-to console type "sub-add " # Type path to load subtitle file
-Alt+F sub-remove                 # Remove current external subtitle
+# Load external subtitles - Semantic select and dismiss
+Alt+f script-message-to console type "sub-add " # Semantic select: Type path to load subtitle file
+Alt+F sub-remove                 # Semantic dismiss: Remove current external subtitle
 
 # ============================================================================
 # DISMISSAL - Close/quit
 # ============================================================================
+# Semantic keybindings
 
-q     quit-watch-later           # Quit and save position
-ESC   set fullscreen no          # Escape fullscreen
+{{ template "keybind-mpv.tmpl" dict "category" "dismiss" "action" "current" "command" "quit-watch-later" "comment" "Quit and save position" "keybindings" $kb }}
+{{ template "keybind-mpv.tmpl" dict "category" "dismiss" "action" "cancel" "command" "set fullscreen no" "comment" "Escape fullscreen" "keybindings" $kb }}
 
 # ============================================================================
 # PLAYLIST MANAGEMENT
 # ============================================================================
+# Application-specific with semantic comments
 
-n     playlist-next              # Next in playlist
-N     playlist-prev              # Previous in playlist
->     playlist-next              # Alternative next
-<     playlist-prev              # Alternative prev
-P     script-binding console/enable # Playlist console
+n     playlist-next              # Semantic navigate: Next in playlist
+N     playlist-prev              # Semantic navigate: Previous in playlist
+>     playlist-next              # Semantic navigate: Alternative next
+<     playlist-prev              # Semantic navigate: Alternative prev
+P     script-binding console/enable # Semantic invoke: Playlist console
 
 # ============================================================================
 # ADVANCED CONTROLS
 # ============================================================================
+# Application-specific with semantic comments
 
-c     cycle-values video-rotate "90" "180" "270" "0" # Cycle rotation
-r     set video-rotate 0         # Reset rotation
-d     cycle deinterlace          # Deinterlace toggle
-A     cycle-values video-aspect-override "16:9" "4:3" "2.35:1" "-1" # Aspect ratio
+c     cycle-values video-rotate "90" "180" "270" "0" # Semantic manipulate: Cycle rotation
+r     set video-rotate 0         # Semantic manipulate: Reset rotation
+d     cycle deinterlace          # Semantic transform: Deinterlace toggle
+A     cycle-values video-aspect-override "16:9" "4:3" "2.35:1" "-1" # Semantic manipulate: Aspect ratio
 
 # ============================================================================
 # MOUSE BINDINGS
 # ============================================================================
+# Semantic mouse operations
 
-WHEEL_UP      add volume 2
-WHEEL_DOWN    add volume -2
-WHEEL_LEFT    seek -10
-WHEEL_RIGHT   seek 10
-MBTN_LEFT     cycle pause
-MBTN_LEFT_DBL cycle fullscreen
-MBTN_RIGHT    quit-watch-later
+WHEEL_UP      add volume 2       # Semantic manipulate: Volume up (mouse)
+WHEEL_DOWN    add volume -2      # Semantic manipulate: Volume down (mouse)
+WHEEL_LEFT    seek -10           # Semantic navigate: Seek back (mouse)
+WHEEL_RIGHT   seek 10            # Semantic navigate: Seek forward (mouse)
+MBTN_LEFT     cycle pause        # Semantic select: Toggle pause (mouse)
+MBTN_LEFT_DBL cycle fullscreen   # Semantic transform: Toggle fullscreen (double-click)
+MBTN_RIGHT    quit-watch-later   # Semantic dismiss: Quit and save (right-click)
