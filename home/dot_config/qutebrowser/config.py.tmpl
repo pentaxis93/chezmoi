@@ -1,9 +1,54 @@
-{{- $c := .themes.kanagawa.dragon -}}
+{{- $theme := .themes.kanagawa.dragon -}}
+{{- $s := .semantic -}}
 # Qutebrowser Configuration - Ultra-Zen Web Navigation
 # "The keyboard becomes the interface; intention becomes action"
 #
-# Kanagawa Dragon themed with Helix-native keybindings
+# Theme-agnostic semantic colors with Helix-native keybindings
 # Following our semantic navigation philosophy
+
+# =============================================================================
+# SEMANTIC COLOR HELPERS
+# =============================================================================
+# Define semantic colors for easy reference throughout config
+
+# Surface colors (backgrounds, containers)
+surface_primary = '#{{ index $theme $s.surface.primary }}'
+surface_elevated = '#{{ index $theme $s.surface.elevated }}'
+surface_subtle = '#{{ index $theme $s.surface.subtle }}'
+
+# Text colors
+text_primary = '#{{ index $theme $s.text.primary }}'
+text_secondary = '#{{ index $theme $s.text.secondary }}'
+text_emphasis = '#{{ index $theme $s.text.emphasis }}'
+text_inverted = '#{{ index $theme $s.text.inverted }}'
+text_disabled = '#{{ index $theme $s.text.disabled }}'
+
+# State colors
+state_error = '#{{ index $theme $s.state.error }}'
+state_warning = '#{{ index $theme $s.state.warning }}'
+state_success = '#{{ index $theme $s.state.success }}'
+state_info = '#{{ index $theme $s.state.info }}'
+
+# Interactive colors
+interactive_focus = '#{{ index $theme $s.interactive.focus }}'
+interactive_active = '#{{ index $theme $s.interactive.active }}'
+interactive_disabled = '#{{ index $theme $s.interactive.disabled }}'
+
+# Selection colors
+selection_bg = '#{{ index $theme $s.selection.background }}'
+selection_fg = '#{{ index $theme $s.selection.foreground }}'
+
+# Border colors
+border_default = '#{{ index $theme $s.border.default }}'
+
+# Mode colors
+mode_normal = '#{{ index $theme $s.mode.normal }}'
+mode_insert = '#{{ index $theme $s.mode.insert }}'
+mode_private = '#{{ index $theme $s.mode.private }}'
+mode_passthrough = '#{{ index $theme $s.mode.passthrough }}'
+
+# Accent colors
+accent_link = '#{{ index $theme $s.accent.link }}'
 
 # =============================================================================
 # GENERAL SETTINGS
@@ -67,123 +112,123 @@ c.url.searchengines = {
 }
 
 # =============================================================================
-# KANAGAWA DRAGON THEME
+# THEME-AGNOSTIC SEMANTIC COLORS
 # =============================================================================
 # "Each color carries intention; each intention serves the whole"
 
 # Completion widget
-c.colors.completion.fg = '#{{ $c.fg_primary }}'
-c.colors.completion.odd.bg = '#{{ $c.bg_dark }}'
-c.colors.completion.even.bg = '#{{ $c.bg_dim }}'
-c.colors.completion.category.fg = '#{{ $c.bright_cyan }}'  # Focus/active color
-c.colors.completion.category.bg = '#{{ $c.bg_medium }}'
-c.colors.completion.category.border.top = '#{{ $c.bg_medium }}'
-c.colors.completion.category.border.bottom = '#{{ $c.bg_medium }}'
-c.colors.completion.item.selected.fg = '#{{ $c.black }}'
-c.colors.completion.item.selected.bg = '#{{ $c.bright_cyan }}'  # Focus green
-c.colors.completion.item.selected.border.top = '#{{ $c.bright_cyan }}'
-c.colors.completion.item.selected.border.bottom = '#{{ $c.bright_cyan }}'
-c.colors.completion.item.selected.match.fg = '#{{ $c.yellow }}'
-c.colors.completion.match.fg = '#{{ $c.yellow }}'
-c.colors.completion.scrollbar.fg = '#{{ $c.bright_cyan }}'
-c.colors.completion.scrollbar.bg = '#{{ $c.bg_dark }}'
+c.colors.completion.fg = text_primary
+c.colors.completion.odd.bg = surface_primary
+c.colors.completion.even.bg = surface_subtle
+c.colors.completion.category.fg = interactive_focus  # Category headers
+c.colors.completion.category.bg = surface_elevated
+c.colors.completion.category.border.top = surface_elevated
+c.colors.completion.category.border.bottom = surface_elevated
+c.colors.completion.item.selected.fg = text_inverted
+c.colors.completion.item.selected.bg = interactive_focus  # Selected item
+c.colors.completion.item.selected.border.top = interactive_focus
+c.colors.completion.item.selected.border.bottom = interactive_focus
+c.colors.completion.item.selected.match.fg = state_warning  # Match highlighting
+c.colors.completion.match.fg = state_warning
+c.colors.completion.scrollbar.fg = interactive_focus
+c.colors.completion.scrollbar.bg = surface_primary
 
 # Context menu
-c.colors.contextmenu.disabled.bg = '#{{ $c.bg_dark }}'
-c.colors.contextmenu.disabled.fg = '#{{ $c.bright_black }}'
-c.colors.contextmenu.menu.bg = '#{{ $c.bg_dark }}'
-c.colors.contextmenu.menu.fg = '#{{ $c.fg_primary }}'
-c.colors.contextmenu.selected.bg = '#{{ $c.bright_cyan }}'
-c.colors.contextmenu.selected.fg = '#{{ $c.black }}'
+c.colors.contextmenu.disabled.bg = surface_primary
+c.colors.contextmenu.disabled.fg = text_disabled
+c.colors.contextmenu.menu.bg = surface_primary
+c.colors.contextmenu.menu.fg = text_primary
+c.colors.contextmenu.selected.bg = interactive_focus
+c.colors.contextmenu.selected.fg = text_inverted
 
 # Downloads
-c.colors.downloads.bar.bg = '#{{ $c.bg_dark }}'
-c.colors.downloads.start.fg = '#{{ $c.black }}'
-c.colors.downloads.start.bg = '#{{ $c.blue }}'
-c.colors.downloads.stop.fg = '#{{ $c.black }}'
-c.colors.downloads.stop.bg = '#{{ $c.green }}'
-c.colors.downloads.error.fg = '#{{ $c.red }}'
+c.colors.downloads.bar.bg = surface_primary
+c.colors.downloads.start.fg = text_inverted
+c.colors.downloads.start.bg = state_info  # Loading
+c.colors.downloads.stop.fg = text_inverted
+c.colors.downloads.stop.bg = state_success  # Complete
+c.colors.downloads.error.fg = state_error
 
-# Hints
-c.colors.hints.fg = '#{{ $c.black }}'
-c.colors.hints.bg = '#{{ $c.yellow }}'
-c.colors.hints.match.fg = '#{{ $c.bright_white }}'
+# Hints (link selection)
+c.colors.hints.fg = text_inverted
+c.colors.hints.bg = state_warning  # Attention-grabbing yellow
+c.colors.hints.match.fg = text_emphasis
 
 # Keyhint widget
-c.colors.keyhint.fg = '#{{ $c.fg_primary }}'
-c.colors.keyhint.suffix.fg = '#{{ $c.yellow }}'
-c.colors.keyhint.bg = '#{{ $c.bg_dark }}'
+c.colors.keyhint.fg = text_primary
+c.colors.keyhint.suffix.fg = state_warning  # Key suffix highlighting
+c.colors.keyhint.bg = surface_primary
 
 # Messages
-c.colors.messages.error.fg = '#{{ $c.red }}'
-c.colors.messages.error.bg = '#{{ $c.bg_dark }}'
-c.colors.messages.error.border = '#{{ $c.red }}'
-c.colors.messages.warning.fg = '#{{ $c.yellow }}'
-c.colors.messages.warning.bg = '#{{ $c.bg_dark }}'
-c.colors.messages.warning.border = '#{{ $c.yellow }}'
-c.colors.messages.info.fg = '#{{ $c.blue }}'
-c.colors.messages.info.bg = '#{{ $c.bg_dark }}'
-c.colors.messages.info.border = '#{{ $c.blue }}'
+c.colors.messages.error.fg = state_error
+c.colors.messages.error.bg = surface_primary
+c.colors.messages.error.border = state_error
+c.colors.messages.warning.fg = state_warning
+c.colors.messages.warning.bg = surface_primary
+c.colors.messages.warning.border = state_warning
+c.colors.messages.info.fg = state_info
+c.colors.messages.info.bg = surface_primary
+c.colors.messages.info.border = state_info
 
 # Prompts
-c.colors.prompts.fg = '#{{ $c.fg_primary }}'
-c.colors.prompts.bg = '#{{ $c.bg_dark }}'
-c.colors.prompts.border = '#{{ $c.bright_cyan }}'
-c.colors.prompts.selected.bg = '#{{ $c.bg_medium }}'
-c.colors.prompts.selected.fg = '#{{ $c.fg_primary }}'
+c.colors.prompts.fg = text_primary
+c.colors.prompts.bg = surface_primary
+c.colors.prompts.border = interactive_focus
+c.colors.prompts.selected.bg = surface_elevated
+c.colors.prompts.selected.fg = text_primary
 
-# Status bar (mode-aware)
-c.colors.statusbar.normal.fg = '#{{ $c.fg_primary }}'
-c.colors.statusbar.normal.bg = '#{{ $c.bg_dark }}'
-c.colors.statusbar.insert.fg = '#{{ $c.black }}'
-c.colors.statusbar.insert.bg = '#{{ $c.green }}'
-c.colors.statusbar.passthrough.fg = '#{{ $c.black }}'
-c.colors.statusbar.passthrough.bg = '#{{ $c.blue }}'
-c.colors.statusbar.private.fg = '#{{ $c.black }}'
-c.colors.statusbar.private.bg = '#{{ $c.magenta }}'
-c.colors.statusbar.command.fg = '#{{ $c.fg_primary }}'
-c.colors.statusbar.command.bg = '#{{ $c.bg_dark }}'
-c.colors.statusbar.command.private.fg = '#{{ $c.black }}'
-c.colors.statusbar.command.private.bg = '#{{ $c.magenta }}'
-c.colors.statusbar.caret.fg = '#{{ $c.black }}'
-c.colors.statusbar.caret.bg = '#{{ $c.yellow }}'
-c.colors.statusbar.caret.selection.fg = '#{{ $c.black }}'
-c.colors.statusbar.caret.selection.bg = '#{{ $c.yellow }}'
-c.colors.statusbar.progress.bg = '#{{ $c.bright_cyan }}'
-c.colors.statusbar.url.fg = '#{{ $c.fg_primary }}'
-c.colors.statusbar.url.error.fg = '#{{ $c.red }}'
-c.colors.statusbar.url.hover.fg = '#{{ $c.bright_cyan }}'
-c.colors.statusbar.url.success.http.fg = '#{{ $c.yellow }}'
-c.colors.statusbar.url.success.https.fg = '#{{ $c.green }}'
-c.colors.statusbar.url.warn.fg = '#{{ $c.yellow }}'
+# Status bar (mode-aware semantic colors)
+c.colors.statusbar.normal.fg = text_primary
+c.colors.statusbar.normal.bg = surface_primary
+c.colors.statusbar.insert.fg = text_inverted
+c.colors.statusbar.insert.bg = mode_insert  # Insert mode
+c.colors.statusbar.passthrough.fg = text_inverted
+c.colors.statusbar.passthrough.bg = mode_passthrough  # Passthrough mode
+c.colors.statusbar.private.fg = text_inverted
+c.colors.statusbar.private.bg = mode_private  # Private mode
+c.colors.statusbar.command.fg = text_primary
+c.colors.statusbar.command.bg = surface_primary
+c.colors.statusbar.command.private.fg = text_inverted
+c.colors.statusbar.command.private.bg = mode_private
+c.colors.statusbar.caret.fg = text_inverted
+c.colors.statusbar.caret.bg = state_warning  # Caret mode
+c.colors.statusbar.caret.selection.fg = text_inverted
+c.colors.statusbar.caret.selection.bg = state_warning
+c.colors.statusbar.progress.bg = interactive_focus  # Progress indicator
+c.colors.statusbar.url.fg = text_primary
+c.colors.statusbar.url.error.fg = state_error
+c.colors.statusbar.url.hover.fg = interactive_focus
+c.colors.statusbar.url.success.http.fg = state_warning  # HTTP (insecure)
+c.colors.statusbar.url.success.https.fg = state_success  # HTTPS (secure)
+c.colors.statusbar.url.warn.fg = state_warning
 
 # Tabs
-c.colors.tabs.bar.bg = '#{{ $c.bg_dark }}'
-c.colors.tabs.indicator.start = '#{{ $c.blue }}'
-c.colors.tabs.indicator.stop = '#{{ $c.green }}'
-c.colors.tabs.indicator.error = '#{{ $c.red }}'
+c.colors.tabs.bar.bg = surface_primary
+c.colors.tabs.indicator.start = state_info  # Loading
+c.colors.tabs.indicator.stop = state_success  # Complete
+c.colors.tabs.indicator.error = state_error  # Error
 
 # Unselected tabs
-c.colors.tabs.odd.fg = '#{{ $c.fg_muted }}'
-c.colors.tabs.odd.bg = '#{{ $c.bg_dark }}'
-c.colors.tabs.even.fg = '#{{ $c.fg_muted }}'
-c.colors.tabs.even.bg = '#{{ $c.bg_dim }}'
+c.colors.tabs.odd.fg = text_secondary
+c.colors.tabs.odd.bg = surface_primary
+c.colors.tabs.even.fg = text_secondary
+c.colors.tabs.even.bg = surface_subtle
 
 # Selected tab
-c.colors.tabs.selected.odd.fg = '#{{ $c.bright_white }}'
-c.colors.tabs.selected.odd.bg = '#{{ $c.bg_medium }}'
-c.colors.tabs.selected.even.fg = '#{{ $c.bright_white }}'
-c.colors.tabs.selected.even.bg = '#{{ $c.bg_medium }}'
+c.colors.tabs.selected.odd.fg = text_emphasis
+c.colors.tabs.selected.odd.bg = surface_elevated
+c.colors.tabs.selected.even.fg = text_emphasis
+c.colors.tabs.selected.even.bg = surface_elevated
 
 # Pinned tabs
-c.colors.tabs.pinned.odd.fg = '#{{ $c.fg_muted }}'
-c.colors.tabs.pinned.odd.bg = '#{{ $c.bg_dark }}'
-c.colors.tabs.pinned.even.fg = '#{{ $c.fg_muted }}'
-c.colors.tabs.pinned.even.bg = '#{{ $c.bg_dim }}'
-c.colors.tabs.pinned.selected.odd.fg = '#{{ $c.bright_cyan }}'
-c.colors.tabs.pinned.selected.odd.bg = '#{{ $c.bg_medium }}'
-c.colors.tabs.pinned.selected.even.fg = '#{{ $c.bright_cyan }}'
-c.colors.tabs.pinned.selected.even.bg = '#{{ $c.bg_medium }}'
+c.colors.tabs.pinned.odd.fg = text_secondary
+c.colors.tabs.pinned.odd.bg = surface_primary
+c.colors.tabs.pinned.even.fg = text_secondary
+c.colors.tabs.pinned.even.bg = surface_subtle
+c.colors.tabs.pinned.selected.odd.fg = interactive_focus  # Pinned + selected
+c.colors.tabs.pinned.selected.odd.bg = surface_elevated
+c.colors.tabs.pinned.selected.even.fg = interactive_focus
+c.colors.tabs.pinned.selected.even.bg = surface_elevated
 
 # =============================================================================
 # HELIX-NATIVE KEYBINDINGS
