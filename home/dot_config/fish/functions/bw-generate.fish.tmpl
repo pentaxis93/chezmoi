@@ -64,18 +64,18 @@ function bw-generate --description "Generate secure password with semantic optio
             # Copy to clipboard
             if type -q wl-copy
                 echo -n $password | wl-copy
-                echo "{{ template "color-hex.tmpl" .kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .kanagawa.dragon.white }} Generated password copied to clipboard"
+                echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} Generated password copied to clipboard"
             else
-                echo "{{ template "color-hex.tmpl" .kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .kanagawa.dragon.white }} No clipboard manager found (install wl-clipboard)"
+                echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} No clipboard manager found (install wl-clipboard)"
                 return 1
             end
         else
             # Display password
-            echo "{{ template "color-hex.tmpl" .kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .kanagawa.dragon.white }} Generated password:"
-            echo "{{ template "color-hex.tmpl" .kanagawa.dragon.bright_cyan }}$password{{ template "color-hex.tmpl" .kanagawa.dragon.white }}"
+            echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} Generated password:"
+            echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.bright_cyan }}$password{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }}"
         end
     else
-        echo "{{ template "color-hex.tmpl" .kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .kanagawa.dragon.white }} Failed to generate password"
+        echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} Failed to generate password"
         return 1
     end
 end

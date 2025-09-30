@@ -9,7 +9,7 @@ function bw-copy --description "Copy password to clipboard with fuzzy search"
     # Get all items
     set -l items (bw list items --raw 2>/dev/null)
     if test -z "$items"
-        echo "{{ template "color-hex.tmpl" .kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .kanagawa.dragon.white }} No items found in vault"
+        echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} No items found in vault"
         return 1
     end
 
@@ -23,7 +23,7 @@ function bw-copy --description "Copy password to clipboard with fuzzy search"
             --preview-window=hidden)
 
     if test -z "$selected"
-        echo "{{ template "color-hex.tmpl" .kanagawa.dragon.bright_black }}○{{ template "color-hex.tmpl" .kanagawa.dragon.white }} No selection made"
+        echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.bright_black }}○{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} No selection made"
         return 1
     end
 
@@ -37,15 +37,15 @@ function bw-copy --description "Copy password to clipboard with fuzzy search"
         if type -q wl-copy
             echo -n $password | wl-copy
         else
-            echo "{{ template "color-hex.tmpl" .kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .kanagawa.dragon.white }} No clipboard manager found (install wl-clipboard)"
+            echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} No clipboard manager found (install wl-clipboard)"
             return 1
         end
 
         # Extract name for feedback
         set -l item_name (echo $selected | awk -F' | ' '{print $1}')
-        echo "{{ template "color-hex.tmpl" .kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .kanagawa.dragon.white }} Password for '$item_name' copied to clipboard"
+        echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} Password for '$item_name' copied to clipboard"
     else
-        echo "{{ template "color-hex.tmpl" .kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .kanagawa.dragon.white }} Failed to retrieve password"
+        echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.red }}✗{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} Failed to retrieve password"
         return 1
     end
 end

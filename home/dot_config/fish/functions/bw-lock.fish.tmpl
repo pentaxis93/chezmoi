@@ -5,8 +5,8 @@ function bw-lock --description "Lock Bitwarden vault and clear session"
     if test -n "$BW_SESSION"
         bw lock
         set -e BW_SESSION
-        echo "{{ template "color-hex.tmpl" .kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .kanagawa.dragon.white }} Vault locked and session cleared"
+        echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.green }}✓{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} Vault locked and session cleared"
     else
-        echo "{{ template "color-hex.tmpl" .kanagawa.dragon.bright_black }}○{{ template "color-hex.tmpl" .kanagawa.dragon.white }} Vault already locked"
+        echo "{{ template "color-hex.tmpl" .themes.kanagawa.dragon.bright_black }}○{{ template "color-hex.tmpl" .themes.kanagawa.dragon.white }} Vault already locked"
     end
 end
