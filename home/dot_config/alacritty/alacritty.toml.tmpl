@@ -1,5 +1,6 @@
 {{- $theme := .themes.kanagawa.dragon -}}
 {{- $s := .semantic -}}
+{{- $kb := .keybindings -}}
 [env]
 TERM = "xterm-256color"
 WINIT_X11_SCALE_FACTOR = "1"
@@ -173,53 +174,29 @@ mods = "Control|Shift"
 action = "SearchBackward"
 
 # Vi mode semantic keybindings - Helix-native navigation
-[[keyboard.bindings]]
-key = "C"
-mods = "Control|Shift"
-mode = "Vi"
-action = "ClearSelection"
+{{ template "keybind-alacritty.tmpl" dict "category" "transform" "action" "clear_selection" "alacritty_action" "ClearSelection" "mode" "Vi" "comment" "Clear selection" "keybindings" $kb }}
 
 # Enable vi mode with semantic toggle
-[[keyboard.bindings]]
-key = "Space"
-mods = "Control|Shift"
-action = "ToggleViMode"        # Semantic: transform.mode
+{{ template "keybind-alacritty.tmpl" dict "category" "transform" "action" "mode_toggle" "alacritty_action" "ToggleViMode" "comment" "Toggle vi mode" "keybindings" $kb }}
 
 # Helix-native file navigation in vi mode
 [[keyboard.bindings]]
 key = "G"
 mods = "Shift"
 mode = "Vi"
-action = "Last"                # Traditional G still works
+action = "Last"                # Traditional G still works (fallback)
 
-[[keyboard.bindings]]
-key = "E"
-mode = "Vi"
-action = "Last"                # Helix ge (go end) - semantic navigate.file_end
+{{ template "keybind-alacritty.tmpl" dict "category" "navigate" "action" "file_end" "alacritty_action" "Last" "mode" "Vi" "comment" "Helix ge (go end)" "keybindings" $kb }}
 
 # Search in vi mode - Helix/vim style
-[[keyboard.bindings]]
-key = "Slash"
-mode = "Vi"
-action = "SearchForward"        # / for forward search
+{{ template "keybind-alacritty.tmpl" dict "category" "discover" "action" "search_forward" "alacritty_action" "SearchForward" "mode" "Vi" "comment" "Search forward" "keybindings" $kb }}
 
-[[keyboard.bindings]]
-key = "Slash"
-mods = "Shift"
-mode = "Vi"
-action = "SearchBackward"       # ? for backward search (Shift+/)
+{{ template "keybind-alacritty.tmpl" dict "category" "discover" "action" "search_backward" "alacritty_action" "SearchBackward" "mode" "Vi" "comment" "Search backward" "keybindings" $kb }}
 
 # Search navigation - n/N to cycle through results
-[[keyboard.bindings]]
-key = "N"
-mode = "Vi"
-action = "SearchNext"            # n for next match
+{{ template "keybind-alacritty.tmpl" dict "category" "discover" "action" "search_next" "alacritty_action" "SearchNext" "mode" "Vi" "comment" "Next match" "keybindings" $kb }}
 
-[[keyboard.bindings]]
-key = "N"
-mods = "Shift"
-mode = "Vi"
-action = "SearchPrevious"        # N for previous match
+{{ template "keybind-alacritty.tmpl" dict "category" "discover" "action" "search_prev" "alacritty_action" "SearchPrevious" "mode" "Vi" "comment" "Previous match" "keybindings" $kb }}
 
 [[keyboard.bindings]]
 key = "Key0"
