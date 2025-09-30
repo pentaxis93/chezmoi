@@ -1,165 +1,350 @@
-# Kanagawa Dragon Color Palette
-# Single source of truth for all theme colors across dotfiles
+# Color Architecture: Theme-Agnostic Semantic System
+#
+# Structure:
+#   themes/     - Actual color palettes (hex codes)
+#   semantic/   - Meaning-based mappings (universal across themes)
+#
+# Philosophy: Themes can change with seasons; semantic meanings remain eternal.
 # Reference: https://github.com/rebelot/kanagawa.nvim
 
-kanagawa:
-  dragon:
-    # Core Background Colors (darkest to lightest)
-    bg_darkest: "0d0c0c"     # dragonBlack0 - deepest black
-    bg_dark: "181616"        # dragonBlack3 - primary background
-    bg_dim: "1d1c19"         # dragonBlack2 - slightly lighter
-    bg_medium: "282727"      # dragonBlack4 - medium gray
-    bg_light: "393836"       # dragonBlack5 - light gray
-    bg_lighter: "625e5a"     # dragonBlack6 - comments/inactive
+# ============================================================================
+# THEMES: Actual Color Palettes
+# ============================================================================
+# Each theme defines color names → hex codes
+# Future: Add gruvbox, nord, catppuccin, etc.
 
-    # Core Foreground Colors
-    fg_primary: "a6a69c"     # dragonGray - primary text (zen restraint)
-    fg_default: "c8c093"     # oldWhite - default terminal white
-    fg_muted: "a6a69c"       # dragonGray - muted/inactive text
-    fg_dim: "737c73"         # dragonAsh - very muted
+themes:
+  kanagawa:
+    dragon:
+      # Core Background Colors (darkest to lightest)
+      bg_darkest: "0d0c0c"     # dragonBlack0 - deepest black
+      bg_dark: "181616"        # dragonBlack3 - primary background
+      bg_dim: "1d1c19"         # dragonBlack2 - slightly lighter
+      bg_medium: "282727"      # dragonBlack4 - medium gray
+      bg_light: "393836"       # dragonBlack5 - light gray
+      bg_lighter: "625e5a"     # dragonBlack6 - comments/inactive
 
-    # UI Semantic Colors
-    focus: "8a9a7b"          # dragonGreen2 - active/focused elements
-    selection: "2d4f67"      # waveBlue2 - selection background
-    selection_alt: "223249"  # waveBlue1 - alternative selection
-    border: "2d4f67"         # waveBlue2 - borders
-    shadow: "0007"           # shadow with alpha
+      # Core Foreground Colors
+      fg_primary: "a6a69c"     # dragonGray - primary text (zen restraint)
+      fg_default: "c8c093"     # oldWhite - default terminal white
+      fg_muted: "a6a69c"       # dragonGray - muted/inactive text
+      fg_dim: "737c73"         # dragonAsh - very muted
 
-    # Base Spectrum Colors (normal variants)
-    black: "181616"          # terminal color0 - bg_dark (our actual background)
-    red: "c4746e"            # terminal color1 - errors, critical
-    green: "8a9a7b"          # terminal color2 - success, active, focus
-    yellow: "c4b28a"         # terminal color3 - warnings
-    blue: "8ba4b0"           # terminal color4 - info, links
-    magenta: "a292a3"        # terminal color5 - special
-    cyan: "8ea4a2"           # terminal color6 - strings
-    white: "a6a69c"          # terminal color7 - fg_primary (our actual foreground)
+      # UI Semantic Colors
+      focus: "8a9a7b"          # dragonGreen2 - active/focused elements
+      selection: "2d4f67"      # waveBlue2 - selection background
+      selection_alt: "223249"  # waveBlue1 - alternative selection
+      border: "2d4f67"         # waveBlue2 - borders
+      shadow: "0007"           # shadow with alpha
 
-    # Bright Spectrum Colors (Semantically Mapped)
-    bright_black: "625e5a"   # terminal color8 - inactive (comments/disabled)
-    bright_red: "e46876"     # terminal color9 - urgent (critical errors)
-    bright_green: "87a987"   # terminal color10 - confirm (strong success)
-    bright_yellow: "c4b28a"  # terminal color11 - warning_bright (actual yellow)
-    bright_blue: "7fb4ca"    # terminal color12 - info_bright (actual bright blue)
-    bright_magenta: "938aa9" # terminal color13 - special_bright
-    bright_cyan: "8a9a7b"    # terminal color14 - focus/active (our green)
-    bright_white: "c8c093"   # terminal color15 - emphasis (oldWhite for subtle emphasis)
+      # Base Spectrum Colors (normal variants)
+      black: "181616"          # terminal color0 - bg_dark (our actual background)
+      red: "c4746e"            # terminal color1 - errors, critical
+      green: "8a9a7b"          # terminal color2 - success, active, focus
+      yellow: "c4b28a"         # terminal color3 - warnings
+      blue: "8ba4b0"           # terminal color4 - info, links
+      magenta: "a292a3"        # terminal color5 - special
+      cyan: "8ea4a2"           # terminal color6 - strings
+      white: "a6a69c"          # terminal color7 - fg_primary (our actual foreground)
 
-    # Extended Palette (special use)
-    orange: "b6927b"         # mix of red/yellow
-    pink: "d27e99"           # sakuraPink
-    aqua: "7aa89f"           # waveAqua
-    teal: "6a9589"           # dragonTeal
-    gold: "a292a3"           # dragonGold (same as magenta)
-    green_bright: "98a88f"   # brighter green for hover text emphasis
-    gray: "9c9c9c"           # dragonGray
-    gray2: "7a8382"          # dragonGray2
-    gray3: "4c4c4c"          # dragonGray3
+      # Bright Spectrum Colors (Semantically Mapped)
+      bright_black: "625e5a"   # terminal color8 - inactive (comments/disabled)
+      bright_red: "e46876"     # terminal color9 - urgent (critical errors)
+      bright_green: "87a987"   # terminal color10 - confirm (strong success)
+      bright_yellow: "c4b28a"  # terminal color11 - warning_bright (actual yellow)
+      bright_blue: "7fb4ca"    # terminal color12 - info_bright (actual bright blue)
+      bright_magenta: "938aa9" # terminal color13 - special_bright
+      bright_cyan: "8a9a7b"    # terminal color14 - focus/active (our green)
+      bright_white: "c8c093"   # terminal color15 - emphasis (oldWhite for subtle emphasis)
 
-    # Special Colors (for specific uses)
-    indexed_16: "ffa066"     # extended color palette
-    indexed_17: "ff5d62"     # extended color palette
+      # Extended Palette (special use)
+      orange: "b6927b"         # mix of red/yellow
+      pink: "d27e99"           # sakuraPink
+      aqua: "7aa89f"           # waveAqua
+      teal: "6a9589"           # dragonTeal
+      gold: "a292a3"           # dragonGold (same as magenta)
+      green_bright: "98a88f"   # brighter green for hover text emphasis
+      gray: "9c9c9c"           # dragonGray
+      gray2: "7a8382"          # dragonGray2
+      gray3: "4c4c4c"          # dragonGray3
 
-    # Terminal Color Semantic Meanings (what each slot represents)
-    # Maps terminal color indices to their semantic purposes
-    terminal_semantics:
-      color0: "background"        # Primary background
-      color1: "error"             # Errors, failures, deletions
-      color2: "success"           # Success, additions, confirmations
-      color3: "warning"           # Warnings, changes, cautions
-      color4: "info"              # Information, links, primary actions
-      color5: "accent"            # Special elements, accents
-      color6: "secondary"         # Secondary info, subtle highlights
-      color7: "foreground"        # Primary text
+      # Special Colors (for specific uses)
+      indexed_16: "ffa066"     # extended color palette
+      indexed_17: "ff5d62"     # extended color palette
 
-      color8: "inactive"          # Inactive, disabled, comments
-      color9: "urgent"            # Urgent errors, critical alerts
-      color10: "confirm"          # Strong success, active confirmations
-      color11: "warning_bright"   # Bright warnings, emphasis
-      color12: "info_bright"      # Bright info, active links
-      color13: "special_bright"   # Bright special elements
-      color14: "focus"            # Focus indicator, active element (NOT selection bg)
-      color15: "emphasis"         # Maximum emphasis, brightest text
+      # Terminal Color Semantic Meanings (what each slot represents)
+      # Maps terminal color indices to their semantic purposes
+      terminal_semantics:
+        color0: "background"        # Primary background
+        color1: "error"             # Errors, failures, deletions
+        color2: "success"           # Success, additions, confirmations
+        color3: "warning"           # Warnings, changes, cautions
+        color4: "info"              # Information, links, primary actions
+        color5: "accent"            # Special elements, accents
+        color6: "secondary"         # Secondary info, subtle highlights
+        color7: "foreground"        # Primary text
 
-    # Semantic UI Mappings (what each color means)
-    # These reference the colors above for consistent usage
-    ui_bg: "bg_dark"
-    ui_fg: "fg_primary"
-    ui_accent: "green"
-    ui_warning: "yellow"
-    ui_error: "red"
-    ui_success: "green"
-    ui_info: "blue"
-    ui_link: "bright_cyan"
-    ui_hover: "2a2a37"
-    ui_active_workspace: "3c4a37"
-    ui_hover_active: "4a5a44"
+        color8: "inactive"          # Inactive, disabled, comments
+        color9: "urgent"            # Urgent errors, critical alerts
+        color10: "confirm"          # Strong success, active confirmations
+        color11: "warning_bright"   # Bright warnings, emphasis
+        color12: "info_bright"      # Bright info, active links
+        color13: "special_bright"   # Bright special elements
+        color14: "focus"            # Focus indicator, active element (NOT selection bg)
+        color15: "emphasis"         # Maximum emphasis, brightest text
 
-    # NEWT UI Component Mappings (for nmtui)
-    # Maps UI components to terminal color names for index conversion
-    newt:
-      # Main window components
-      root_fg: "white"              # Main window text
-      root_bg: "black"              # Main window background
-      window_fg: "white"            # Dialog window text
-      window_bg: "black"            # Dialog window background
+      # Legacy UI Mappings (deprecated - use semantic layer instead)
+      ui_bg: "bg_dark"
+      ui_fg: "fg_primary"
+      ui_accent: "green"
+      ui_warning: "yellow"
+      ui_error: "red"
+      ui_success: "green"
+      ui_info: "blue"
+      ui_link: "bright_cyan"
+      ui_hover: "2a2a37"
+      ui_active_workspace: "3c4a37"
+      ui_hover_active: "4a5a44"
 
-      # Borders and shadows
-      border_fg: "bright_black"     # Border foreground
-      border_bg: "black"            # Border background
-      shadow_fg: "black"            # Shadow foreground
-      shadow_bg: "bright_black"     # Shadow background
+      # NEWT UI Component Mappings (for nmtui)
+      # Maps UI components to terminal color names for index conversion
+      newt:
+        # Main window components
+        root_fg: "white"              # Main window text
+        root_bg: "black"              # Main window background
+        window_fg: "white"            # Dialog window text
+        window_bg: "black"            # Dialog window background
 
-      # Titles and labels
-      title_fg: "bright_cyan"       # Window titles
-      title_bg: "black"             # Title background
-      label_fg: "white"             # Form labels
-      label_bg: "black"             # Label background
-      roottext_fg: "white"          # Root window text
-      roottext_bg: "black"          # Root text background
+        # Borders and shadows
+        border_fg: "bright_black"     # Border foreground
+        border_bg: "black"            # Border background
+        shadow_fg: "black"            # Shadow foreground
+        shadow_bg: "bright_black"     # Shadow background
 
-      # Buttons
-      button_fg: "black"            # Normal button text
-      button_bg: "cyan"             # Normal button background
-      actbutton_fg: "bright_white"  # Active button text
-      actbutton_bg: "blue"          # Active button background
-      compactbutton_fg: "white"     # Compact button text
-      compactbutton_bg: "black"     # Compact button background
+        # Titles and labels
+        title_fg: "bright_cyan"       # Window titles
+        title_bg: "black"             # Title background
+        label_fg: "white"             # Form labels
+        label_bg: "black"             # Label background
+        roottext_fg: "white"          # Root window text
+        roottext_bg: "black"          # Root text background
 
-      # Checkboxes
-      checkbox_fg: "white"          # Checkbox text
-      checkbox_bg: "black"          # Checkbox background
-      actcheckbox_fg: "bright_cyan" # Active checkbox text
-      actcheckbox_bg: "black"       # Active checkbox background
+        # Buttons
+        button_fg: "black"            # Normal button text
+        button_bg: "cyan"             # Normal button background
+        actbutton_fg: "bright_white"  # Active button text
+        actbutton_bg: "blue"          # Active button background
+        compactbutton_fg: "white"     # Compact button text
+        compactbutton_bg: "black"     # Compact button background
 
-      # Text entry fields
-      entry_fg: "bright_white"      # Input field text
-      entry_bg: "bright_black"      # Input field background
-      disentry_fg: "bright_black"   # Disabled entry text
-      disentry_bg: "black"          # Disabled entry background
+        # Checkboxes
+        checkbox_fg: "white"          # Checkbox text
+        checkbox_bg: "black"          # Checkbox background
+        actcheckbox_fg: "bright_cyan" # Active checkbox text
+        actcheckbox_bg: "black"       # Active checkbox background
 
-      # List boxes
-      listbox_fg: "white"           # List item text
-      listbox_bg: "black"           # List item background
-      actlistbox_fg: "black"        # Active list item text
-      actlistbox_bg: "bright_cyan"  # Active list item background
-      sellistbox_fg: "bright_white" # Selected list item text
-      sellistbox_bg: "blue"         # Selected list item background
-      actsellistbox_fg: "black"     # Active+selected item text
-      actsellistbox_bg: "bright_blue" # Active+selected background
+        # Text entry fields
+        entry_fg: "bright_white"      # Input field text
+        entry_bg: "bright_black"      # Input field background
+        disentry_fg: "bright_black"   # Disabled entry text
+        disentry_bg: "black"          # Disabled entry background
 
-      # Text boxes
-      textbox_fg: "white"           # Text area content
-      textbox_bg: "black"           # Text area background
-      acttextbox_fg: "black"        # Active text area content
-      acttextbox_bg: "bright_cyan"  # Active text area background
+        # List boxes
+        listbox_fg: "white"           # List item text
+        listbox_bg: "black"           # List item background
+        actlistbox_fg: "black"        # Active list item text
+        actlistbox_bg: "bright_cyan"  # Active list item background
+        sellistbox_fg: "bright_white" # Selected list item text
+        sellistbox_bg: "blue"         # Selected list item background
+        actsellistbox_fg: "black"     # Active+selected item text
+        actsellistbox_bg: "bright_blue" # Active+selected background
 
-      # Help and status
-      helpline_fg: "cyan"           # Help text
-      helpline_bg: "black"          # Help background
+        # Text boxes
+        textbox_fg: "white"           # Text area content
+        textbox_bg: "black"           # Text area background
+        acttextbox_fg: "black"        # Active text area content
+        acttextbox_bg: "bright_cyan"  # Active text area background
 
-      # Progress bars
-      emptyscale_fg: ""             # Empty progress (no fg)
-      emptyscale_bg: "bright_black" # Empty progress bar
-      fullscale_fg: ""              # Full progress (no fg)
-      fullscale_bg: "bright_cyan"   # Filled progress bar
+        # Help and status
+        helpline_fg: "cyan"           # Help text
+        helpline_bg: "black"          # Help background
+
+        # Progress bars
+        emptyscale_fg: ""             # Empty progress (no fg)
+        emptyscale_bg: "bright_black" # Empty progress bar
+        fullscale_fg: ""              # Full progress (no fg)
+        fullscale_bg: "bright_cyan"   # Filled progress bar
+
+# ============================================================================
+# SEMANTIC LAYER: Theme-Agnostic Meaning-Based Colors
+# ============================================================================
+# Maps semantic intentions → color names (resolved via active theme)
+#
+# Philosophy: "Colors have no inherent meaning. Intentions are universal."
+#
+# Usage in templates:
+#   {{- $theme := .themes.kanagawa.dragon -}}
+#   {{- $s := .semantic -}}
+#   {{- $error := index $theme $s.state.error -}}
+#   color: {{ template "color-hex.tmpl" $error }};
+#
+# Total: 38 semantic colors across 8 categories
+
+semantic:
+  # --------------------------------------------------------------------------
+  # 1. SURFACE (5 colors) - Backgrounds, containers, layering
+  # --------------------------------------------------------------------------
+  # Purpose: Define spatial hierarchy and container backgrounds
+  #
+  # Examples:
+  #   - Window background → surface.primary
+  #   - Dialog/popup background → surface.elevated
+  #   - Alternate table rows → surface.subtle
+  #   - Disabled areas → surface.muted
+  surface:
+    primary: "bg_dark"        # Main background (windows, panels, status bars)
+    elevated: "bg_medium"     # Raised surfaces (dialogs, selected tabs, dropdowns)
+    subtle: "bg_dim"          # Alternate rows, subtle differentiation
+    overlay: "bg_medium"      # Popups, tooltips, floating elements
+    muted: "bg_lighter"       # Disabled areas, very subtle backgrounds
+
+  # --------------------------------------------------------------------------
+  # 2. TEXT (6 colors) - Foreground text, typography hierarchy
+  # --------------------------------------------------------------------------
+  # Purpose: Establish text prominence and hierarchy
+  #
+  # Examples:
+  #   - Body text → text.primary
+  #   - Inactive tab text → text.secondary
+  #   - Hint text → text.muted
+  #   - Selected text → text.emphasis
+  #   - Text on colored button → text.inverted
+  text:
+    primary: "fg_primary"     # Main text, default foreground
+    secondary: "fg_muted"     # Secondary information, less prominent text
+    muted: "fg_dim"           # Very subtle text, hints, placeholders
+    emphasis: "bright_white"  # Maximum emphasis, important highlighted text
+    inverted: "black"         # Text on colored backgrounds (buttons, status bars)
+    disabled: "bright_black"  # Inactive/disabled text
+
+  # --------------------------------------------------------------------------
+  # 3. STATE (7 colors) - System state, feedback, status indication
+  # --------------------------------------------------------------------------
+  # Purpose: Communicate system state and user action outcomes
+  #
+  # Examples:
+  #   - Error message → state.error
+  #   - Success notification → state.success
+  #   - Warning banner → state.warning
+  #   - Loading indicator → state.info
+  #   - Download complete → state.success_emphasis
+  state:
+    error: "red"                    # Failures, critical issues, destructive actions
+    error_emphasis: "bright_red"    # Urgent errors, critical alerts requiring immediate attention
+    warning: "yellow"               # Cautions, non-critical issues, attention needed
+    success: "green"                # Confirmations, successful operations, positive feedback
+    success_emphasis: "bright_green" # Strong success, active confirmations, emphasized positive state
+    info: "blue"                    # Informational, neutral state, passive information
+    info_emphasis: "bright_blue"    # Highlighted information, active informational state
+
+  # --------------------------------------------------------------------------
+  # 4. INTERACTIVE (5 colors) - User interaction feedback
+  # --------------------------------------------------------------------------
+  # Purpose: Provide feedback for interactive elements (focus, hover, press, disable)
+  #
+  # Examples:
+  #   - Focused input border → interactive.focus
+  #   - Button hover background → interactive.hover_background
+  #   - Button hover text → interactive.hover_text
+  #   - Pressed button → interactive.active
+  #   - Disabled button → interactive.disabled
+  interactive:
+    focus: "bright_cyan"            # Currently focused element, ready for interaction
+    hover_background: "ui_hover"    # Mouse hover background
+    hover_text: "green_bright"      # Mouse hover text emphasis (brighter than normal)
+    active: "green"                 # Pressed/active state, toggled on
+    disabled: "bright_black"        # Disabled/inactive elements, not interactable
+
+  # --------------------------------------------------------------------------
+  # 5. SELECTION (3 colors) - Selected content, highlighted regions
+  # --------------------------------------------------------------------------
+  # Purpose: Indicate user selections and highlighted content
+  #
+  # Examples:
+  #   - Text selection in editor → selection.background
+  #   - Selected menu item → selection.background
+  #   - Selected list item text → selection.foreground
+  selection:
+    background: "selection"         # Selected content background
+    background_alt: "selection_alt" # Alternate selection style (lighter/darker variant)
+    foreground: "fg_default"        # Selected content text
+
+  # --------------------------------------------------------------------------
+  # 6. BORDER (4 colors) - Borders, outlines, separators
+  # --------------------------------------------------------------------------
+  # Purpose: Define element boundaries and visual separation
+  #
+  # Examples:
+  #   - Window border → border.default
+  #   - Focused input border → border.focus
+  #   - Subtle separator line → border.subtle
+  #   - Important outline → border.emphasis
+  border:
+    default: "border"         # Standard borders, separators, default outlines
+    focus: "focus"           # Focused element border (active window, input field)
+    subtle: "bg_light"       # Very subtle borders, minimal separation
+    emphasis: "bright_cyan"  # Highlighted borders, important outlines
+
+  # --------------------------------------------------------------------------
+  # 7. ACCENT (2 colors) - Special purpose semantic meanings
+  # --------------------------------------------------------------------------
+  # Purpose: Domain-specific semantic colors that don't fit state/interactive
+  #
+  # Examples:
+  #   - Hyperlink → accent.link
+  #   - Private browsing mode → accent.private
+  #
+  # Note: Previously included 11 colors for CPU, memory, audio, etc.
+  #       Those moved to the spectrum system (aesthetic, not semantic).
+  accent:
+    link: "cyan"            # Hyperlinks, targets, references, clickable elements
+    private: "magenta"      # Private/incognito modes, special secure states
+
+  # --------------------------------------------------------------------------
+  # 8. MODE (6 colors) - Editor modes, application modes, modal states
+  # --------------------------------------------------------------------------
+  # Purpose: Indicate current application or editor mode
+  #
+  # Examples:
+  #   - Fish vi normal mode → mode.normal
+  #   - Helix insert mode → mode.insert
+  #   - Qutebrowser private mode → mode.private
+  mode:
+    normal: "green"      # Normal/command mode (vi, helix)
+    insert: "blue"       # Insert/input mode (vi, helix, qutebrowser)
+    visual: "yellow"     # Visual/selection mode (vi, helix)
+    replace: "red"       # Replace/destructive mode (vi, helix)
+    private: "magenta"   # Private/incognito mode (qutebrowser)
+    passthrough: "blue"  # Passthrough mode (qutebrowser - keys sent to page)
+
+# ============================================================================
+# FUTURE: Additional Themes
+# ============================================================================
+#
+# To add a new theme:
+# 1. Add theme to themes/ with all required color names
+# 2. Semantic layer automatically adapts (no changes needed)
+# 3. Update template references to use new theme path
+#
+# Example:
+#   themes:
+#     gruvbox:
+#       dark:
+#         bg_dark: "282828"
+#         red: "cc241d"
+#         green: "98971a"
+#         # ... all other colors
+#
+# Then in templates:
+#   {{- $theme := .themes.gruvbox.dark -}}
+#   (semantic mappings remain unchanged)
