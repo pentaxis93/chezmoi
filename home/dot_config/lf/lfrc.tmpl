@@ -1,5 +1,6 @@
 # LF File Manager Configuration
 # Ultra-Zen Philosophy: "The file browser flows like water through directories"
+{{- $kb := .keybindings -}}
 
 # Basic Settings
 set shell bash
@@ -33,25 +34,25 @@ set mouse false
 map g
 map d
 
-# Basic Navigation (Helix-native)
-map h updir
-map l open
-map j down
-map k up
-map gg top
-map ge bottom  # Helix-native: go to end
-map G bottom   # Vim compatibility
-map <c-u> half-up
-map <c-d> half-down
-map <c-b> page-up
-map <c-f> page-down
+# Basic Navigation (Helix-native) - Semantic keybindings
+{{ template "keybind-lf.tmpl" dict "category" "navigate" "action" "prev" "command" "updir" "comment" "Go up directory" "keybindings" $kb }}
+{{ template "keybind-lf.tmpl" dict "category" "navigate" "action" "next" "command" "open" "comment" "Open file/directory" "keybindings" $kb }}
+{{ template "keybind-lf.tmpl" dict "category" "navigate" "action" "down" "command" "down" "comment" "Move down" "keybindings" $kb }}
+{{ template "keybind-lf.tmpl" dict "category" "navigate" "action" "up" "command" "up" "comment" "Move up" "keybindings" $kb }}
+{{ template "keybind-lf.tmpl" dict "category" "navigate" "action" "file_start" "command" "top" "comment" "Go to top" "keybindings" $kb }}
+{{ template "keybind-lf.tmpl" dict "category" "navigate" "action" "file_end" "command" "bottom" "comment" "Helix-native: go to end" "keybindings" $kb }}
+map G bottom   # Vim compatibility fallback - semantic navigate.file_end
+map <c-u> half-up  # Semantic navigate: Half page up
+map <c-d> half-down  # Semantic navigate: Half page down
+map <c-b> page-up  # Semantic navigate: Full page up
+map <c-f> page-down  # Semantic navigate: Full page down
 
-# Selection (Helix-style)
-map x toggle  # Extend selection
-map X unselect  # Clear selection
-map <space>x invert  # Invert selection
-map V visual  # Visual selection mode
-map A :unselect; invert  # Select all
+# Selection (Helix-style) - Semantic keybindings
+{{ template "keybind-lf.tmpl" dict "category" "select" "action" "toggle" "command" "toggle" "comment" "Toggle file selection" "keybindings" $kb }}
+map X unselect  # Semantic select: Clear selection
+map <space>x invert  # Semantic select: Invert selection
+{{ template "keybind-lf.tmpl" dict "category" "transform" "action" "mode_select" "command" "visual" "comment" "Visual selection mode" "keybindings" $kb }}
+{{ template "keybind-lf.tmpl" dict "category" "select" "action" "all" "command" ":unselect; invert" "comment" "Select all files" "keybindings" $kb }}
 
 # File Operations
 map . set hidden!  # Toggle hidden files
@@ -78,12 +79,12 @@ map ag targz  # Create tar.gz
 map ab tarbz2  # Create tar.bz2
 map au unarchive  # Extract archive
 
-# Search and Filter
-map / search
-map ? search-back
-map n search-next
-map N search-prev
-map f filter  # Filter files
+# Search and Filter - Semantic keybindings
+{{ template "keybind-lf.tmpl" dict "category" "discover" "action" "search_forward" "command" "search" "comment" "Search forward" "keybindings" $kb }}
+{{ template "keybind-lf.tmpl" dict "category" "discover" "action" "search_backward" "command" "search-back" "comment" "Search backward" "keybindings" $kb }}
+map n search-next  # Semantic discover: Next search result
+map N search-prev  # Semantic discover: Previous search result
+map f filter  # Semantic discover: Filter files by pattern
 
 # Bookmarks and Quick Navigation
 map gc cd ~/.config
@@ -104,8 +105,8 @@ map <c-f> :fzf_jump
 map <c-g> :ripgrep_search
 
 # Mode indicators and help
-map <f1> :show_help
-map <esc> quit
+map <f1> :show_help  # Semantic discover: Show help
+map <esc> quit  # Semantic dismiss: Quit application (LF uses ESC instead of q)
 
 # Custom Commands
 cmd open ${{ "{{" }}
