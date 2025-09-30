@@ -1,4 +1,6 @@
 {{- $kb := .keybindings -}}
+{{- $theme := .themes.kanagawa.dragon -}}
+{{- $s := .semantic -}}
 source /usr/share/cachyos-fish-config/cachyos-config.fish
 
 # overwrite greeting
@@ -18,7 +20,7 @@ set -gx VISUAL helix
 fish_vi_key_bindings
 
 # Vi mode cursor configuration - Visual feedback for mode state
-# Uses Kanagawa semantic colors for mode indication
+# Uses theme-agnostic semantic colors for mode indication
 set fish_vi_force_cursor 1
 set fish_cursor_default block        # Normal mode: solid block
 set fish_cursor_insert line          # Insert mode: thin line
@@ -30,20 +32,20 @@ set fish_cursor_replace_one underscore # Replace: underscore
 function fish_mode_prompt
     switch $fish_bind_mode
         case default
-            # Normal mode: Focus green (semantic: ready for action)
-            set_color --bold {{ template "color-hex.tmpl" .kanagawa.dragon.green }}
+            # Normal mode: Semantic mode.normal (ready for action)
+            set_color --bold {{ template "color-hex.tmpl" (index $theme $s.mode.normal) }}
             echo '[N]'
         case insert
-            # Insert mode: Info blue (semantic: accepting input)
-            set_color --bold {{ template "color-hex.tmpl" .kanagawa.dragon.blue }}
+            # Insert mode: Semantic mode.insert (accepting input)
+            set_color --bold {{ template "color-hex.tmpl" (index $theme $s.mode.insert) }}
             echo '[I]'
         case visual
-            # Visual mode: Warning yellow (semantic: selection active)
-            set_color --bold {{ template "color-hex.tmpl" .kanagawa.dragon.yellow }}
+            # Visual mode: Semantic mode.visual (selection active)
+            set_color --bold {{ template "color-hex.tmpl" (index $theme $s.mode.visual) }}
             echo '[V]'
         case replace_one
-            # Replace mode: Error red (semantic: destructive change)
-            set_color --bold {{ template "color-hex.tmpl" .kanagawa.dragon.red }}
+            # Replace mode: Semantic mode.replace (destructive change)
+            set_color --bold {{ template "color-hex.tmpl" (index $theme $s.mode.replace) }}
             echo '[R]'
     end
     set_color normal
