@@ -33,6 +33,13 @@ claude mcp add --scope user context7 -- npx -y @upstash/context7-mcp@latest 2>/d
     echo "  context7 MCP server already configured"
 echo "✓ context7 MCP configured"
 
+# Configure zen MCP server for AI model access via OpenRouter
+# uv/uvx installed by packages.yaml, API key from Bitwarden secrets
+echo "Configuring zen MCP server..."
+claude mcp add-json --scope user zen '{"command":"uvx","args":["--from","git+https://github.com/BeehiveInnovations/zen-mcp-server.git","zen-mcp-server"],"env":{"OPENROUTER_API_KEY":"${OPENROUTER_API_KEY}","DEFAULT_MODEL":"auto"}}' 2>/dev/null || \
+    echo "  zen MCP server already configured"
+echo "✓ zen MCP configured"
+
 echo "✓ Claude Code configuration complete"
 
 # Check managed settings status

@@ -136,6 +136,7 @@ Selections use **reverse video** (fg/bg swap), not colored backgrounds:
 - @docs/ai-context/apps/vpn.md - OpenVPN with Bitwarden secrets
 - @docs/ai-context/apps/wiremix.md - PipeWire audio mixer TUI
 - @docs/ai-context/apps/shell-enhancements.md - eza, zoxide, Fish shell
+- @docs/ai-context/apps/zen-mcp-server.md - AI model access via OpenRouter
 
 ---
 

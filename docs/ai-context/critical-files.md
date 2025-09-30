@@ -35,6 +35,8 @@ Located in `home/.chezmoitemplates/`:
 - `home/dot_config/private_openvpn/` - OpenVPN configuration files
 - `home/dot_config/systemd/user/goosevpn.service.tmpl` - VPN systemd service
 - `home/dot_local/state/private_secrets/` - Isolated secrets directory
+- `home/dot_local/state/private_secrets/openvpn/goosevpn-auth.tmpl` - VPN credentials from Bitwarden
+- `home/dot_local/state/private_secrets/env/openrouter-api.tmpl` - OpenRouter API key from Bitwarden
 
 ## Application Configs
 - `home/dot_config/mpv/mpv.conf.tmpl` - MPV main configuration
@@ -52,6 +54,7 @@ Located in `home/.chezmoitemplates/`:
 - `home/dot_local/bin/executable_mpv.tmpl` - MPV wrapper for LF pre-selection
 - `home/run_once_install-mpv-scripts.sh.tmpl` - MPV directory setup
 - `home/run_once_install-weechat-scripts.sh.tmpl` - Installs xdccq.py
+- `home/run_after_claude-code.sh` - Configure Claude Code and MCP servers (context7, zen)
 
 ## Documentation
 - `CLAUDE.md` - AI assistant instructions (this file!)
