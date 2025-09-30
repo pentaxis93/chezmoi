@@ -14,7 +14,7 @@ Personal configuration files managed with [chezmoi](https://www.chezmoi.io/).
 
 ```bash
 # Initialize from this repository
-chezmoi init https://github.com/yourusername/dotfiles.git
+chezmoi init https://github.com/pentaxis93/dotfiles.git
 
 # Preview changes
 chezmoi diff
