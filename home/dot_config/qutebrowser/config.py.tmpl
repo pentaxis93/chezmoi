@@ -1,5 +1,6 @@
 {{- $theme := .themes.kanagawa.dragon -}}
 {{- $s := .semantic -}}
+{{- $kb := .keybindings -}}
 # Qutebrowser Configuration - Ultra-Zen Web Navigation
 # "The keyboard becomes the interface; intention becomes action"
 #
@@ -238,59 +239,59 @@ c.colors.tabs.pinned.selected.even.bg = surface_elevated
 # Clear default bindings we're replacing
 config.unbind('G', mode='normal')  # We use 'ge' instead (Helix-native)
 
-# Navigation (Helix-native philosophy)
-config.bind('ge', 'scroll-page 0 1', mode='normal')  # Go to end (not G)
-config.bind('gg', 'scroll-page 0 0', mode='normal')  # Go to start
-config.bind('gh', 'scroll-to-perc 0', mode='normal')  # Go home (line start concept)
-config.bind('gl', 'scroll-to-perc 100', mode='normal')  # Go line end concept
+# Navigation (Helix-native philosophy) - Semantic keybindings
+{{ template "keybind-qutebrowser.tmpl" dict "category" "navigate" "action" "file_end" "command" "scroll-page 0 1" "keybindings" $kb }}  # Go to end (not G)
+{{ template "keybind-qutebrowser.tmpl" dict "category" "navigate" "action" "file_start" "command" "scroll-page 0 0" "keybindings" $kb }}  # Go to start
+{{ template "keybind-qutebrowser.tmpl" dict "category" "navigate" "action" "line_start" "command" "scroll-to-perc 0" "keybindings" $kb }}  # Go home (line start concept)
+{{ template "keybind-qutebrowser.tmpl" dict "category" "navigate" "action" "line_end" "command" "scroll-to-perc 100" "keybindings" $kb }}  # Go line end concept
 
-# Smooth scrolling (j/k for small movements)
-config.bind('j', 'scroll down', mode='normal')
-config.bind('k', 'scroll up', mode='normal')
-config.bind('h', 'scroll left', mode='normal')
-config.bind('l', 'scroll right', mode='normal')
+# Smooth scrolling (j/k for small movements) - Semantic keybindings
+{{ template "keybind-qutebrowser.tmpl" dict "category" "navigate" "action" "down" "command" "scroll down" "keybindings" $kb }}
+{{ template "keybind-qutebrowser.tmpl" dict "category" "navigate" "action" "up" "command" "scroll up" "keybindings" $kb }}
+{{ template "keybind-qutebrowser.tmpl" dict "category" "navigate" "action" "prev" "command" "scroll left" "keybindings" $kb }}
+{{ template "keybind-qutebrowser.tmpl" dict "category" "navigate" "action" "next" "command" "scroll right" "keybindings" $kb }}
 
-# Half-page scrolling (d/u like Helix)
-config.bind('d', 'scroll-page 0 0.5', mode='normal')
-config.bind('u', 'scroll-page 0 -0.5', mode='normal')
+# Half-page scrolling (d/u like Helix) - Semantic navigate: Half-page movements
+config.bind('d', 'scroll-page 0 0.5', mode='normal')  # Semantic navigate: Half-page down
+config.bind('u', 'scroll-page 0 -0.5', mode='normal')  # Semantic navigate: Half-page up
 
-# Tab navigation (J/K for prev/next)
-config.bind('J', 'tab-prev', mode='normal')
-config.bind('K', 'tab-next', mode='normal')
-config.bind('gT', 'tab-prev', mode='normal')  # Alternative
-config.bind('gt', 'tab-next', mode='normal')  # Alternative
+# Tab navigation (J/K for prev/next) - Semantic navigate: Workspace/tab movements
+config.bind('J', 'tab-prev', mode='normal')  # Semantic navigate: Previous tab
+config.bind('K', 'tab-next', mode='normal')  # Semantic navigate: Next tab
+config.bind('gT', 'tab-prev', mode='normal')  # Alternative - semantic navigate.workspace_prev
+config.bind('gt', 'tab-next', mode='normal')  # Alternative - semantic navigate.workspace_next
 
-# Tab manipulation
-config.bind('gn', 'tab-next', mode='normal')
-config.bind('gp', 'tab-prev', mode='normal')
-config.bind('gc', 'tab-close', mode='normal')
-config.bind('gf', 'tab-focus', mode='normal')
-config.bind('gm', 'tab-move', mode='normal')
+# Tab manipulation - Semantic navigate and dismiss: Tab operations
+config.bind('gn', 'tab-next', mode='normal')  # Semantic navigate: Next tab (alternative)
+config.bind('gp', 'tab-prev', mode='normal')  # Semantic navigate: Previous tab (alternative)
+config.bind('gc', 'tab-close', mode='normal')  # Semantic dismiss: Close current tab
+config.bind('gf', 'tab-focus', mode='normal')  # Semantic navigate: Focus specific tab
+config.bind('gm', 'tab-move', mode='normal')  # Semantic manipulate: Move tab position
 
-# History navigation
-config.bind('H', 'back', mode='normal')
-config.bind('L', 'forward', mode='normal')
+# History navigation - Semantic navigate: Browser history
+config.bind('H', 'back', mode='normal')  # Semantic navigate: Back in history
+config.bind('L', 'forward', mode='normal')  # Semantic navigate: Forward in history
 
-# Hints (link following)
-config.bind('f', 'hint links', mode='normal')
-config.bind('F', 'hint links tab-bg', mode='normal')
-config.bind(';y', 'hint links yank', mode='normal')
-config.bind(';Y', 'hint links yank-primary', mode='normal')
+# Hints (link following) - Semantic discover: Find and follow links
+config.bind('f', 'hint links', mode='normal')  # Semantic discover: Find links (follow)
+config.bind('F', 'hint links tab-bg', mode='normal')  # Semantic discover: Find links (background tab)
+config.bind(';y', 'hint links yank', mode='normal')  # Semantic preserve: Yank link URL
+config.bind(';Y', 'hint links yank-primary', mode='normal')  # Semantic preserve: Yank link (primary)
 
-# Search
-config.bind('/', 'set-cmd-text /', mode='normal')
-config.bind('?', 'set-cmd-text ?', mode='normal')
-config.bind('n', 'search-next', mode='normal')
-config.bind('N', 'search-prev', mode='normal')
+# Search - Semantic keybindings
+{{ template "keybind-qutebrowser.tmpl" dict "category" "discover" "action" "search_forward" "command" "set-cmd-text /" "keybindings" $kb }}
+{{ template "keybind-qutebrowser.tmpl" dict "category" "discover" "action" "search_backward" "command" "set-cmd-text ?" "keybindings" $kb }}
+config.bind('n', 'search-next', mode='normal')  # Semantic discover: Next search result
+config.bind('N', 'search-prev', mode='normal')  # Semantic discover: Previous search result
 
-# Zoom
-config.bind('+', 'zoom-in', mode='normal')
-config.bind('-', 'zoom-out', mode='normal')
-config.bind('=', 'zoom', mode='normal')
+# Zoom - Semantic manipulate: Size adjustments
+config.bind('+', 'zoom-in', mode='normal')  # Semantic manipulate: Increase zoom
+config.bind('-', 'zoom-out', mode='normal')  # Semantic manipulate: Decrease zoom
+config.bind('=', 'zoom', mode='normal')  # Semantic manipulate: Reset zoom
 
-# Quit/Close
-config.bind('q', 'tab-close', mode='normal')
-config.bind('Q', 'quit', mode='normal')
+# Quit/Close - Semantic keybindings
+{{ template "keybind-qutebrowser.tmpl" dict "category" "dismiss" "action" "current" "command" "tab-close" "keybindings" $kb }}
+{{ template "keybind-qutebrowser.tmpl" dict "category" "dismiss" "action" "force" "command" "quit" "keybindings" $kb }}
 
 # =============================================================================
 # CUSTOM INTEGRATIONS

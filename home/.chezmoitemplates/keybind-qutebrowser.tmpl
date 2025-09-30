@@ -20,7 +20,10 @@ Example Output:
 {{- $category := .category -}}
 {{- $action := .action -}}
 {{- $command := .command -}}
-{{- $mode := .mode | default "normal" -}}
+{{- $mode := "normal" -}}
+{{- if hasKey . "mode" -}}
+    {{- $mode = .mode -}}
+{{- end -}}
 {{- $kb := .keybindings -}}
 {{- $customKey := "" -}}
 {{- if hasKey . "custom_key" -}}
