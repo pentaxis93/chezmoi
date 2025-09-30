@@ -1,6 +1,7 @@
-{{- $c := .themes.kanagawa.dragon -}}
+{{- $theme := .themes.kanagawa.dragon -}}
+{{- $s := .semantic -}}
 # Wiremix Configuration - Modern TUI Audio Mixer for PipeWire
-# Themed with Kanagawa Dragon colors and Helix-native vi keybindings
+# Themed with theme-agnostic semantic colors and Helix-native vi keybindings
 
 # Ultra-Zen Philosophy: Audio Control
 # "Sound flows through semantic channels; volume manifests through intention"
@@ -82,56 +83,54 @@ keybindings = [
   { key = { Char = "?" }, action = "Help" },  # Show help
 ]
 
-# Kanagawa Dragon Theme
+# Theme-Agnostic Semantic Colors
 [themes.kanagawa]
-# Background and borders use our dark palette
-# Active/selected elements use focus color (green)
-# Regular text uses fg_primary
+# Semantic colors express intention, not implementation
 
-# Default colors for UI elements
-selector = { fg = "#{{ $c.focus }}" }  # Green for active selection
-tab = { fg = "#{{ $c.fg_muted }}" }  # Muted for inactive tabs
-tab_selected = { fg = "#{{ $c.focus }}", add_modifier = "BOLD" }  # Green bold for active tab
-tab_marker = { fg = "#{{ $c.focus }}" }  # Green marker
+# Interactive elements (focused/selected)
+selector = { fg = "#{{ index $theme $s.interactive.focus }}" }  # Active selection
+tab = { fg = "#{{ index $theme $s.text.secondary }}" }  # Inactive tabs
+tab_selected = { fg = "#{{ index $theme $s.interactive.focus }}", add_modifier = "BOLD" }  # Active tab
+tab_marker = { fg = "#{{ index $theme $s.interactive.focus }}" }  # Tab indicator
 
 # List indicators
-list_more = { fg = "#{{ $c.fg_dim }}" }  # Dim for "more items" indicator
+list_more = { fg = "#{{ index $theme $s.text.muted }}" }  # More items indicator
 
 # Node titles and targets
-node_title = { fg = "#{{ $c.fg_primary }}" }  # Primary text
-node_target = { fg = "#{{ $c.cyan }}" }  # Cyan for targets
+node_title = { fg = "#{{ index $theme $s.text.primary }}" }  # Primary text
+node_target = { fg = "#{{ index $theme $s.accent.link }}" }  # Targets/links
 
-# Default states
-default_device = { fg = "#{{ $c.green }}", add_modifier = "BOLD" }  # Green for default device
-default_stream = { fg = "#{{ $c.green }}" }  # Green for default stream
+# Default states (success = this is the default)
+default_device = { fg = "#{{ index $theme $s.state.success_emphasis }}", add_modifier = "BOLD" }  # Default device
+default_stream = { fg = "#{{ index $theme $s.state.success }}" }  # Default stream
 
 # Volume bar
-volume = { fg = "#{{ $c.fg_muted }}" }  # Volume label
-volume_empty = { fg = "#{{ $c.bg_light }}" }  # Empty volume bar
-volume_filled = { fg = "#{{ $c.blue }}" }  # Filled volume bar
+volume = { fg = "#{{ index $theme $s.text.secondary }}" }  # Volume label
+volume_empty = { fg = "#{{ index $theme $s.surface.subtle }}" }  # Empty bar
+volume_filled = { fg = "#{{ index $theme $s.state.info }}" }  # Filled bar (progress)
 
 # Peak meters
-meter_inactive = { fg = "#{{ $c.bg_light }}" }  # Inactive meter
-meter_active = { fg = "#{{ $c.green }}" }  # Active meter
-meter_overload = { fg = "#{{ $c.red }}" }  # Overload/clipping
-meter_center_inactive = { fg = "#{{ $c.fg_dim }}" }  # Center marker inactive
-meter_center_active = { fg = "#{{ $c.yellow }}" }  # Center marker active
+meter_inactive = { fg = "#{{ index $theme $s.surface.subtle }}" }  # Inactive meter
+meter_active = { fg = "#{{ index $theme $s.state.success }}" }  # Active meter
+meter_overload = { fg = "#{{ index $theme $s.state.error }}" }  # Overload/clipping
+meter_center_inactive = { fg = "#{{ index $theme $s.text.muted }}" }  # Center marker inactive
+meter_center_active = { fg = "#{{ index $theme $s.state.warning }}" }  # Center marker active
 
 # Configuration tab elements
-config_device = { fg = "#{{ $c.fg_primary }}" }  # Device name
-config_profile = { fg = "#{{ $c.cyan }}" }  # Profile name
+config_device = { fg = "#{{ index $theme $s.text.primary }}" }  # Device name
+config_profile = { fg = "#{{ index $theme $s.accent.link }}" }  # Profile name
 
 # Dropdown menus
-dropdown_icon = { fg = "#{{ $c.fg_muted }}" }  # Dropdown arrow
-dropdown_border = { fg = "#{{ $c.border }}" }  # Dropdown border
-dropdown_item = { fg = "#{{ $c.fg_primary }}" }  # Dropdown items
-dropdown_selected = { fg = "#{{ $c.focus }}", add_modifier = "BOLD" }  # Selected dropdown item
-dropdown_more = { fg = "#{{ $c.fg_dim }}" }  # More items indicator
+dropdown_icon = { fg = "#{{ index $theme $s.text.secondary }}" }  # Dropdown arrow
+dropdown_border = { fg = "#{{ index $theme $s.border.default }}" }  # Dropdown border
+dropdown_item = { fg = "#{{ index $theme $s.text.primary }}" }  # Dropdown items
+dropdown_selected = { fg = "#{{ index $theme $s.interactive.focus }}", add_modifier = "BOLD" }  # Selected item
+dropdown_more = { fg = "#{{ index $theme $s.text.muted }}" }  # More items indicator
 
 # Help screen
-help_border = { fg = "#{{ $c.border }}" }  # Help border
-help_item = { fg = "#{{ $c.fg_primary }}" }  # Help text
-help_more = { fg = "#{{ $c.fg_dim }}" }  # More help indicator
+help_border = { fg = "#{{ index $theme $s.border.default }}" }  # Help border
+help_item = { fg = "#{{ index $theme $s.text.primary }}" }  # Help text
+help_more = { fg = "#{{ index $theme $s.text.muted }}" }  # More help indicator
 
 # Naming templates for clarity
 [names]
