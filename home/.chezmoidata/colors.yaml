@@ -51,6 +51,7 @@ kanagawa:
     aqua: "7aa89f"           # waveAqua
     teal: "6a9589"           # dragonTeal
     gold: "a292a3"           # dragonGold (same as magenta)
+    green_bright: "98a88f"   # brighter green for hover text emphasis
     gray: "9c9c9c"           # dragonGray
     gray2: "7a8382"          # dragonGray2
     gray3: "4c4c4c"          # dragonGray3

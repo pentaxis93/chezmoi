@@ -53,7 +53,7 @@ window#waybar {
 #workspaces button:hover {
     background: {{ template "color-hex.tmpl" $c.ui_hover }};
     background-color: {{ template "color-hex.tmpl" $c.ui_hover }};
-    color: #98a88f;  /* Computed brighter green */
+    color: {{ template "color-hex.tmpl" $c.green_bright }};
     box-shadow: inherit;
     text-shadow: inherit;
     border: none;
@@ -63,7 +63,7 @@ window#waybar {
 #workspaces button.active:hover {
     background: {{ template "color-hex.tmpl" $c.ui_hover_active }};
     background-color: {{ template "color-hex.tmpl" $c.ui_hover_active }};
-    color: #98a88f;  /* Computed brighter green */
+    color: {{ template "color-hex.tmpl" $c.green_bright }};
     box-shadow: inherit;
     text-shadow: inherit;
     border: none;
