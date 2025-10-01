@@ -1,46 +1,68 @@
 # Declarative package management for CachyOS
 # Add packages here and they'll be installed automatically
 # when running chezmoi apply
+#
+# Organization philosophy: Packages grouped by semantic intention
+# Each category reveals purpose; each comment explains why
 
 packages:
   cachyos:
     pacman:
+      # System & Security - Foundation for secure operations
       - bitwarden-cli  # Password manager CLI for secure secret management
       - openvpn  # Secure tunneling daemon for VPN connections
-      - transmission-cli  # BitTorrent client with daemon for VPN-bound torrenting
+
+      # Torrenting - VPN-bound downloading
+      - transmission-cli  # BitTorrent client with daemon and VPN killswitch
       - tremc  # Terminal UI for transmission with vi-like keybindings
-      - mpv  # Media player with resume, history, and file browser support
-      - lf  # Terminal file manager for video browsing (already installed)
-      - weechat  # Modern IRC client with better vi-mode and extensibility
-      # LF preview and functionality tools
-      - fzf  # Fuzzy finder for directory jumping (required by lf Ctrl+f)
-      - ripgrep  # Fast content search tool (required by lf Ctrl+g)
+
+      # Media - Video playback with resuming and history
+      - mpv  # Media player with position save, file browser, and subtitle support
+
+      # File Management - Terminal file browser with rich previews
+      - lf  # Terminal file manager with vi navigation and semantic keybindings
+      # LF preview dependencies (cohesive block)
+      - fzf  # Fuzzy finder for directory jumping (lf Ctrl+f)
+      - ripgrep  # Fast content search (lf Ctrl+g)
       - bat  # Syntax-highlighted text previews with git integration
       - chafa  # Convert images to terminal graphics (sixel/symbols)
       - mediainfo  # Display media file technical information
-      - atool  # Universal archive extraction and listing tool
+      - atool  # Universal archive extraction and listing
       - poppler  # PDF rendering library with utilities
       - jq  # Command-line JSON processor for pretty-printing
-      - trash-cli  # Command line interface to FreeDesktop.org trash
+      - trash-cli  # FreeDesktop.org trash integration
       - wl-clipboard  # Wayland clipboard utilities
-      - tree  # Directory tree visualization for folder previews
+      - tree  # Directory tree visualization
       - p7zip  # 7-zip archive support (provides 7z command)
-      - zathura  # Lightweight PDF/document viewer
-      - zathura-pdf-poppler  # PDF support for zathura
-      # File handling and viewing tools
-      - handlr  # Modern file handler replacing xdg-open with better defaults
+
+      # Document Viewing - PDF and document readers
+      - zathura  # Lightweight PDF/document viewer with vi keybindings
+      - zathura-pdf-poppler  # PDF backend for zathura
+
+      # File Handling - Modern xdg-open replacement
+      - handlr  # File handler with wofi selector and better defaults
+
+      # Graphics & Images - Visual editing and viewing
       - imv  # Wayland-native image viewer with better performance
-      - satty  # Screenshot annotation tool for quick image edits
+      - satty  # Screenshot annotation tool for quick edits
       - gimp  # Full-featured image editor for advanced editing
-      # Audio control
-      - wiremix  # Modern TUI audio mixer for PipeWire with vi keybindings
-      # Shell enhancements
-      - zoxide  # Smart directory navigation with frecency-based jumping
-      # Color tools
-      - python-colour  # Perceptually-uniform color interpolation for spectrum generation
-      # Development tools
+
+      # Communication - IRC with XDCC support
+      - weechat  # Modern IRC client with superior vi-mode and extensibility
+
+      # Audio - PipeWire mixer
+      - wiremix  # TUI audio mixer for PipeWire with vi keybindings
+
+      # Shell Navigation - Smart directory jumping
+      - zoxide  # Frecency-based directory navigation
+
+      # Web Browsing - Keyboard-driven browser
+      - qutebrowser  # Web browser with vim-like navigation and semantic keybindings
+
+      # Development & Build Tools - Programming languages and workflows
       - npm  # Node package manager (provides npx for MCP servers)
       - uv  # Astral's fast Python package manager (provides uvx for MCP servers)
+      - dart  # Dart SDK for Flutter development and mobile apps
       - github-cli  # GitHub CLI for PR/issue/repo management
       - lazygit  # TUI for git with vi keybindings and reverse video selections
-      - qutebrowser  # Keyboard-driven web browser with vim-like navigation
+      - python-colour  # Perceptually-uniform color interpolation for spectrum generation
