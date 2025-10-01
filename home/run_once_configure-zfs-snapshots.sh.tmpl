@@ -1,0 +1,37 @@
+#!/bin/bash
+# Ultra-Zen ZFS Snapshot Configuration
+# "Preserve what matters; release what flows"
+
+set -e
+
+echo "╭─────────────────────────────────────────────╮"
+echo "│ Configuring ZFS Auto-Snapshot Exclusions   │"
+echo "├─────────────────────────────────────────────┤"
+echo "│ Snapshots only for valuable data           │"
+echo "│ Ephemeral datasets excluded                 │"
+echo "╰─────────────────────────────────────────────╯"
+echo
+
+# Disable auto-snapshot for ephemeral datasets
+echo "Disabling auto-snapshot for ephemeral datasets..."
+
+# Package cache - easily rebuilt from repositories
+sudo zfs set com.sun:auto-snapshot=false zpcachyos/ROOT/cos/varcache
+echo "  ✓ varcache - package cache excluded"
+
+# System logs - low recovery value
+sudo zfs set com.sun:auto-snapshot=false zpcachyos/ROOT/cos/varlog
+echo "  ✓ varlog - system logs excluded"
+
+echo
+echo "╭─────────────────────────────────────────────╮"
+echo "│ Snapshot Configuration Complete             │"
+echo "├─────────────────────────────────────────────┤"
+echo "│ Enabled:  home, root (valuable data)       │"
+echo "│ Disabled: varcache, varlog (ephemeral)     │"
+echo "╰─────────────────────────────────────────────╯"
+echo
+echo "💡 Clean up existing snapshots manually:"
+echo "   zfs list -t snapshot | grep -E '(varcache|varlog)'"
+echo "   zfs destroy <snapshot-name>"
+echo

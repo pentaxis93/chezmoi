@@ -1,0 +1,75 @@
+#!/bin/bash
+# Ultra-Zen ZFS Automation Setup
+# "The river remembers every drop; time becomes a dimension we can walk"
+
+set -e
+
+echo "╭─────────────────────────────────────────────╮"
+echo "│ Ultra-Zen ZFS Time Machine Configuration   │"
+echo "├─────────────────────────────────────────────┤"
+echo "│ Automated snapshots: 15min → monthly       │"
+echo "│ Monthly integrity scrubs for data safety   │"
+echo "│ Transform storage into a time machine      │"
+echo "╰─────────────────────────────────────────────╯"
+echo
+
+# Check if zfs-auto-snapshot is installed
+if ! command -v zfs-auto-snapshot &> /dev/null; then
+    echo "⚠ zfs-auto-snapshot not found. Install it via chezmoi apply."
+    echo "  (Added to packages.yaml)"
+    exit 0
+fi
+
+# Enable automated snapshot timers
+echo "Enabling ZFS automated snapshot timers..."
+
+# Frequent snapshots (every 15 minutes, keep 4)
+sudo systemctl enable zfs-auto-snapshot-frequent.timer
+sudo systemctl start zfs-auto-snapshot-frequent.timer
+
+# Hourly snapshots (keep 24)
+sudo systemctl enable zfs-auto-snapshot-hourly.timer
+sudo systemctl start zfs-auto-snapshot-hourly.timer
+
+# Daily snapshots (keep 31)
+sudo systemctl enable zfs-auto-snapshot-daily.timer
+sudo systemctl start zfs-auto-snapshot-daily.timer
+
+# Weekly snapshots (keep 8)
+sudo systemctl enable zfs-auto-snapshot-weekly.timer
+sudo systemctl start zfs-auto-snapshot-weekly.timer
+
+# Monthly snapshots (keep 12)
+sudo systemctl enable zfs-auto-snapshot-monthly.timer
+sudo systemctl start zfs-auto-snapshot-monthly.timer
+
+echo "✓ Automated snapshot timers enabled"
+echo
+
+# Enable monthly scrubbing for data integrity
+echo "Enabling monthly ZFS scrub for pool 'zpcachyos'..."
+sudo systemctl enable zfs-scrub-monthly@zpcachyos.timer
+sudo systemctl start zfs-scrub-monthly@zpcachyos.timer
+
+echo "✓ Monthly scrub timer enabled"
+echo
+
+# Show configuration summary
+echo "╭─────────────────────────────────────────────╮"
+echo "│ ZFS Time Machine Active                    │"
+echo "├─────────────────────────────────────────────┤"
+echo "│ Snapshot Schedule:                          │"
+echo "│   • Every 15min (keep 4)  - Last hour      │"
+echo "│   • Hourly (keep 24)      - Last day       │"
+echo "│   • Daily (keep 31)       - Last month     │"
+echo "│   • Weekly (keep 8)       - Last 2 months  │"
+echo "│   • Monthly (keep 12)     - Last year      │"
+echo "│                                             │"
+echo "│ Data Integrity:                             │"
+echo "│   • Monthly scrub of pool 'zpcachyos'      │"
+echo "│   • Automatic checksum verification        │"
+echo "╰─────────────────────────────────────────────╯"
+echo
+echo "Access snapshots at: /.zfs/snapshot/"
+echo "Manage with: zsnap, zlist, zclean, zfsstatus"
+echo

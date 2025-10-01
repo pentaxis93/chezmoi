@@ -11,6 +11,8 @@ packages:
       # System & Security - Foundation for secure operations
       - bitwarden-cli  # Password manager CLI for secure secret management
       - openvpn  # Secure tunneling daemon for VPN connections
+      - zfs-meta  # Metapackage for pre-compiled ZFS (provides "zfs" virtual package)
+      - zfs-utils  # ZFS filesystem utilities and command-line tools
 
       # Torrenting - VPN-bound downloading
       - transmission-cli  # BitTorrent client with daemon and VPN killswitch
@@ -66,3 +68,7 @@ packages:
       - github-cli  # GitHub CLI for PR/issue/repo management
       - lazygit  # TUI for git with vi keybindings and reverse video selections
       - python-colour  # Perceptually-uniform color interpolation for spectrum generation
+
+    aur:
+      # System & Security - Foundation for secure operations
+      - zfs-auto-snapshot  # Automated ZFS snapshots for time-machine backups

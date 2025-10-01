@@ -6,32 +6,57 @@ set -euo pipefail
 # Only runs when the package list changes (tracked by hash comment)
 
 # Hash of package list for change detection
-# packages: {{ .packages.cachyos.pacman | toJson | sha256sum }}
+# packages: {{ list .packages.cachyos.pacman .packages.cachyos.aur | toJson | sha256sum }}
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "📦 Installing system packages for CachyOS"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # Track what needs installation
-PACKAGES_TO_INSTALL=()
+PACMAN_PACKAGES=()
+AUR_PACKAGES=()
 
+# Check pacman packages
 {{ range .packages.cachyos.pacman -}}
-# Check if {{ . }} is installed
 if ! pacman -Qi "{{ . }}" &>/dev/null; then
-    PACKAGES_TO_INSTALL+=("{{ . }}")
-    echo "📋 Will install: {{ . }}"
+    PACMAN_PACKAGES+=("{{ . }}")
+    echo "📋 Will install (pacman): {{ . }}"
 else
     echo "✓ Already installed: {{ . }}"
 fi
 {{ end }}
 
-# Install packages if needed
-if [ ${#PACKAGES_TO_INSTALL[@]} -gt 0 ]; then
-    echo ""
-    echo "Installing ${#PACKAGES_TO_INSTALL[@]} package(s)..."
-    sudo pacman -S "${PACKAGES_TO_INSTALL[@]}"
-    echo "✓ All packages installed successfully"
+# Check AUR packages (if section exists)
+{{- if .packages.cachyos.aur }}
+{{ range .packages.cachyos.aur -}}
+if ! pacman -Qi "{{ . }}" &>/dev/null; then
+    AUR_PACKAGES+=("{{ . }}")
+    echo "📋 Will install (AUR): {{ . }}"
 else
+    echo "✓ Already installed: {{ . }}"
+fi
+{{ end }}
+{{- end }}
+
+# Install pacman packages
+if [ ${#PACMAN_PACKAGES[@]} -gt 0 ]; then
+    echo ""
+    echo "Installing ${#PACMAN_PACKAGES[@]} pacman package(s)..."
+    sudo pacman -S --noconfirm "${PACMAN_PACKAGES[@]}"
+    echo "✓ Pacman packages installed successfully"
+fi
+
+# Install AUR packages
+if [ ${#AUR_PACKAGES[@]} -gt 0 ]; then
+    echo ""
+    echo "Installing ${#AUR_PACKAGES[@]} AUR package(s)..."
+    yay -S --noconfirm "${AUR_PACKAGES[@]}"
+    echo "✓ AUR packages installed successfully"
+fi
+
+# Summary
+if [ ${#PACMAN_PACKAGES[@]} -eq 0 ] && [ ${#AUR_PACKAGES[@]} -eq 0 ]; then
+    echo ""
     echo "✓ All packages already installed"
 fi
 
@@ -43,3 +68,5 @@ echo ""
 echo "💡 To add more packages:"
 echo "   1. Edit: ~/.local/share/chezmoi/home/.chezmoidata/packages.yaml"
 echo "   2. Run:  chezmoi apply"
+echo ""
+echo "   Supported sections: pacman (official repos), aur (AUR packages)"

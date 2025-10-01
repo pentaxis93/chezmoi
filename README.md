@@ -37,6 +37,7 @@ chezmoi update -v
 - **Bitwarden CLI** — Secure password management integration
 - **Claude Code** — Development environment settings
 - **Package Management** — Declarative system package installation
+- **ZFS Time Machine** — Automated snapshots with data integrity verification
 
 ## Common Tasks
 
@@ -116,6 +117,44 @@ Secrets are referenced in templates:
 ```
 
 See example templates in `home/private_dot_ssh/` and `home/private_dot_aws/`.
+
+### Manage ZFS snapshots
+
+ZFS provides automatic time-machine snapshots with data integrity verification:
+
+```bash
+# Create manual snapshot before risky changes
+zsnap zpcachyos/ROOT/cos/home before-upgrade
+
+# View snapshot timeline
+zlist                              # All snapshots
+zlist zpcachyos/ROOT/cos/home     # Specific dataset
+
+# Check pool health and integrity
+zfsstatus
+
+# Clean old automatic snapshots (90 days default)
+zclean       # Interactive with confirmation
+zclean 30    # More aggressive cleanup
+```
+
+**Time travel** - Access any snapshot via `.zfs/snapshot/`:
+```bash
+# Restore deleted file from yesterday's snapshot
+cp /home/.zfs/snapshot/auto-2025-09-29-15h00/pentaxis93/important.txt ~/
+
+# Compare current vs snapshot
+diff ~/.bashrc /home/.zfs/snapshot/before-upgrade/pentaxis93/.bashrc
+```
+
+**Automated schedule**:
+- Every 15 minutes (keep 4) — Last hour
+- Hourly (keep 24) — Last day
+- Daily (keep 31) — Last month
+- Weekly (keep 8) — Last 2 months
+- Monthly (keep 12) — Last year
+
+**Data integrity**: Monthly scrubs verify all checksums automatically.
 
 ## Project Structure
 

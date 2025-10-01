@@ -30,6 +30,8 @@
 
 **Refactoring workflow?** → `chezmoi edit` → `chezmoi diff` → `chezmoi apply -v` → **Update docs**
 
+**ZFS snapshots?** → `zsnap` (manual), `zlist` (view), `zclean` (prune), `zfsstatus` (health) - See @docs/ai-context/systems/zfs.md
+
 ---
 
 ## CRITICAL DIRECTIVES
@@ -254,6 +256,7 @@ Selections use **reverse video** (fg/bg swap), not colored backgrounds:
 - @docs/ai-context/systems/colors.md - Semantic color system & reverse video
 - @docs/ai-context/systems/keybindings.md - Semantic keybinding architecture
 - @docs/ai-context/systems/spectrum.md - Algorithmic color spectrum generation
+- @docs/ai-context/systems/zfs.md - ZFS time machine with automated snapshots
 
 ---
 
