@@ -53,3 +53,8 @@ When configuring new applications and dotfiles, follow these principles for cons
 ## Package Management Philosophy
 - **CachyOS Support Only** - Package management scripts target CachyOS exclusively
 - **Declarative Packages** - System packages defined in `home/.chezmoidata/packages.yaml`
+- **Semantic Organization** - Packages grouped by intention, not just proximity
+  - Each category reveals purpose (System & Security, Media, Development, etc.)
+  - Comments explain **why** a package exists, not just **what** it does
+  - Dependencies stay cohesive (e.g., lf + all its preview tools in one block)
+  - Flow: System → User Applications → Development Tools
