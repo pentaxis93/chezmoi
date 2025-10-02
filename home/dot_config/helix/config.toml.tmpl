@@ -21,6 +21,8 @@ hidden = false
 [editor.lsp]
 display-messages = true
 display-inlay-hints = true
+snippets = true
+auto-signature-help = true
 
 [editor.indent-guides]
 render = true
@@ -47,7 +49,29 @@ nbsp = "⍽"
 tab = "→"
 newline = "⏎"
 
+# Soft wrap for long lines
+[editor.soft-wrap]
+enable = true
+max-wrap = 25           # Indent wrapped lines for visual clarity
+max-indent-retain = 40  # Don't indent more than this
+wrap-indicator = "↪ "   # Visual indicator for wrapped lines
+
+# Auto-pairs configuration
+[editor.auto-pairs]
+'(' = ')'
+'{' = '}'
+'[' = ']'
+'"' = '"'
+'`' = '`'
+'<' = '>'  # Useful for HTML/XML/Rust generics
+
+# Search configuration
+[editor.search]
+smart-case = true      # Case-insensitive unless uppercase used
+wrap-around = true     # Continue search from beginning/end
+
+# Helix-native keybindings (preserve defaults, minimal custom)
 [keys.normal]
-space.w = ":w"
-space.q = ":q"
-X = "extend_line_above"
+space.w = ":w"         # Preserve: write current
+space.q = ":q"         # Dismiss: quit current
+X = "extend_line_above"  # Extend selection upward

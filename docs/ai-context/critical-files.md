@@ -39,6 +39,9 @@ Located in `home/.chezmoitemplates/`:
 - `home/dot_local/state/private_secrets/env/openrouter-api.tmpl` - OpenRouter API key from Bitwarden
 
 ## Application Configs
+- `home/dot_config/helix/config.toml.tmpl` - Helix editor settings and keybindings
+- `home/dot_config/helix/languages.toml.tmpl` - Helix file-type specific settings
+- `home/dot_config/helix/themes/kanagawa-dragon.toml.tmpl` - Helix theme with semantic colors
 - `home/dot_config/mpv/mpv.conf.tmpl` - MPV main configuration
 - `home/dot_config/mpv/input.conf.tmpl` - MPV Helix-native keybindings
 - `home/dot_config/mpv/scripts/auto-save-position.lua.tmpl` - Position auto-save

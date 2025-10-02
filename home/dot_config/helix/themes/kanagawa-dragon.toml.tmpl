@@ -1,0 +1,170 @@
+{{- /* Helix Theme: Kanagawa Dragon (Semantic Color System) */ -}}
+{{- $c := .themes.kanagawa.dragon -}}
+{{- $s := .semantic -}}
+
+# Kanagawa Dragon theme for Helix
+# Fully integrated with semantic color system
+
+# UI elements
+"ui.background" = { bg = "{{ template "color-hex.tmpl" (index $c $s.surface.primary) }}" }
+"ui.background.separator" = { fg = "{{ template "color-hex.tmpl" (index $c $s.border.subtle) }}" }
+"ui.cursor" = { fg = "{{ template "color-hex.tmpl" (index $c $s.surface.primary) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.text.primary) }}" }
+"ui.cursor.primary" = { fg = "{{ template "color-hex.tmpl" (index $c $s.surface.primary) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}" }
+"ui.cursor.match" = { bg = "{{ template "color-hex.tmpl" (index $c $s.surface.elevated) }}", modifiers = ["bold"] }
+"ui.cursor.primary.select" = { fg = "{{ template "color-hex.tmpl" (index $c $s.surface.primary) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.mode.visual) }}" }
+"ui.cursor.primary.insert" = { fg = "{{ template "color-hex.tmpl" (index $c $s.surface.primary) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.mode.insert) }}" }
+"ui.gutter" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.disabled) }}" }
+"ui.gutter.selected" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.primary) }}" }
+"ui.linenr" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.disabled) }}" }
+"ui.linenr.selected" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.warning) }}" }
+"ui.statusline" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}", bg = "{{ template "color-hex.tmpl" (index $c "bg_darkest") }}" }
+"ui.statusline.inactive" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.disabled) }}", bg = "{{ template "color-hex.tmpl" (index $c "bg_darkest") }}" }
+"ui.statusline.normal" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.inverted) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.mode.normal) }}", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.inverted) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.mode.insert) }}", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.inverted) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.mode.visual) }}", modifiers = ["bold"] }
+"ui.statusline.separator" = { fg = "{{ template "color-hex.tmpl" (index $c $s.border.subtle) }}" }
+"ui.bufferline" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.disabled) }}", bg = "{{ template "color-hex.tmpl" (index $c "bg_darkest") }}" }
+"ui.bufferline.active" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.surface.primary) }}", underline = { color = "{{ template "color-hex.tmpl" (index $c $s.interactive.focus) }}", style = "line" } }
+"ui.bufferline.background" = { bg = "{{ template "color-hex.tmpl" (index $c "bg_darkest") }}" }
+"ui.popup" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.surface.overlay) }}" }
+"ui.popup.info" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.surface.overlay) }}" }
+"ui.window" = { fg = "{{ template "color-hex.tmpl" (index $c $s.border.subtle) }}" }
+"ui.help" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.surface.overlay) }}" }
+"ui.text" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}" }
+"ui.text.focus" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.selection.background_alt) }}", modifiers = ["bold"] }
+"ui.text.inactive" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.disabled) }}" }
+"ui.virtual" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.disabled) }}" }
+"ui.virtual.indent-guide" = { fg = "{{ template "color-hex.tmpl" (index $c $s.border.subtle) }}" }
+"ui.virtual.inlay-hint" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.muted) }}" }
+"ui.virtual.inlay-hint.parameter" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.muted) }}" }
+"ui.virtual.inlay-hint.type" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.muted) }}" }
+"ui.virtual.jump-label" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.error) }}", modifiers = ["bold"] }
+"ui.virtual.ruler" = { bg = "{{ template "color-hex.tmpl" (index $c $s.border.subtle) }}" }
+"ui.virtual.whitespace" = { fg = "{{ template "color-hex.tmpl" (index $c $s.border.subtle) }}" }
+"ui.virtual.wrap" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.disabled) }}" }
+"ui.menu" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.surface.overlay) }}" }
+"ui.menu.selected" = { fg = "{{ template "color-hex.tmpl" (index $c $s.selection.foreground) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.selection.background_alt) }}" }
+"ui.menu.scroll" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.disabled) }}", bg = "{{ template "color-hex.tmpl" (index $c $s.surface.overlay) }}" }
+"ui.selection" = { bg = "{{ template "color-hex.tmpl" (index $c $s.selection.background) }}" }
+"ui.selection.primary" = { bg = "{{ template "color-hex.tmpl" (index $c $s.selection.background_alt) }}" }
+"ui.highlight" = { bg = "{{ template "color-hex.tmpl" (index $c $s.selection.background) }}" }
+"ui.highlight.frameline" = { bg = "{{ template "color-hex.tmpl" (index $c $s.surface.elevated) }}" }
+"ui.debug" = { fg = "{{ template "color-hex.tmpl" (index $c "orange") }}" }
+"ui.debug.breakpoint" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.error) }}" }
+"ui.debug.active" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.success) }}" }
+
+# Diagnostics - using semantic state colors
+"error" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.error) }}" }
+"warning" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.warning) }}" }
+"info" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.info) }}" }
+"hint" = { fg = "{{ template "color-hex.tmpl" (index $c "aqua") }}" }
+"diagnostic" = { underline = { color = "{{ template "color-hex.tmpl" (index $c $s.state.error) }}", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "{{ template "color-hex.tmpl" (index $c "aqua") }}", style = "curl" } }
+"diagnostic.info" = { underline = { color = "{{ template "color-hex.tmpl" (index $c $s.state.info) }}", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "{{ template "color-hex.tmpl" (index $c $s.state.warning) }}", style = "curl" } }
+"diagnostic.error" = { underline = { color = "{{ template "color-hex.tmpl" (index $c $s.state.error) }}", style = "curl" } }
+"diagnostic.unnecessary" = { modifiers = ["dim"] }
+"diagnostic.deprecated" = { modifiers = ["crossed_out"] }
+
+# Diff - using semantic state colors
+"diff.plus" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.success) }}" }
+"diff.plus.gutter" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.success) }}" }
+"diff.minus" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.error) }}" }
+"diff.minus.gutter" = { fg = "{{ template "color-hex.tmpl" (index $c $s.state.error) }}" }
+"diff.delta" = { fg = "{{ template "color-hex.tmpl" (index $c "orange") }}" }
+"diff.delta.gutter" = { fg = "{{ template "color-hex.tmpl" (index $c "orange") }}" }
+
+# Syntax Highlighting
+"attribute" = { fg = "{{ template "color-hex.tmpl" (index $c "blue") }}" }
+"type" = { fg = "{{ template "color-hex.tmpl" (index $c "cyan") }}" }
+"type.builtin" = { fg = "{{ template "color-hex.tmpl" (index $c "cyan") }}" }
+"type.parameter" = { fg = "{{ template "color-hex.tmpl" (index $c "gold") }}" }
+"type.enum" = { fg = "{{ template "color-hex.tmpl" (index $c "orange") }}" }
+"type.enum.variant" = { fg = "{{ template "color-hex.tmpl" (index $c "orange") }}" }
+"constructor" = { fg = "{{ template "color-hex.tmpl" (index $c "blue") }}" }
+"constant" = { fg = "{{ template "color-hex.tmpl" (index $c "orange") }}" }
+"constant.numeric" = { fg = "{{ template "color-hex.tmpl" (index $c "magenta") }}" }
+"constant.character.escape" = { fg = "{{ template "color-hex.tmpl" (index $c "magenta") }}" }
+"string" = { fg = "{{ template "color-hex.tmpl" (index $c "green") }}" }
+"string.regexp" = { fg = "{{ template "color-hex.tmpl" (index $c "red") }}" }
+"string.special" = { fg = "{{ template "color-hex.tmpl" (index $c "blue") }}" }
+"string.special.symbol" = { fg = "{{ template "color-hex.tmpl" (index $c "green") }}" }
+"comment" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.muted) }}", modifiers = ["italic"] }
+"variable" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}" }
+"variable.builtin" = { fg = "{{ template "color-hex.tmpl" (index $c "red") }}" }
+"variable.parameter" = { fg = "{{ template "color-hex.tmpl" (index $c "gold") }}" }
+"variable.other" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}" }
+"variable.other.member" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}" }
+"label" = { fg = "{{ template "color-hex.tmpl" (index $c "red") }}" }
+"punctuation" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.secondary) }}" }
+"punctuation.bracket" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.secondary) }}" }
+"punctuation.delimiter" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.secondary) }}" }
+"punctuation.special" = { fg = "{{ template "color-hex.tmpl" (index $c "red") }}" }
+"keyword" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.operator" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.directive" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.function" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.storage" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.storage.type" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.storage.modifier" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.control" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.control.import" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.control.return" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.control.conditional" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.control.repeat" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"keyword.control.exception" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}" }
+"operator" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.secondary) }}" }
+"function" = { fg = "{{ template "color-hex.tmpl" (index $c "blue") }}" }
+"function.builtin" = { fg = "{{ template "color-hex.tmpl" (index $c "blue") }}" }
+"function.method" = { fg = "{{ template "color-hex.tmpl" (index $c "blue") }}" }
+"function.macro" = { fg = "{{ template "color-hex.tmpl" (index $c "red") }}" }
+"function.special" = { fg = "{{ template "color-hex.tmpl" (index $c "blue") }}" }
+"tag" = { fg = "{{ template "color-hex.tmpl" (index $c "orange") }}" }
+"tag.builtin" = { fg = "{{ template "color-hex.tmpl" (index $c "orange") }}" }
+"namespace" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.emphasis) }}" }
+"special" = { fg = "{{ template "color-hex.tmpl" (index $c "blue") }}" }
+
+# Markup
+"markup.heading.marker" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.secondary) }}" }
+"markup.heading.1" = { fg = "{{ template "color-hex.tmpl" (index $c "orange") }}", modifiers = ["bold"] }
+"markup.heading.2" = { fg = "{{ template "color-hex.tmpl" (index $c "yellow") }}", modifiers = ["bold"] }
+"markup.heading.3" = { fg = "{{ template "color-hex.tmpl" (index $c "green") }}", modifiers = ["bold"] }
+"markup.heading.4" = { fg = "{{ template "color-hex.tmpl" (index $c "cyan") }}", modifiers = ["bold"] }
+"markup.heading.5" = { fg = "{{ template "color-hex.tmpl" (index $c "bright_magenta") }}", modifiers = ["bold"] }
+"markup.heading.6" = { fg = "{{ template "color-hex.tmpl" (index $c "red") }}", modifiers = ["bold"] }
+"markup.list" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.secondary) }}" }
+"markup.bold" = { modifiers = ["bold"] }
+"markup.italic" = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link" = { fg = "{{ template "color-hex.tmpl" (index $c $s.accent.link) }}", underline = { style = "line" } }
+"markup.link.url" = { fg = "{{ template "color-hex.tmpl" (index $c "pink") }}", underline = { style = "line" } }
+"markup.link.text" = { fg = "{{ template "color-hex.tmpl" (index $c $s.accent.link) }}" }
+"markup.quote" = { fg = "{{ template "color-hex.tmpl" (index $c $s.text.muted) }}", modifiers = ["italic"] }
+"markup.raw" = { fg = "{{ template "color-hex.tmpl" (index $c "green") }}" }
+"markup.raw.inline" = { fg = "{{ template "color-hex.tmpl" (index $c "green") }}" }
+"markup.raw.block" = { fg = "{{ template "color-hex.tmpl" (index $c "green") }}" }
+
+[palette]
+# Color palette - generated from semantic color system
+dragonBlack0 = "#{{ index $c "bg_darkest" }}"
+dragonBlack3 = "#{{ index $c "bg_dark" }}"
+dragonBlack5 = "#{{ index $c "bg_light" }}"
+dragonBlack6 = "#{{ index $c "bg_lighter" }}"
+dragonWhite = "#{{ index $c "fg_primary" }}"
+dragonWhite2 = "#{{ index $c "fg_default" }}"
+dragonGreen = "#{{ index $c "green" }}"
+dragonGreen2 = "#{{ index $c "green" }}"
+dragonPink = "#{{ index $c "pink" }}"
+dragonOrange = "#{{ index $c "orange" }}"
+dragonRed = "#{{ index $c "red" }}"
+dragonAqua = "#{{ index $c "aqua" }}"
+dragonAsh = "#{{ index $c "fg_dim" }}"
+dragonBlue = "#{{ index $c "blue" }}"
+oldWhite = "#{{ index $c "fg_default" }}"
+roninYellow = "#{{ index $c "yellow" }}"
+dragonYellow = "#{{ index $c "bright_yellow" }}"
+dragonViolet = "#{{ index $c "bright_magenta" }}"
+dragonGold = "#{{ index $c "gold" }}"
+waveBlue1 = "#{{ index $c "selection_alt" }}"
+waveBlue2 = "#{{ index $c "selection" }}"
+waveAqua1 = "#{{ index $c "aqua" }}"

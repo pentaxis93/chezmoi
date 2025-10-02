@@ -236,6 +236,7 @@ Selections use **reverse video** (fg/bg swap), not colored backgrounds:
 ## APPLICATION CONFIGURATIONS
 
 ### Core Applications
+- @docs/ai-context/apps/helix.md - Modal editor with semantic colors and soft wrap
 - @docs/ai-context/apps/mpv.md - Media player with LF browser integration
 - @docs/ai-context/apps/qutebrowser.md - Keyboard-driven web browser
 - @docs/ai-context/apps/weechat.md - IRC client with XDCC support

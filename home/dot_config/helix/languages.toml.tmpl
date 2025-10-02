@@ -1,0 +1,33 @@
+# Helix Language-Specific Configuration
+# File-type overrides for indentation, rulers, and formatters
+
+[[language]]
+name = "markdown"
+soft-wrap.enable = true
+rulers = [100]
+
+[[language]]
+name = "python"
+indent = { tab-width = 4, unit = "    " }
+rulers = [88, 120]  # Black formatter default + max
+
+[[language]]
+name = "rust"
+rulers = [100]
+
+[[language]]
+name = "go"
+indent = { tab-width = 4, unit = "\t" }
+rulers = [100]
+
+[[language]]
+name = "toml"
+indent = { tab-width = 2, unit = "  " }
+
+[[language]]
+name = "yaml"
+indent = { tab-width = 2, unit = "  " }
+
+[[language]]
+name = "json"
+indent = { tab-width = 2, unit = "  " }

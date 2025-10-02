@@ -62,6 +62,7 @@ packages:
       - qutebrowser  # Web browser with vim-like navigation and semantic keybindings
 
       # Development & Build Tools - Programming languages and workflows
+      - helix  # Modal editor with semantic navigation and LSP integration
       - npm  # Node package manager (provides npx for MCP servers)
       - uv  # Astral's fast Python package manager (provides uvx for MCP servers)
       - dart  # Dart SDK for Flutter development and mobile apps
