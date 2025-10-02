@@ -206,7 +206,9 @@ binds {
         center-focused-column "never" // Don't auto-center focused column
 
         preset-column-widths {
+            proportion 0.2      // One-fifth - sidebar width
             proportion 0.5      // Half - balanced duality
+            proportion 0.8      // Four-fifths - main content width
             proportion 1.0      // Full - complete unity
         }
 
@@ -276,6 +278,11 @@ binds {
     window-rule {
         match app-id=r#"firefox$"# title="^Picture-in-Picture$"
         open-floating true // Always float Firefox PiP windows
+    }
+
+    window-rule {
+        match app-id="com.example.zenvestor_flutter"
+        default-column-width { proportion 0.2; } // Always 20% width for sidebar
     }
 
     window-rule {
