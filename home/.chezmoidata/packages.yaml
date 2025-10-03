@@ -65,7 +65,6 @@ packages:
       - helix  # Modal editor with semantic navigation and LSP integration
       - npm  # Node package manager (provides npx for MCP servers)
       - uv  # Astral's fast Python package manager (provides uvx for MCP servers)
-      - dart  # Dart SDK for Flutter development and mobile apps
       - go  # Go programming language and toolchain for systems programming
       - github-cli  # GitHub CLI for PR/issue/repo management
       - lazygit  # TUI for git with vi keybindings and reverse video selections
