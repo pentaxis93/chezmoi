@@ -7,7 +7,7 @@ function tresume --description "Resume torrents (all or by ID)"
 
     if test (count $argv) -eq 0
         # Resume all torrents
-        transmission-remote -n (transmission-auth) -t all --start
+        transmission-remote {{ .transmission.rpc_host }}:{{ .transmission.rpc_port }} -n (transmission-auth) -t all --start
 
         set_color green
         echo "✓ All torrents resumed"
@@ -15,7 +15,7 @@ function tresume --description "Resume torrents (all or by ID)"
     else
         # Resume specific torrent(s)
         for id in $argv
-            transmission-remote -n (transmission-auth) -t $id --start
+            transmission-remote {{ .transmission.rpc_host }}:{{ .transmission.rpc_port }} -n (transmission-auth) -t $id --start
         end
 
         set_color green

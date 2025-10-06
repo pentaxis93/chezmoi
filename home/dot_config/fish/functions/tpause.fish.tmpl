@@ -7,7 +7,7 @@ function tpause --description "Pause torrents (all or by ID)"
 
     if test (count $argv) -eq 0
         # Pause all torrents
-        transmission-remote -n (transmission-auth) -t all --stop
+        transmission-remote {{ .transmission.rpc_host }}:{{ .transmission.rpc_port }} -n (transmission-auth) -t all --stop
 
         set_color green
         echo "✓ All torrents paused"
@@ -15,7 +15,7 @@ function tpause --description "Pause torrents (all or by ID)"
     else
         # Pause specific torrent(s)
         for id in $argv
-            transmission-remote -n (transmission-auth) -t $id --stop
+            transmission-remote {{ .transmission.rpc_host }}:{{ .transmission.rpc_port }} -n (transmission-auth) -t $id --stop
         end
 
         set_color green

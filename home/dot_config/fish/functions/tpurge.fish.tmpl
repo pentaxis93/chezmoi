@@ -15,7 +15,7 @@ function tpurge --description "Remove all torrents and clean incomplete files"
     end
 
     # Remove all torrents
-    transmission-remote -n (transmission-auth) -t all --remove-and-delete >/dev/null 2>&1
+    transmission-remote {{ .transmission.rpc_host }}:{{ .transmission.rpc_port }} -n (transmission-auth) -t all --remove-and-delete >/dev/null 2>&1
 
     # Clean incomplete directory
     if test -d "{{ .chezmoi.homeDir }}/Videos/.incomplete"

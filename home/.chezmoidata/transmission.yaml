@@ -1,0 +1,7 @@
+# Transmission daemon configuration
+# Single source of truth for RPC connection settings
+
+transmission:
+  rpc_host: localhost
+  rpc_port: 9092
+  rpc_url: /transmission/

@@ -5,6 +5,14 @@
 # Ultra-Zen: Kanagawa Dragon Theme
 #
 
+[Connection]
+host = localhost
+port = 9092
+path = /transmission/rpc
+username = {{ .chezmoi.username }}
+password = changeme
+ssl = False
+
 [Colors]
 # Title bar colors based on torrent status
 # Green for active seeding (focus color)
