@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Generate fortune database index files
+# Ultra-Zen: "The index is not the wisdom; the index merely points to wisdom"
+#
+# Fortune .dat files are binary indexes that must be generated locally
+# for compatibility with the system's fortune-mod version and architecture.
+# Never track these in git - they are platform and version specific.
+
+set -euo pipefail
+
+FORTUNE_DIR="{{ .chezmoi.homeDir }}/.local/share/fortune"
+
+if [ ! -d "$FORTUNE_DIR" ]; then
+    echo "Fortune directory doesn't exist yet, skipping index generation"
+    exit 0
+fi
+
+echo "Generating fortune database indexes..."
+
+# Generate index for Zen_en
+if [ -f "$FORTUNE_DIR/Zen_en" ]; then
+    echo "  → Zen_en.dat (271 quotes)"
+    strfile "$FORTUNE_DIR/Zen_en" "$FORTUNE_DIR/Zen_en.dat"
+    echo "✓ Fortune index generated successfully"
+else
+    echo "Warning: Zen_en database not found at $FORTUNE_DIR/Zen_en"
+    exit 1
+fi
+
+# Verify the generated index works
+if fortune "$FORTUNE_DIR/Zen_en" &>/dev/null; then
+    echo "✓ Fortune database validated - ready for contemplation"
+else
+    echo "Warning: Generated index may have issues"
+    exit 1
+fi

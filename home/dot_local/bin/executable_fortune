@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Fortune wrapper - Zen wisdom by default
+# Ultra-Zen: "Wisdom flows when the command is silent"
+
+if [ $# -eq 0 ]; then
+    # No arguments - default to Zen wisdom
+    exec /usr/bin/fortune "$HOME/.local/share/fortune/Zen_en"
+else
+    # Arguments provided - respect user's intention
+    exec /usr/bin/fortune "$@"
+fi
